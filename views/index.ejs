@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title> Home </title>
+  <link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+  crossorigin="anonymous"/>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <!-- Custom styles for this template -->
+  <link href="stylesheets/css-homePage/myStyle.css" rel="stylesheet">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> <span data-feather="home"></span> Home Page</a>
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <a class="nav-link" href="/Logout"><span data-feather="log-out"></span> Log out</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Body -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#header_overview">
+                <span data-feather="globe"></span>
+                Overview <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#header_connect">
+                <span data-feather="activity"></span>
+                Connect 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="#header_dashboard">
+                <span data-feather="airplay"></span>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="#secsion">
+                <span data-feather="database"></span>
+                Data Change
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="alert-triangle"></span>
+                Alarm
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="activity"></span>
+                Trend
+              </a>
+            </li>
+          </ul>
+
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Other</span>
+            <a class="d-flex align-items-center text-muted" href="#">
+              <span data-feather="cast"></span>
+            </a>
+          </h6>
+
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link" href="/design">
+                <span data-feather="file-text"></span>
+                Design Page
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+        <!-- Overview -->
+        <div class="overview-container">
+          <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" id="header_overview">Overview</h1>
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#myModal3">General</button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                Contact
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" data-toggle="modal" data-target="#myModal1">About us</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#myModal2">Contact</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-secondary text-dark text-center">
+          <h1 class="card-header">Introduction</h1>
+          <div class="card-body">
+            <div class="general" style="width: 900px; height: 600px; margin-left: 150px;">
+              <div id="demo" class="carousel slide" data-ride="carousel">
+                <ul class="carousel-indicators">
+                  <li data-target="#demo" data-slide-to="0" class="active"></li>
+                  <li data-target="#demo" data-slide-to="1"></li>
+                  <li data-target="#demo" data-slide-to="2"></li>
+                </ul>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="images/imagesHomepage/tam.png" alt="Overview System 1" width="1100" height="500">
+                    <div class="carousel-caption">
+                      <p>Descriptions</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/imagesHomepage/tam.png" alt="Overview System 2" width="1100" height="500">
+                    <div class="carousel-caption">
+                      <p>Descriptions</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/imagesHomepage/tam.png" alt="Overview System 3" width="1100" height="500">
+                    <div class="carousel-caption">
+                      <p style="color: black;" >Descriptions</p>
+                    </div>
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Connect to opc server-->
+        <div class="connect-container">
+          <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" id="header_connect" >Connect</h1>
+          </div>
+          <div class="card bg-light text-dark">
+            <div class="card-header" style="display: flex;">
+            <h3 style="margin-right: 20px;">Server Address :</h3>
+            <h3 id="endpoint">opc.tcp://</h3>
+            </div>
+            <div class="card-body">
+              <form class="form" role="form" autocomplete="off">
+                <div class="form-group row">
+                    <label class="col-lg-6 col-form-label form-control-label">Address</label>
+                    <div class="col-lg-6">
+                        <input class="form-control"
+                         type="text" 
+                         id="addressOfServer"
+                         placeholder="Address name"
+                         onkeypress="changeAddress()"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-6 col-form-label form-control-label">Port</label>
+                    <div class="col-lg-6">
+                        <input class="form-control" 
+                        type="text" 
+                        id="portOfServer"
+                        placeholder="Port name"
+                        onkeypress="changePort()"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-6 col-form-label form-control-label">Path(optional)</label>
+                  <div class="col-lg-6">
+                      <input class="form-control" 
+                      type="text" 
+                      id="pathOfServer"
+                      placeholder="Path name"
+                      onkeypress="changePath()"/>
+                  </div>
+              </div>
+                <div class="form-group row">
+                    <label class="col-lg-2 col-form-label form-control-label">Security Modes</label>
+                    <div class="col-lg-3">
+                      <input
+                      type="checkbox"
+                      name="None"
+                      id="securityModeNone"
+                      value="None"
+                      onclick="disable1()"
+                    />
+                    <label for="None">None</label>
+                    </div>
+                    <div class="col-lg-3">
+                      <input
+                      type="checkbox"
+                      name="securityModeSign"
+                      id="securityModeSign"
+                      value="Sign"
+                      onclick="disable2()"
+                    />
+                   <label for="securityModeSign">Sign</label>
+                    </div>
+                    <div class="col-lg-3">
+                      <input
+                      type="checkbox"
+                      name="securityModeSignEncrypt"
+                      id="securityModeSignEncrypt"
+                      value="SignEncypt"
+                      onclick="disable3()"
+                    />
+                    <label for="securityModeSignEncrypt"> Sign&Encrypt</label>
+                    </div>
+                </div>
+  
+                <div class="form-group row">
+                  <label class="col-lg-2 col-form-label form-control-label">Security Policies</label>
+                  <div class="col-lg-2">
+                    <input
+                    type="checkbox"
+                    name="None"
+                    id="securityPoliciesNone" 
+                    value="None"
+                    onclick="disable4()"
+                    />
+                    <label for="None"> None</label>
+                  </div>
+                  <div class="col-lg-3">
+                    <input
+                    type="checkbox"
+                    name="Basic128Rsa15"
+                    id="securityPoliciesBasic128Rsa15"
+                    value="Basic128Rsa15"
+                    onclick="disable5()"
+                   />
+                   <label for="Basic128Rsa15"> Basic128Rsa15</label>
+                  </div>
+                  <div class="col-lg-2">
+                    <input
+                    type="checkbox"
+                    name="Basic256"
+                    id="securityPoliciesBasic256"
+                    value="Basic256"
+                    onclick="disable6()"
+                  />
+                  <label for="Basic256"> Basic256</label>
+                  </div>
+                  <div class="col-lg-3">
+                    <input
+                    type="checkbox"
+                    name="Basic256Sha256"
+                    id="securityPoliciesBasic256Sha256"
+                    value="Basic256Sha256"
+                    onclick="disable7()"
+                    />
+                    <label for="Basic256Sha256"> Basic256Sha256</label>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Authentication</label>
+                  <div class="col-lg-3">
+                    <input
+                    type="checkbox"
+                    name="anonymous"
+                    id='anonymous'
+                    value="anonymous"
+                    onclick="AuthenticationSetting()"
+                  />
+                  <label for="anonymous"> Anonymous </label> 
+                  </div>
+                  <div class="col-lg-6">
+                    <input
+                    type="checkbox"
+                    name="user"
+                    id="authenticationUser"
+                    value="user"
+                    onclick="DisableAnonymous()"
+                  />
+                  <label for="user">user</label> 
+                  </div>
+                </div>
+  
+               <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label"></label>
+                <label class="col-lg-2 col-form-label form-control-label">Username</label>
+                <div class="col-lg-4">
+                  <input class="form-control" 
+                  type="text" 
+                  placeholder="Username" 
+                  name="username" 
+                  id="usernameUser" />
+                </div>
+               </div>
+  
+               <div class="form-group row">
+                <label class="col-lg-6 col-form-label form-control-label"></label>
+                <label class="col-lg-2 col-form-label form-control-label">Password</label>
+                <div class="col-lg-4">
+                  <input class="form-control" 
+                  type="password" 
+                  placeholder="Password"
+                  name="password" 
+                  id="passwordUser" />
+                </div>
+               </div>
+  
+                <div class="form-group row">
+                 <div class="col lg-1">
+                  <h5> Status : </h5>
+                 </div>
+                 <div class="col lg-1">
+                 <h5 id="statusClient" style="color: red;" ><i class="fas fa-times"> </i> No Connection</h5>
+                 </div>
+                 <div class="col lg-4">
+                 <h6 id = "messageStatusClient"></h6>
+                 </div>
+                <div class="col-lg-2">
+                  <button type="button" class="btn btn-primary" id="btnConnect" onclick="applyConnect()"> Connect </button>
+                </div>
+                <div class="col-lg-4">
+                <h5 id="messageApplyServer"></h5>
+                </div>
+                </div>
+            </form>
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Dashboard -->
+        <div class="dasboard-container">
+          <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" id="header_dashboard">Dashboard</h1>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+              <button type="button" class="btn btn-sm btn-outline-danger">Clear</button>
+              <button type="button" class="btn btn-sm btn-outline-primary">Add Trend</button>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              <span data-feather="calendar"></span>
+              Time
+            </button>
+          </div>
+        </div>
+
+        <div id="chartContainer" style="height: 500px; width: 100%; margin-bottom: 80px;"></div>
+        <div class="containerCharts" style="display: flex;">
+          <div id="chartdiv1" style="width: 300px; height: 300px;"></div>
+          <div id="chartdiv2" style="width: 300px; height: 300px;"></div>
+          <div id="piechart" style="width: 300px; height: 300px;"></div>
+        </div>
+        <label for="" id="read"></label>
+        <input type="text" id="msg_write">
+        <button type="button" class="btn btn-primary" onclick="WriteValue()">Write</button>
+        <label for="" id="msg_read">value of variable is : </label>
+        </div>
+        
+        <!-- Datachange -->
+        <div class="data-history-container">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2 id="secsion">Data Change</h2>
+            </div>
+            <div class="table-responsive" style="border-bottom: 3px solid black ; margin-bottom: 50px;">
+              <table id="productTable" class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>Value</th>
+                    <th>Times</th>
+                    <th> button </th>
+                <tbody id="myTable">
+    
+                </tbody>
+                </tr>
+                </thead>
+              </table>
+            </div>
+    
+            <form style="border: 1px solid black; margin-bottom: 50px; padding: 20px; ">
+              <label for=""> Time from </label>
+              <input type="datetime-local" id="starttime" required>
+              <span class="validity"></span>
+              <label for=""> to </label>
+              <input type="datetime-local" id="endtime" required>
+              <span class="validity"></span>
+              <button  type="button" value="Find Data" class=" btn btn-secondary" style="margin-left: 50px;"
+                onclick="findData()">Find Data</button>
+            </form>
+            <!-- result find data table-->
+            <div class="table-responsive" style="border-bottom: 3px solid black ; margin-bottom: 50px;">
+              <table id="productTable" class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>Value</th>
+                    <th>Times</th>
+                <tbody id="resultfindDataTable">
+                </tbody>
+                </tr>
+                </thead>
+              </table>
+            </div>
+        </div>
+        
+
+        <!-- Alarm -->
+
+        <div class="alarm">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2> Alarm</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalAddAlarm" >Add Alarm </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modalEditAlarm" >Edit Alarm</button>
+                <button type="button" class="btn btn-sm btn-outline-danger " data-toggle="modal" data-target="#modalDeleteAlarm" > Delete Alarm </button>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive" style="border-bottom: 3px solid black ; margin-bottom: 50px;">
+            <table id="alarmTable" class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Alarm Name</th>
+                  <th>Descriptions</th>
+                  <th>Symbols</th>
+              <tbody id="resultAlarmData">
+              </tbody>
+              </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+
+        <!-- Trend -->
+
+      </main>
+    </div>
+  </div>
+
+  <!-- All Modal-->
+  <!-- The Modal Aubout us-->
+  <div class="modal fade" id="myModal1">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title" style="text-align:center;">About us</h1>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="person-one">
+            <div class="imgcontainer" style=" text-align: center; margin: 24px 0 12px 0;  position: relative;">
+              <img src="images/imagesHomepage/AV.jpg" alt="Avatar" class="avatar" style="width: 40%; border-radius: 50%;">
+            </div>
+            <h3>Some text to enable scrolling..</h3>
+            <p>Some text to enable scrolling..</p>
+          </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal Contact-->
+  <!-- Container (Contact Section) -->
+  <div class="modal fade" id="myModal2">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title" style="text-align:center;">Contact</h1>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="container-fluid bg-grey">
+            <div class="row">
+              <div class="col-sm-5">
+                <p>Contact us and we'll get back to you within 24 hours.</p>
+                <p><span class="glyphicon glyphicon-map-marker"></span> HCM, VN</p>
+                <p><span class="glyphicon glyphicon-phone"></span> +84 376007188</p>
+                <p><span class="glyphicon glyphicon-envelope"></span> hotrungquan0167@gmail.com</p>
+              </div>
+              <div class="col-sm-7">
+                <div class="row">
+                  <div class="col-sm-6 form-group">
+                    <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                    <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+                  </div>
+                </div>
+                <textarea class="form-control" id="comments" name="comments" placeholder="Comment"
+                  rows="5"></textarea><br>
+                <div class="row">
+                  <div class="col-sm-12 form-group">
+                    <button class="btn btn-default pull-right" type="submit" id="send-email">Send</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal General-->
+
+  <div class="modal fade" id="myModal3">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title" style="text-align:center;">Detail System</h1>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h3> Descriptons about my System</h3>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Add Alarm -->
+  <div class="modal fade" id="modalAddAlarm">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h1 class="modal-title" style="text-align:center;">Add Alarm </h1>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h3> Descriptons about my System</h3>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Alarm -->
+
+  <!--Modal Delete Alarm -->
+
+  <!-- Footer -->
+
+  <footer class="d-flex justify-content-center mt-auto">
+    <div class="d-flex justify-content-between col-md-8 col-md-offset-2 mb-3 mt-5">
+      <!-- Copyright Info -->
+
+      <div class="align-left">
+        <a class="font-weight-bold small kf-blue kf-links" href="#">Link1</a> |
+        <a class="font-weight-bold small kf-blue kf-links" href="/">Link2</a> |
+        <a class="font-weight-bold small kf-blue kf-links" href="/">Link3</a>
+      </div>
+      <div class="aligb-center">
+        <h3>copyright © 2020</h3>
+      </div>
+      <div class="align-right small">
+        Create By <a class="font-weight-bold kf-blue kf-links" href="#" target="_blank">Me</a>
+      </div>
+      <!-- END Copyright Info -->
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <!-- Icons -->
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <!-- Graphs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  <script src="javascripts/canvasjs.min.js"></script>
+  <!-- theme Chart pie-->
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <!-- chart div google -->
+  <script type="text/javascripts" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- My Scripts-->
+  <script src="javascripts/js-homePage/myScript.js"></script>
+</body>
+</html>

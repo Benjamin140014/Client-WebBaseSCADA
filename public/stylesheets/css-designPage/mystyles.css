@@ -1,0 +1,938 @@
+.bodyAll{
+    background-color: rgb(127, 127, 127);
+}
+.inline_1{
+    position: absolute;
+    top:280px ; left: 20px;
+}
+.inline_2{
+    position: absolute;
+    top:280px ; left: 310px;
+}
+.inline_3{
+    position: absolute;
+    top:280px  ; left: 715px;
+}
+.inline_4{
+    position: absolute;
+    top:250px  ; left: 1545px;
+}
+.inline_5{
+    position: absolute;
+    top:250px  ; left: 2050px;
+}
+#tank_4{
+    position: absolute;
+    top:180px  ; left: 1352px;
+    width: 185px;
+    height:305px;
+}
+#labelBeKiKhi{
+    position: absolute;
+    top:500px  ; left: 1410px;
+    width: 100px;
+    height:50px;
+    font-weight: bold;
+}
+#tank_7{
+    position: absolute;
+    top:352px  ; left: 2430px;
+    width: 200px;
+    height:290px;
+}
+#labelBeLang{
+    position: absolute;
+    top:300px  ; left: 2500px;
+    width: 100px;
+    height:50px;
+    font-weight: bold;
+}
+#symbols_1{
+    position: absolute;
+    top:270px  ; left: 25px;
+    width: 50px;
+    height: 30px;
+}
+#symbols_2{
+    position: absolute;
+    top:255px  ; left: 333px;
+    width: 50px;
+    height: 30px;
+}
+#symbols_3{
+    position: absolute;
+    top:295px  ; left: 770px;
+    width: 50px;
+    height: 30px;
+}
+#symbols_4{
+    position: absolute;
+    top:345px  ; left: 1245px;
+    width: 30px;
+    height: 50px;
+}
+#symbols_5{
+    position: absolute;
+    top:320px  ; left: 1960px;
+    width: 30px;
+    height: 50px;
+}
+#symbols_6{
+    position: absolute;
+    top:580px  ; left: 2000px;
+    width: 30px;
+    height: 50px;
+}
+#symbols_7{
+    position: absolute;
+    top:660px  ; left: 2000px;
+    width: 30px;
+    height: 50px;
+}
+#symbols_8{
+    position: absolute;
+    top:610px  ; left: 2190px;
+    width: 50px;
+    height: 30px;
+}
+#symbols_9{
+    position: absolute;
+    top:285px  ; left: 2350px;
+    width: 50px;
+    height: 30px;
+}
+#pump_1{
+    position: absolute;
+    top:300px ; left: 20px;
+    width: 40px;
+    height: 40px;
+}
+#pipe_1{
+    position: absolute;
+    top:300px  ; left: 60px;
+    width: 50px;
+    height: 17px;
+}
+#pipe_2{
+    position: absolute;
+    top:300px ; left: 110px;
+    width: 35px;
+    height: 28px;
+}
+#pipe_3{
+    position: absolute;
+    top:328px  ; left: 170px;
+    width: 17px;
+    height: 70px;
+}
+#pipe_4{
+    position: absolute;
+    top:300px ; left: 170px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_5{
+    position: absolute;
+    top:291px; left: 198px;
+    width: 25px;
+    height: 35px;
+}
+#pipe_6{
+    position: absolute;
+    top:326px ; left: 206px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_7{
+    position: absolute;
+    top:263px ; left: 206px;
+    width: 28px;
+    height: 28px;
+}
+#pump1_1{
+    position: absolute;
+    top:250px ; left: 233px;
+    width: 40px;
+    height: 40px;
+}
+#pump1_2{
+    position: absolute;
+    top:324px ; left: 233px;
+    width: 40px;
+    height: 40px;
+}
+#pipe_8{
+    position: absolute;
+    top:250px  ; left: 273px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_9{
+    position: absolute;
+    top:324px  ; left: 273px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_10{
+    position: absolute;
+    top:250px  ; left: 303px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_11{
+    position: absolute;
+    top:313px  ; left: 303px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_12{
+    position: absolute;
+    top:278px  ; left: 314px;
+    width: 28px;
+    height: 35px;
+}
+#pipe_13{
+    position: absolute;
+    top:287px ; left: 342px;
+    width: 35px;
+    height: 28px;
+}
+#sensorBeChua{
+    position: absolute;
+    top:400px ; left: 12px;
+    width: 20px;
+    height: 20px;
+}
+#sensorlowBeCanBang{
+    position: absolute;
+    top:450px ; left: 305px;
+    width: 20px;
+    height: 20px;
+}
+#sensorHightBeCanBang{
+    position: absolute;
+    top:350px ; left: 305px;
+    width: 20px;
+    height: 20px;
+}
+#sensorThresBeCanBang{
+    position: absolute;
+    top:400px ; left: 305px;
+    width: 20px;
+    height: 20px;
+}
+#valueNhietDoT1{
+    position: absolute;
+    top:250px ; left: 500px;
+    width: 100px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border-radius: 10%;
+}
+#NhietDoBeKiKhi{
+    position: absolute;
+    top:130px ; left: 1430px;
+    width: 30px;
+    height: 150px;
+}
+#valueNhietDoKiKhi{
+    position: absolute;
+    top:90px ; left: 1420px;
+    width: 100px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border-radius: 10%;
+}
+#sensorKiKhi{
+    position: absolute;
+    top:250px ; left: 1500px;
+    width: 25px;
+    height: 25px;
+}
+
+#temp_1{
+
+    position: absolute;
+    top:290px ; left: 500px;
+    width: 30px;
+    height: 150px;
+}
+
+#pipe_14{
+    position: absolute;
+    top:450px  ; left: 574px;
+    width: 50px;
+    height: 17px;
+}
+#pipe_15{
+    position: absolute;
+    top:441px; left: 623px;
+    width: 25px;
+    height: 35px;
+}
+#pipe_16{
+    position: absolute;
+    top:475px; left: 631px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_17{
+    position: absolute;
+    top:413px; left: 631px;
+    width: 28px;
+    height: 28px;
+}
+#pump2_1{
+    position: absolute;
+    top:399px; left: 659px;
+    width: 40px;
+    height: 40px;
+}
+#pump2_2{
+    position: absolute;
+    top:473px; left: 659px;
+    width: 40px;
+    height: 40px;
+}
+#pipe_18{
+    position: absolute;
+    top:399px; left: 699px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_19{
+    position: absolute;
+    top:473px  ; left: 699px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_20{
+    position: absolute;
+    top:399px; left: 728px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_21{
+    position: absolute;
+    top:462px  ; left: 728px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_22{
+    position: absolute;
+    top:427px  ; left: 739px;
+    width: 28px;
+    height: 35px;
+}
+#pipe_23{
+    position: absolute;
+    top:425px  ; left: 767px;
+    width: 30px;
+    height: 28px;
+}
+
+#pipe_24{
+    position: absolute;
+    top:355px  ; left: 779px;
+    width: 17px;
+    height: 70px;
+}
+#pipe_25{
+    position: absolute;
+    top:328px  ; left: 779px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_26{
+    position: absolute;
+    top:328px  ; left: 805px;
+    width: 50px;
+    height: 17px;
+}
+#sensorHightBeTrungHoa{
+    position: absolute;
+    top:480px ; left: 795px;
+    width: 20px;
+    height: 20px;
+}
+#sensorLowBeTrungHoa{
+    position: absolute;
+    top:370px ; left: 795px;
+    width: 20px;
+    height: 20px;
+}
+#sensorNAOH{
+    position: absolute;
+    top:110px  ; left: 760px;
+    width: 20px;
+    height: 20px;
+}
+#sensorHCL{
+    position: absolute;
+    top:110px  ; left: 1000px;
+    width: 20px;
+    height: 20px;
+}
+#pipe_pump_naoh_hcl{
+    position: absolute;
+    top:245px  ; left: 870px;
+    width: 37px;
+    height: 28px;
+}
+#pipe_naoh1{
+    position: absolute;
+    top:232px  ; left: 820px;
+    width: 30px;
+    height: 32px;
+}
+#pipe_hcl1{
+    position: absolute;
+    top:232px  ; left: 930px;
+    width: 30px;
+    height: 32px;
+}
+#pipe_naoh2{
+    position: absolute;
+    top:245px  ; left: 850px;
+    width: 20px;
+    height: 19px;
+}
+#pipe_hcl2{
+    position: absolute;
+    top:245px  ; left: 907px;
+    width: 23px;
+    height: 19px;
+}
+#valveNAOH{
+    position: absolute;
+    top:200px  ; left: 820px;
+    width: 30px;
+    height: 32px;
+}
+#valveHCL{
+    position: absolute;
+    top:200px  ; left: 941px;
+    width: 30px;
+    height: 32px;
+}
+#pumpNAOHHCL{
+    position: absolute;
+    top:272px  ; left: 840px;
+    width: 60px;
+    height: 40px;
+}
+#labelNAOH{
+    position: absolute;
+    top:60px  ; left: 805px;
+    font-weight: bold;
+    width: 100px;
+    height: 30px;
+}
+#naoh{
+    position: absolute;
+    top:80px  ; left: 780px;
+    width: 100px;
+    height: 120px;
+}
+#labelHCL{
+    position: absolute;
+    top:60px  ; left: 920px;
+    font-weight: bold;
+    width: 100px;
+    height: 30px;
+}
+#hcl{
+    position: absolute;
+    top:80px  ; left: 900px;
+    width: 100px;
+    height: 120px;
+}
+#valuePH{
+    position: absolute;
+    top:250px ; left: 1120px;
+    width: 100px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border-radius: 10%;
+}
+#mixer_1{
+    position: absolute;
+    top:240px  ; left: 1020px;
+    width: 60px;
+    height: 240px;
+}
+#ph{
+    position: absolute;
+    top:240px  ; left: 1095px;
+    width: 15px;
+    height: 240px;
+}
+
+
+#pipe_31{
+    position: absolute;
+    top:451px; left: 1124px;
+    width: 25px;
+    height: 35px;
+}
+#pipe_32{
+    position: absolute;
+    top:485px; left: 1132px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_33{
+    position: absolute;
+    top:423px; left: 1132px;
+    width: 28px;
+    height: 28px;
+}
+#pump3_1{
+    position: absolute;
+    top:409px; left: 1160px;
+    width: 40px;
+    height: 40px;
+}
+#pump3_2{
+    position: absolute;
+    top:483px; left: 1160px;
+    width: 40px;
+    height: 40px;
+}
+#pipe_34{
+    position: absolute;
+    top:409px; left: 1200px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_35{
+    position: absolute;
+    top:483px  ; left: 1200px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_36{
+    position: absolute;
+    top:409px; left: 1229px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_37{
+    position: absolute;
+    top:472px  ; left: 1229px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_38{
+    position: absolute;
+    top:437px  ; left: 1240px;
+    width: 28px;
+    height: 35px;
+}
+#pipe_39{
+    position: absolute;
+    top:435px  ; left: 1268px;
+    width: 30px;
+    height: 28px;
+}
+#valve_3{
+    position: absolute;
+    top:405px  ; left: 1278px;
+    width: 30px;
+    height: 30px;
+}
+#Flow1{
+    position: absolute;
+    top:295px  ; left: 1305px;
+    width: 25px;
+    height: 30px;
+}
+#valueFlow1{
+    position: absolute;
+    top:260px  ; left: 1260px;
+    width: 90px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border-radius: 5%;
+}
+#pipe_40{
+    position: absolute;
+    top:335px  ; left: 1280px;
+    width: 17px;
+    height: 70px;
+}
+#pipe_41{
+    position: absolute;
+    top:307px  ; left: 1280px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_42{
+    position: absolute;
+    top:307px  ; left: 1328px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_43{
+    position: absolute;
+    top:307px  ; left: 1530px;
+    width: 50px;
+    height: 17px;
+}
+#valve_4{
+    position: absolute;
+    top:149px  ; left: 1435px;
+    width: 30px;
+    height: 32px;
+}
+#sensorLowBeTam{
+    position: absolute;
+    top:460px ; left: 1540px;
+    width: 20px;
+    height: 20px;
+}
+#sensorHightBeTam{
+    position: absolute;
+    top:340px ; left: 1540px;
+    width: 20px;
+    height: 20px;
+}
+#sensorThresBeTam{
+    position: absolute;
+    top:400px ; left: 1540px;
+    width: 20px;
+    height: 20px;
+}
+
+#pipe_44{
+    position: absolute;
+    top:430px  ; left: 1790px;
+    width: 50px;
+    height: 17px;
+}
+#pipe_45{
+    position: absolute;
+    top:421px; left: 1839px;
+    width: 25px;
+    height: 35px;
+}
+#pipe_46{
+    position: absolute;
+    top:455px; left: 1847px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_47{
+    position: absolute;
+    top:393px; left: 1847px;
+    width: 28px;
+    height: 28px;
+}
+#pump4_1{
+    position: absolute;
+    top:379px; left: 1875px;
+    width: 40px;
+    height: 40px;
+}
+#pump4_2{
+    position: absolute;
+    top:453px; left: 1875px;
+    width: 40px;
+    height: 40px;
+}
+#pipe_48{
+    position: absolute;
+    top:379px; left: 1915px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_49{
+    position: absolute;
+    top:453px  ; left: 1915px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_50{
+    position: absolute;
+    top:379px; left: 1944px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_51{
+    position: absolute;
+    top:442px  ; left: 1944px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_52{
+    position: absolute;
+    top:407px  ; left: 1955px;
+    width: 28px;
+    height: 35px;
+}
+#pipe_53{
+    position: absolute;
+    top:405px  ; left: 1983px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_54{
+    position: absolute;
+    top:335px  ; left: 1995px;
+    width: 17px;
+    height: 70px;
+}
+#pipe_55{
+    position: absolute;
+    top:307px  ; left: 1995px;
+    width: 28px;
+    height: 28px;
+}
+#pipe_56{
+    position: absolute;
+    top:307px  ; left: 2050px;
+    width: 25px;
+    height: 17px;
+}
+#pipe_57{
+    position: absolute;
+    top:395px  ; left: 2040px;
+    width: 17px;
+    height: 150px;
+}
+#pipe_58{
+    position: absolute;
+    top:367px  ; left: 2040px;
+    width: 28px;
+    height: 28px;
+}
+#valve_5{
+    position: absolute;
+    top:544px  ; left: 2039px;
+    width: 30px;
+    height: 32px;
+}
+#pipe_59{
+    position: absolute;
+    top:576px  ; left: 2040px;
+    width: 18px;
+    height: 50px;
+}
+#pipe_60{
+    position: absolute;
+    top:626px  ; left: 2040px;
+    width: 27px;
+    height: 35px;
+}
+#pipe_61{
+    position: absolute;
+    top:661px  ; left: 2040px;
+    width: 18px;
+    height: 50px;
+}
+#valve_6{
+    position: absolute;
+    top:711px  ; left: 2039px;
+    width: 30px;
+    height: 32px;
+}
+#container_bottom{
+    margin-bottom: 150px;
+    position: absolute;
+    top:750px  ; left: 1950px; 
+    width: 200px;
+    height: 250px;
+}
+#pipe_62{
+    position: absolute;
+    top:635px  ; left: 2067px;
+    width: 50px;
+    height: 17px;
+}
+#pump6{
+    position: absolute;
+    top:635px  ; left: 2117px;
+    width: 40px;
+    height: 40px;
+}
+#pipe_63{
+    position: absolute;
+    top:647px  ; left: 2157px;
+    width: 360px;
+    height: 17px;
+}
+#pipe_64{
+    position: absolute;
+    top:636px  ; left: 2517px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_65{
+    position: absolute;
+    top:612px  ; left: 2529px;
+    width: 18px;
+    height: 30px;
+}
+#pipe_66{
+    position: absolute;
+    top:325px  ; left: 2296px;
+    width: 221px;
+    height: 17px;
+}
+#pipe_67{
+    position: absolute;
+    top:325px  ; left: 2517px;
+    width: 35px;
+    height: 29px;
+}
+#temp_2{
+    position: absolute;
+    top:240px  ; left: 2225px;
+    width: 30px;
+    height: 190px;
+}
+#NongDoOxi{
+    position: absolute;
+    top:240px  ; left: 2265px;
+    width: 28px;
+    height: 190px;
+}
+#valueNhietDoHieuKhi{
+    position: absolute;
+    top:200px ; left: 2160px;
+    width: 100px;
+    height: 30px;
+    background-color: rgb(100, 49, 237);
+    border-radius: 10%;
+}
+#valueNongDoOxi{
+    position: absolute;
+    top:200px ; left: 2280px;
+    width: 100px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border-radius: 10%;
+}
+#valueFlow2{
+    position: absolute;
+    top:263px  ; left: 1930px;
+    width: 90px;
+    height: 30px;
+    background-color: cornflowerblue;
+    border-radius: 5%;
+}
+#Flow2{
+    position: absolute;
+    top:295px  ; left: 2025px;
+    width: 25px;
+    height: 30px;
+}
+#pump5_1{
+    position: absolute;
+    top:150px  ; left: 1990px;
+    width: 40px;
+    height: 40px;
+}
+#pump5_2{
+    position: absolute;
+    top:215px  ; left: 1990px;
+    width: 40px;
+    height: 40px;
+}
+#pipe_68{
+    position: absolute;
+    top:150px  ; left: 2030px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_69{
+    position: absolute;
+    top:215px  ; left: 2030px;
+    width: 30px;
+    height: 17px;
+}
+#pipe_70{
+    position: absolute;
+    top:150px; left: 2059px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_71{
+    position: absolute;
+    top:204px  ; left: 2059px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_72{
+    position: absolute;
+    top:176px  ; left: 2070px;
+    width: 28px;
+    height: 35px;
+}
+#pipe_73{
+    position: absolute;
+    top:185px; left: 2097px;
+    width: 30px;
+    height: 28px;
+}
+#pipe_74{
+    position: absolute;
+    top:213px  ; left: 2109px;
+    width: 18px;
+    height: 90px;
+}
+#pumpBeLang{
+    position: absolute;
+    top:300px  ; left: 2600px;
+    width: 50px;
+    height:50px;
+}
+#sensorHightBeLang{
+    position: absolute;
+    top:400px  ; left: 2635px;
+    width: 20px;
+    height:20px;
+}
+#sensorThresBeLang{
+    position: absolute;
+    top:460px  ; left: 2635px;
+    width: 20px;
+    height:20px;
+}
+#sensorLowBeLang{
+    position: absolute;
+    top:520px  ; left: 2635px;
+    width: 20px;
+    height:20px;
+}
+#labelMargin{
+    position: absolute;
+    top:520px  ; left: 2730px;
+    width: 20px;
+    height:20px;
+}
+
+#TH_Done{
+    position: absolute;
+    top:600px  ; left: 930px;
+    width: 70px;
+    height: 30px;
+}
+#KK_Done{
+    position: absolute;
+    top:530px ; left: 1400px;
+    width: 70px;
+    height: 30px;
+}
+#HK_Done{
+    position: absolute;
+    top:520px  ; left: 2135px;
+    width: 70px;
+    height: 30px;
+}
+#BL_Done{
+    position: absolute;
+    top:665px  ; left: 2500px;
+    width: 70px;
+    height: 30px;
+}

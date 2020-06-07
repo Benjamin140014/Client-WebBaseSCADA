@@ -1,0 +1,329 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('template-client:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '5000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+const io = require("socket.io")(server);
+const mongoose = require('mongoose') ; 
+const opcua = require('node-opcua-client') ; 
+var variableConfig = require('../components/variableConfig.json') ; 
+
+// DB Config
+const db = require("../config/keys").mongoURI;
+const DataSchema = require("../models/DataSchema");
+
+// Connect to MongoDB
+mongoose
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
+
+// Create opc ua client 
+const connectionStrategy = {
+  initialDelay: 1000,
+  maxRetry: 1,
+};
+var options = {};
+var authentication = {} ;
+var messageStatus = {} ;
+var endpointUrl = "" ; 
+var client ; 
+var moduleData = {} ; 
+
+io.on('connection', function (socket){
+  console.log('Client is openning ...')  ; 
+    // Create function client
+   async function main() {
+    try {
+      // step 1 : connect to opc server
+      await client.connect(endpointUrl);
+      // step 2 : createSession ;
+      var session ; 
+      if(authentication.allowAnonymous === true){
+        var session = await client.createSession();
+        moduleData.session = session ; 
+        console.log("session anonymous created !");
+      }else{
+        const userIdentity = {
+          type: opcua.UserTokenType.UserName,
+          userName: authentication.user,
+          password: authentication.password,
+        };
+        var session = await client.createSession(userIdentity);
+        moduleData.session = session ; 
+        console.log("session user created !");
+      } ; 
+      // step 3 : browse
+      const browseResult = await session.browse("RootFolder");
+      for (const reference of browseResult.references) {
+        console.log(" -> ", reference.browseName.toString());
+      }
+      // step 4 : read a variable with readVariableValue
+      const simulation= await session.readVariableValue('ns=1;s=simulation.random');
+      console.log(" value of Variable simulation = ", simulation.value.toString());
+      // step 5: install a subscription and install a monitored item for 10 seconds
+      const subscription = opcua.ClientSubscription.create(session, {
+        requestedPublishingInterval: 1000,
+        requestedLifetimeCount: 100,
+        requestedMaxKeepAliveCount: 10,
+        maxNotificationsPerPublish: 100,
+        publishingEnabled: true,
+        priority: 10,
+      });
+      subscription.on("started", function() {console.log(
+            "subscription started for 2 seconds - subscriptionId =",
+            subscription.subscriptionId
+          );
+        })
+        .on("keepalive", function() {
+          console.log("keepalive");
+        })
+        .on("terminated", function() {
+          console.log("terminated");
+        });
+
+        const itemsToMonitor = [
+          {
+            attributeId: opcua.AttributeIds.Value,
+            nodeId: 'ns=1;s=free_memory',
+          },
+          {
+            attributeId: opcua.AttributeIds.Value,
+            nodeId: 'ns=1;s=simulation.random',
+          }
+        ];
+      // install monitored item group
+       for (let i =0 ; i < variableConfig.Data.length ; i ++ ){
+         for(let j = 0 ; j < variableConfig.Data[i].variablesList.length ; j++){
+           var nodeToMonitor = {attributeId: opcua.AttributeIds.Value ,
+                               nodeId: 'ns=1;s=' + variableConfig.Data[i].deviceName + '.' + variableConfig.Data[i].variablesList[j].name } ;
+                               itemsToMonitor.push(nodeToMonitor) ; 
+         }
+       }
+      const optionsGroup = {
+        discardOldest: true,
+        queueSize: 1,
+        samplingInterval: 100,
+      };
+      const monitoredItemGroup = opcua.ClientMonitoredItemGroup.create(
+        subscription,
+        itemsToMonitor,
+        optionsGroup,
+        opcua.TimestampsToReturn.Both
+      );
+      await monitoredItemGroup.on("initialized", async () => {
+        console.log(" Initialized !");
+      });
+      
+      monitoredItemGroup.on("changed", (monitoredItem, dataValue, index) => {
+          if (index === 1) {
+            var datasave = new DataSchema({
+              _id: new mongoose.Types.ObjectId(),
+              data: dataValue.value.toJSON().value,
+            });
+            datasave.save(function(err) {
+              if (err) throw err;
+            });
+            moduleData.data = datasave ; 
+
+         } 
+         // console.log(index , dataValue.value.value) ; 
+      });
+      
+      setTimeout(()=>{
+          socket.emit('statusClient',{message: 'Client has been connected to Server' , color: 'green'} ) ; 
+          messageStatus.message = 'Connected' ; 
+      },1000) ; 
+      async function timeout(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+      await timeout(1000);
+      
+    } catch (err) {
+      console.log("An error has occured : ",err);
+      setTimeout(() => {
+        socket.emit('statusClient' , {message: "Can't connect to Server" , color: 'red'}) ; 
+      }, 10);
+    }
+  } ;
+socket.on('optionsOPC' , (data)=>{
+    endpointUrl = data.endpoint ; 
+    authentication.allowAnonymous = data.allowAnonymous ;
+    authentication.user = data.user ;
+    authentication.password = data.password ; 
+    var Mode  = data.securityMode ; 
+    switch (Mode) {
+      case "opcua.MessageSecurityMode.None":
+        options.securityMode = opcua.MessageSecurityMode.None;
+        break;
+      case "opcua.MessageSecurityMode.Sign":
+        options.securityMode = opcua.MessageSecurityMode.Sign;
+        break;
+      case "opcua.MessageSecurityMode.SignAndEncrypt":
+        options.securityMode = opcua.MessageSecurityMode.SignAndEncrypt;
+        break;
+      default:
+        break;
+    }
+    var Policy = data.securityPolicy ;
+    switch (Policy) {
+      case "opcua.SecurityPolicy.None":
+        options.securityPolicy = opcua.SecurityPolicy.None;
+        break;
+      case "opcua.SecurityPolicy.Basic128Rsa15":
+        options.securityPolicy = opcua.SecurityPolicy.Basic128Rsa15;
+        break;
+      case "opcua.SecurityPolicy.Basic256":
+        options.securityPolicy = opcua.SecurityPolicy.Basic256;
+        break;
+      case "opcua.SecurityPolicy.Basic256Sha256":
+        options.securityPolicy = opcua.SecurityPolicy.Basic256Sha256;
+        break;
+      default:
+        break;
+    } ; 
+    options.applicationName = "MyClient";
+    options.connectionStrategy = connectionStrategy;
+    options.endpoint_must_exist = false;
+    console.log(options) ; 
+    client = opcua.OPCUAClient.create(options);
+    main() ; 
+  }) ; 
+
+
+  // refresh client to Load Data 
+  if(messageStatus.message === 'Connected'){
+       socket.emit('loadStatus', {message: 'Connected' , endpoint: endpointUrl}) ;
+       setInterval(() => {
+         socket.emit('Read', moduleData.data ) ; 
+       }, 100);
+
+        // receive data from form find Data
+       socket.on("findData", function(data) {
+        DataSchema.find({ date: { $gte: data[0], $lt: data[1] } }, function(
+          err,
+          res
+        ) {
+          if (err) throw err;
+          socket.emit("resultFindData", res);
+        });
+      });
+
+      // Write value for variable 
+      socket.on("Write_msg", function(data) {
+          if(data === 0) {
+            dataWrite = false
+          }else{
+            dataWrite = true ; 
+          }
+          var nodesToWrite = [
+            {
+              nodeId: "ns=1;s=PLC1.Ack1",
+              attributeId: 13,
+              indexRange: null,
+              value: {
+                value: {
+                  dataType: opcua.DataType.Boolean,
+                  value: dataWrite,
+                },
+              },
+            },
+          ];
+          moduleData.session.write(nodesToWrite, function(
+            err,
+            StatusCode
+          ) {
+            if (!err) console.log( StatusCode , " Write OK !");
+          });
+          socket.emit("Read_msg", data);
+      });
+      
+  }
+
+}) ;
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port , console.log(`Server Started on port ${port} `));
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

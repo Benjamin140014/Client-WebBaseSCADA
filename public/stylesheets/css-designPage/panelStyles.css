@@ -1,0 +1,53 @@
+.Symbols{
+ position: absolute;
+ top: 820px;
+ left: 20px;
+ text-align: center;
+ width: 200px; height: 50px;
+ font-weight: bold;
+}
+.row button {
+    margin: 7px;
+}
+.panelTime1{
+ position: absolute;
+ top: 650px;
+ left: 20px;
+ text-align: center;
+ width: 1800px; height: 7px;
+}
+.panelTime2{
+    position: absolute;
+    top: 700px;
+    left: 20px;
+    text-align: center;
+    width: 1800px; height: 7px;
+}
+.panelTime3{
+    position: absolute;
+    top: 750px;
+    left: 20px;
+    text-align: center;
+    width: 1800px; height: 7px;
+}
+.eachPanel{
+    border: 1.5px solid blue;
+    font-weight: bold;
+    padding: 5px;
+}
+.panelPump{
+    position: absolute;
+    top: 820px;
+    left: 250px;
+    text-align: center;
+    width: 1600px; height: 100px;
+}
+.eachPump{
+    border: 1.5px solid rgb(14, 13, 13);
+    font-weight: bold;
+    height: 150px;
+}
+.eachPanel input {
+    background-color: rgb(127, 127, 127);
+    font-weight: bolder;
+}
