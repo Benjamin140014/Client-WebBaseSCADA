@@ -38,7 +38,7 @@ FusionCharts.ready(function () {
         "events": {
             "rendered": function (evtObj, argObj) {
                 setInterval(function () {
-                    socket.on('Read', function(data){
+                    socket.on('readData', function(data){
                        evtObj.sender.feedData("&value=" + data.data);	  
                     }) ;  
                 }, 100);
@@ -47,6 +47,7 @@ FusionCharts.ready(function () {
     });
     fusioncharts1.render();
 }) ;  
+
 //inline_2
 // Funtion Chart
 FusionCharts.ready(function () {

@@ -141,52 +141,52 @@ $(document).ready(function() {
     }
   });
 
-  // Chart div google
-  google.charts.load("current", { packages: ["corechart", "gauge"] });
-  google.charts.setOnLoadCallback(drawChart1);
-  function drawChart1() {
-    var data = google.visualization.arrayToDataTable([
-      ["Label", "Value"],
-      ["Memory", 80]
-    ]);
-    var options = {
-      title: "Random",
-      width: 200,
-      height: 200,
-      redFrom: 90,
-      redTo: 100,
-      yellowFrom: 75,
-      yellowTo: 90,
-      minorTicks: 5
-    };
-    var chart = new google.visualization.Gauge(
-      document.getElementById("chartdiv2")
-    );
-    chart.draw(data, options);
-    setInterval(function() {
-      data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-      chart.draw(data, options);
-    }, 1300);
-  }
-  google.charts.setOnLoadCallback(drawChart2);
-  // Draw the chart and set the chart values
-  function drawChart2() {
-    var data = google.visualization.arrayToDataTable([
-      ["Variable", "Value"],
-      ["Variable_1", 8],
-      ["Varicable_2", 2],
-      ["Variable_3", 4],
-      ["Variable_4", 2],
-      ["Variable_5", 8]
-    ]);
-    // Optional; add a title and set the width and height of the chart
-    var options = { title: "Chart Simulation", width: 300, height: 300 };
-    // Display the chart inside the <div> element with id="piechart"
-    var chart = new google.visualization.PieChart(
-      document.getElementById("piechart")
-    );
-    chart.draw(data, options);
-  }
+  // // Chart div google
+  // google.charts.load("current", { packages: ["corechart", "gauge"] });
+  // google.charts.setOnLoadCallback(drawChart1);
+  // function drawChart1() {
+  //   var data = google.visualization.arrayToDataTable([
+  //     ["Label", "Value"],
+  //     ["Memory", 80]
+  //   ]);
+  //   var options = {
+  //     title: "Random",
+  //     width: 200,
+  //     height: 200,
+  //     redFrom: 90,
+  //     redTo: 100,
+  //     yellowFrom: 75,
+  //     yellowTo: 90,
+  //     minorTicks: 5
+  //   };
+  //   var chart = new google.visualization.Gauge(
+  //     document.getElementById("chartdiv2")
+  //   );
+  //   chart.draw(data, options);
+  //   setInterval(function() {
+  //     data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+  //     chart.draw(data, options);
+  //   }, 1300);
+  // }
+  // google.charts.setOnLoadCallback(drawChart2);
+  // // Draw the chart and set the chart values
+  // function drawChart2() {
+  //   var data = google.visualization.arrayToDataTable([
+  //     ["Variable", "Value"],
+  //     ["Variable_1", 8],
+  //     ["Varicable_2", 2],
+  //     ["Variable_3", 4],
+  //     ["Variable_4", 2],
+  //     ["Variable_5", 8]
+  //   ]);
+  //   // Optional; add a title and set the width and height of the chart
+  //   var options = { title: "Chart Simulation", width: 300, height: 300 };
+  //   // Display the chart inside the <div> element with id="piechart"
+  //   var chart = new google.visualization.PieChart(
+  //     document.getElementById("piechart")
+  //   );
+  //   chart.draw(data, options);
+  // }
  
 });
 
@@ -194,11 +194,16 @@ $(document).ready(function() {
  // Socket with server 
  socket.on('statusClient',(data)=>{
   $('#btnConnect').html('Connect').removeClass('disabled') ;
+  $('#btnDisconnect').html('Disconnect').removeClass('disabled') ;
   $('#messageStatusClient').html(data.message).css('color', data.color) ;
   if(data.color === 'red'){
     $('#statusClient').html('<i class="fas fa-times"> </i> No Connection').css('color', 'red') ; 
   }else{
-    $('#statusClient').html('<i class="fas fa-check-circle" ></i> Connected').css('color', 'green') ;
+    if(data.message === "Client has been connected to Server"){
+      $('#statusClient').html('<i class="fas fa-check-circle"></i> Connected').css('color', 'green') ;
+    }else{
+      $('#statusClient').html('<i class="fas fa-times"> </i> No Connection').css('color', 'red') ; 
+    }
   }
 }) ; 
 
@@ -280,8 +285,6 @@ socket.on("resultFindData", function(data) {
     cell3.innerHTML = new Date(data[i].date);
   }
 });
-
-
 // function connect to opc ua
 function AuthenticationSetting() {
   if ($("#anonymous").prop("checked")) {
@@ -414,6 +417,14 @@ function applyConnect() {
     options.password = $("#passwordUser").val();
   }
   socket.emit("optionsOPC", options);
+}
+function Disconnect(){
+  $('#btnDisconnect').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Disconnecting...').addClass('disabled')
+  setTimeout(() => {
+    socket.emit('disConnectToServer', 'ok') ; 
+    console.log('ok')
+  }, 1000);
+  
 }
 function changeAddress(){
     $('#endpoint').html("opc.tcp://" + $('#addressOfServer').val())

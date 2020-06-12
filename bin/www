@@ -46,6 +46,7 @@ var messageStatus = {} ;
 var endpointUrl = "" ; 
 var client ; 
 var moduleData = {} ; 
+moduleData.client = {} ; 
 
 io.on('connection', function (socket){
   console.log('Client is openning ...')  ; 
@@ -74,7 +75,9 @@ io.on('connection', function (socket){
       const browseResult = await session.browse("RootFolder");
       for (const reference of browseResult.references) {
         console.log(" -> ", reference.browseName.toString());
-      }
+      } ; 
+     
+
       // step 4 : read a variable with readVariableValue
       const simulation= await session.readVariableValue('ns=1;s=simulation.random');
       console.log(" value of Variable simulation = ", simulation.value.toString());
@@ -117,6 +120,7 @@ io.on('connection', function (socket){
                                itemsToMonitor.push(nodeToMonitor) ; 
          }
        }
+      
       const optionsGroup = {
         discardOldest: true,
         queueSize: 1,
@@ -136,21 +140,22 @@ io.on('connection', function (socket){
           if (index === 1) {
             var datasave = new DataSchema({
               _id: new mongoose.Types.ObjectId(),
+
               data: dataValue.value.toJSON().value,
             });
             datasave.save(function(err) {
               if (err) throw err;
             });
             moduleData.data = datasave ; 
-
          } 
-         // console.log(index , dataValue.value.value) ; 
+         console.log(index , dataValue) ; 
       });
-      
+    
       setTimeout(()=>{
           socket.emit('statusClient',{message: 'Client has been connected to Server' , color: 'green'} ) ; 
           messageStatus.message = 'Connected' ; 
       },1000) ; 
+
       async function timeout(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
@@ -163,6 +168,7 @@ io.on('connection', function (socket){
       }, 10);
     }
   } ;
+
 socket.on('optionsOPC' , (data)=>{
     endpointUrl = data.endpoint ; 
     authentication.allowAnonymous = data.allowAnonymous ;
@@ -204,12 +210,19 @@ socket.on('optionsOPC' , (data)=>{
     options.endpoint_must_exist = false;
     console.log(options) ; 
     client = opcua.OPCUAClient.create(options);
+    moduleData.client = client ; 
     main() ; 
   }) ; 
 
-
+  socket.on('disConnectToServer', (data)=>{
+  moduleData.client.disconnect() ; 
+  socket.emit('statusClient',{message: 'Client has been disconnected to Server' , color: 'green'} ) ; 
+  messageStatus.message = 'Disconnected' ; 
+  }) ;
+  
   // refresh client to Load Data 
   if(messageStatus.message === 'Connected'){
+
        socket.emit('loadStatus', {message: 'Connected' , endpoint: endpointUrl}) ;
        setInterval(() => {
          socket.emit('Read', moduleData.data ) ; 
