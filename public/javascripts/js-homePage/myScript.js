@@ -3,6 +3,13 @@
 var data_change;
 var socket = io.connect();
 
+var allVariableConfig = {}
+socket.on('loadAllDataConfig',(data)=>{
+    allVariableConfig = data ; 
+    
+})
+
+
 $(document).ready(function() {
   
     // Create chartContainer
@@ -222,11 +229,16 @@ socket.on("Read_msg", function(data) {
   $("#msg_read").html('value of variable is :' +data);
 });
 socket.on("Read", function(data) {
-  data_change = data;
-  var x = document.querySelectorAll("#read");
-  for (var i = 0; i < x.length; i++) {
-    x[i].innerHTML = data.data;
-  }
+  console.log(allVariableConfig) ; 
+  for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
+    if(allVariableConfig.nameVariable[i].name === 'random'){
+      data_change = data[i];
+      var x = document.querySelectorAll("#read");
+      for (var j = 0; j < x.length; j++) {
+      x[j].innerHTML = data[i].data;
+     }
+    }
+  } 
 });
 
 // Add variable in table

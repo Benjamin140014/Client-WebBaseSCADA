@@ -1,6 +1,12 @@
 // Funtion Chart
 //inline_1
 var socket = io.connect();
+var allVariableConfig = {}
+socket.on('loadAllDataConfig',(data)=>{
+    allVariableConfig = data ; 
+    console.log(allVariableConfig) ; 
+})
+
 FusionCharts.ready(function () {
     var fusioncharts1 = new FusionCharts({
         "type": "cylinder",

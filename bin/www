@@ -25,6 +25,7 @@ const mongoose = require('mongoose') ;
 const opcua = require('node-opcua-client') ; 
 var variableConfig = require('../components/variableConfig.json') ; 
 
+
 // DB Config
 const db = require("../config/keys").mongoURI;
 const DataSchema = require("../models/DataSchema");
@@ -47,6 +48,7 @@ var endpointUrl = "" ;
 var client ; 
 var moduleData = {} ; 
 moduleData.client = {} ; 
+var allVariableConfig = {} ; 
 
 io.on('connection', function (socket){
   console.log('Client is openning ...')  ; 
@@ -103,15 +105,16 @@ io.on('connection', function (socket){
         });
 
         const itemsToMonitor = [
-          {
-            attributeId: opcua.AttributeIds.Value,
-            nodeId: 'ns=1;s=free_memory',
-          },
-          {
-            attributeId: opcua.AttributeIds.Value,
-            nodeId: 'ns=1;s=simulation.random',
-          }
+          // {
+          //   attributeId: opcua.AttributeIds.Value,
+          //   nodeId: 'ns=1;s=free_memory',
+          // },
+          // {
+          //   attributeId: opcua.AttributeIds.Value,
+          //   nodeId: 'ns=1;s=simulation.random',
+          // }
         ];
+        allVariableConfig.nameVariable = [] ;
       // install monitored item group
        for (let i =0 ; i < variableConfig.Data.length ; i ++ ){
          for(let j = 0 ; j < variableConfig.Data[i].variablesList.length ; j++){
@@ -120,7 +123,15 @@ io.on('connection', function (socket){
                                itemsToMonitor.push(nodeToMonitor) ; 
          }
        }
-      
+       allVariableConfig.nodeToMonitor = itemsToMonitor ; 
+       for (let i =0 ; i < variableConfig.Data.length ; i ++ ){
+        for(let j = 0 ; j < variableConfig.Data[i].variablesList.length ; j++){
+          var nameVariable = { name: variableConfig.Data[i].variablesList[j].name ,
+            dataType: variableConfig.Data[i].variablesList[j].dataType  } ;
+        allVariableConfig.nameVariable.push(nameVariable) ; 
+        }
+      } 
+      moduleData.data = [itemsToMonitor.length] ; 
       const optionsGroup = {
         discardOldest: true,
         queueSize: 1,
@@ -137,18 +148,22 @@ io.on('connection', function (socket){
       });
       
       monitoredItemGroup.on("changed", (monitoredItem, dataValue, index) => {
-          if (index === 1) {
+        for(let i = 0 ; i < itemsToMonitor.length ; i++){
+          if (index === i) {
             var datasave = new DataSchema({
               _id: new mongoose.Types.ObjectId(),
+              name: allVariableConfig.nameVariable[i].name ,
+              data: dataValue.value.toJSON().value
+            });
 
-              data: dataValue.value.toJSON().value,
-            });
-            datasave.save(function(err) {
-              if (err) throw err;
-            });
-            moduleData.data = datasave ; 
+            //save data into database
+            // datasave.save(function(err) {
+            //   if (err) throw err;
+            // });
+
+            moduleData.data[i] = datasave; 
          } 
-         console.log(index , dataValue) ; 
+        }  
       });
     
       setTimeout(()=>{
@@ -222,11 +237,11 @@ socket.on('optionsOPC' , (data)=>{
   
   // refresh client to Load Data 
   if(messageStatus.message === 'Connected'){
-
        socket.emit('loadStatus', {message: 'Connected' , endpoint: endpointUrl}) ;
+       socket.emit('loadAllDataConfig', allVariableConfig ) ; 
        setInterval(() => {
-         socket.emit('Read', moduleData.data ) ; 
-       }, 100);
+         socket.emit('Read', moduleData.data) ; 
+       },500);
 
         // receive data from form find Data
        socket.on("findData", function(data) {

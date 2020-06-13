@@ -1,6 +1,21 @@
 {
     "Data": [
         {
+            "deviceName": "simulation",
+            "variablesList": [
+                {
+                    "name": "freeMemory",
+                    "dataType": "Real",
+                    "writable": false,
+                    "value": 0
+                },{
+                    "name": "random",
+                    "dataType": "Int",
+                    "writable": true,
+                    "value": 0
+                }]
+        },
+        {
             "deviceName": "PLC1",
             "variablesList": [
                 {
