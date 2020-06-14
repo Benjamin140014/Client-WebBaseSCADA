@@ -1008,25 +1008,25 @@ socket.on('Read' , (data)=>{
  // kk
  if(allVariableConfig.nameVariable[i].name === 'random'){
    var progressBarVal= data[i].data;   
-   var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+   var html="<div class='progress-bar progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
    $("#h_Ki_Khi").html(html);   
  }
  // bl
  if(allVariableConfig.nameVariable[i].name === 'random'){
     var progressBarVal= data[i].data;   
-    var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+    var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
     $("#h_Be_Lang").html(html);   
   }
   // hcl
   if(allVariableConfig.nameVariable[i].name === 'random'){
     var progressBarVal= data[i].data;   
-    var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+    var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
     $("#h_Hcl").html(html);   
   }
   //naoh
   if(allVariableConfig.nameVariable[i].name === 'random'){
     var progressBarVal= data[i].data;   
-    var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+    var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
     $("#h_Naoh").html(html);   
   }
 
