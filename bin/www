@@ -24,7 +24,7 @@ const io = require("socket.io")(server);
 const mongoose = require('mongoose') ; 
 const opcua = require('node-opcua-client') ; 
 var variableConfig = require('../components/variableConfig.json') ; 
-
+var setAllVariable = [] ; 
 
 // DB Config
 const db = require("../config/keys").mongoURI;
@@ -35,7 +35,37 @@ mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
-
+// delare datatype
+const moduleTypesMap = 
+{
+    'Bool' : 'Boolean',
+    'Real' : 'Float',
+    'Double' : 'Double',
+    'Byte' : 'Byte',
+    'Int' : 'Int16',
+    'DInt' : 'Int32',
+    'LInt' : 'Int64',
+    'UInt' : 'UInt16',
+    'UDInt' : 'UInt32',
+    'ULInt' : 'UInt64',    
+    'String' : 'String',
+    'Word' : 'UInt16',
+    'DWord' : 'UInt32',
+};
+const moduleTypesCodeMap = 
+{
+    'Boolean' : opcua.DataType.Boolean,
+    'Float' : opcua.DataType.Float,
+    'Double' : opcua.DataType.Double,
+    'Byte' : opcua.DataType.Byte,
+    'Int16' : opcua.DataType.Int16,
+    'Int32' : opcua.DataType.Int32,
+    'Int64' : opcua.DataType.Int64,
+    'UInt16' : opcua.DataType.UInt16,
+    'UInt32' : opcua.DataType.UInt32,
+    'UInt64' : opcua.DataType.UInt64,
+    'String' : opcua.DataType.String
+};
 // Create opc ua client 
 const connectionStrategy = {
   initialDelay: 1000,
@@ -49,6 +79,18 @@ var client ;
 var moduleData = {} ; 
 moduleData.client = {} ; 
 var allVariableConfig = {} ; 
+
+// get all variable writeable
+for(let i=0 ; i < variableConfig.Data.length ; i++){
+  for(let j=0 ; j< variableConfig.Data[i].variablesList.length ; j++){
+    if(variableConfig.Data[i].variablesList[j].writable === true){
+     let element = {deviceName: variableConfig.Data[i].deviceName , name: variableConfig.Data[i].variablesList[j].name,
+      dataType: variableConfig.Data[i].variablesList[j].dataType
+    }
+      setAllVariable.push(element) ; 
+    }
+  }
+}
 
 io.on('connection', function (socket){
   console.log('Client is openning ...')  ; 
@@ -155,12 +197,10 @@ io.on('connection', function (socket){
               name: allVariableConfig.nameVariable[i].name ,
               data: dataValue.value.toJSON().value
             });
-
             //save data into database
             // datasave.save(function(err) {
             //   if (err) throw err;
             // });
-
             moduleData.data[i] = datasave; 
          } 
         }  
@@ -237,7 +277,9 @@ socket.on('optionsOPC' , (data)=>{
   
   // refresh client to Load Data 
   if(messageStatus.message === 'Connected'){
+    // Load all config variable 
        socket.emit('loadStatus', {message: 'Connected' , endpoint: endpointUrl}) ;
+    // send all variable and value 
        socket.emit('loadAllDataConfig', allVariableConfig ) ; 
        setInterval(() => {
          socket.emit('Read', moduleData.data) ; 
@@ -254,21 +296,49 @@ socket.on('optionsOPC' , (data)=>{
         });
       });
 
-      // Write value for variable 
-      socket.on("Write_msg", function(data) {
-          if(data === 0) {
-            dataWrite = false
-          }else{
-            dataWrite = true ; 
-          }
+    // Write value for variable
+    // get all variable to set 
+    
+      // socket.on("Write_msg", function(data) {
+      //     if(data === 0) {
+      //       dataWrite = false
+      //     }else{
+      //       dataWrite = true ; 
+      //     }
+      //     var nodesToWrite = [
+      //       {
+      //         nodeId: "ns=1;s=PLC1.Ack1",
+      //         attributeId: 13,
+      //         indexRange: null,
+      //         value: {
+      //           value: {
+      //             dataType: opcua.DataType.Boolean,
+      //             value: dataWrite,
+      //           },
+      //         },
+      //       },
+      //     ];
+      //     moduleData.session.write(nodesToWrite, function(
+      //       err,
+      //       StatusCode
+      //     ) {
+      //       if (!err) console.log( StatusCode , " Write OK !");
+      //     });
+      //     socket.emit("Read_msg", data);
+
+      // });
+
+      for(let i=0 ; i < setAllVariable.length ; i++ ){
+        socket.on(`set${setAllVariable[i].name}`, function(data) {
+          let dataWrite = data.value ; 
           var nodesToWrite = [
             {
-              nodeId: "ns=1;s=PLC1.Ack1",
+              nodeId: `ns=1;s=${setAllVariable[i].deviceName}.${setAllVariable[i].name}`,
               attributeId: 13,
               indexRange: null,
               value: {
                 value: {
-                  dataType: opcua.DataType.Boolean,
+                  dataType: moduleTypesCodeMap[moduleTypesMap[setAllVariable[i].dataType]],
                   value: dataWrite,
                 },
               },
@@ -280,9 +350,9 @@ socket.on('optionsOPC' , (data)=>{
           ) {
             if (!err) console.log( StatusCode , " Write OK !");
           });
-          socket.emit("Read_msg", data);
-
       });
+      }
+      
       
   }
 

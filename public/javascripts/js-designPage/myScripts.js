@@ -10,7 +10,7 @@ var pump2 = {pump2_1: false , pump2_2: false} ;
 var pump3 = {pump3_1: false , pump3_2: false} ; 
 var pump4 = {pump4_1: false , pump4_2: false} ; 
 var pump5 = {pump5_1: false , pump5_2: false} ; 
-
+var stateKK = {state: false}
 socket.on('Read' , (data)=>{
     for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
 
@@ -242,7 +242,7 @@ socket.on('Read' , (data)=>{
      
       //pipe before pump3_1 and pump3_2
 
-      if(allVariableConfig.nameVariable[i].name === 'Pump3_1_Run'){
+      if(allVariableConfig.nameVariable[i].name === 'Ack1'){
         if(data[i].data === 1){
             pump3.pump3_1 = true ;
             $("#pipe_33").attr("src",'images/symbols/Pipes/Pipes_013.png');
@@ -278,13 +278,13 @@ socket.on('Read' , (data)=>{
         $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_113.png');
         $("#pipe_38").attr("src",'images/symbols/Pipes/Pipes_108.png');
         $("#pipe_39").attr("src",'images/symbols/Pipes/Pipes_008.png');
-        $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
+        $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_019.png');
     }
     else{
         $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_112.png');
         $("#pipe_38").attr("src",'images/symbols/Pipes/Pipes_107.png');
         $("#pipe_39").attr("src",'images/symbols/Pipes/Pipes_007.png');
-        $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
+        $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
     }
     // Val3_Fb
     if(allVariableConfig.nameVariable[i].name === 'Val3_FB'){
@@ -313,13 +313,21 @@ socket.on('Read' , (data)=>{
     $('#valueNhietDoKiKhi').html('T2 : ' + data[i].data + ' ℃') ;
     }
    //sensor ki khi 
-   if(allVariableConfig.nameVariable[i].name === 'H4'){
+   if(allVariableConfig.nameVariable[i].name === 'Ack1'){
     if(data[i].data === 1){
+        stateKK.state = true ; 
         $("#sensorKiKhi").attr("src",'images/symbols/Light/Light_008.png');
         
     }else{
+        stateKK.state = false ; 
         $("#sensorKiKhi").attr("src",'images/symbols/Light/Light_007.png');
     }}
+    // pipe vao be tam
+    if((pump3.pump3_1 === true || pump3.pump3_2 === true) && stateKK.state === true ){
+        $("#pipe_43").attr("src",'images/symbols/Pipes/Pipes_053.png');
+    }else{
+        $("#pipe_43").attr("src",'images/symbols/Pipes/Pipes_052.png');
+    }
    //sensor be tam 
    if(allVariableConfig.nameVariable[i].name === 'H3'){
     if(data[i].data === 1){
@@ -702,15 +710,16 @@ socket.on('Read' , (data)=>{
 
  // time count and time set kk , hk , l
  // KK
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_h'){
-    $('#set-hour-KK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_m'){
-    $('#set-minute-KK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_s'){
-    $('#set-second-KK').val(data[i].data) 
- }
+
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_h'){
+//     $('#set-hour-KK').val(data[i].data) 
+//  }
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_m'){
+//     $('#set-minute-KK').val(data[i].data) 
+//  }
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_s'){
+//     $('#set-second-KK').val(data[i].data) 
+//  }
 
  if(allVariableConfig.nameVariable[i].name === 'Time_Count_KK_h'){
     $('#count-hour-KK').val(data[i].data) 
@@ -723,15 +732,16 @@ socket.on('Read' , (data)=>{
  }
 
  // HK
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_h'){
-    $('#set-hour-HK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_m'){
-    $('#set-minute-HK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_s'){
-    $('#set-second-HK').val(data[i].data) 
- }
+ 
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_h'){
+//     $('#set-hour-HK').val(data[i].data) 
+//  }
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_m'){
+//     $('#set-minute-HK').val(data[i].data) 
+//  }
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_s'){
+//     $('#set-second-HK').val(data[i].data) 
+//  }
 
  if(allVariableConfig.nameVariable[i].name === 'Time_Count_HK_h'){
     $('#count-hour-HK').val(data[i].data) 
@@ -743,15 +753,16 @@ socket.on('Read' , (data)=>{
     $('#count-second-HK').val(data[i].data) 
  }
  // BL
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_h'){
-    $('#set-hour-BL').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_m'){
-    $('#set-minute-BL').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_s'){
-    $('#set-second-BL').val(data[i].data) 
- }
+
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_h'){
+//     $('#set-hour-BL').val(data[i].data) 
+//  }
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_m'){
+//     $('#set-minute-BL').val(data[i].data) 
+//  }
+//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_s'){
+//     $('#set-second-BL').val(data[i].data) 
+//  }
 
  if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_h'){
     $('#count-hour-BL').val(data[i].data) 
@@ -762,7 +773,263 @@ socket.on('Read' , (data)=>{
  if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_s'){
     $('#count-second-BL').val(data[i].data) 
  }
-    
+
+ // execute control system
+ if(allVariableConfig.nameVariable[i].name === 'Run_System_PLC1'){
+    if(data[i].data === 1){
+         $('#start-in-system').removeClass('btn btn-primary') ;
+         $('#start-in-system').addClass('btn btn-danger') ;
+         $('#stop-in-system').removeClass('btn btn-danger') ;
+         $('#stop-in-system').addClass('btn btn-primary') ;
+    }else{
+        $('#start-in-system').removeClass('btn btn-danger') ;
+        $('#start-in-system').addClass('btn btn-primary') ;
+        $('#stop-in-system').removeClass('btn btn-primary') ;
+        $('#stop-in-system').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'Auto-Man_System_PLC1'){
+    if(data[i].data === 1){
+         $('#auto-in-system').removeClass('btn btn-primary') ;
+         $('#auto-in-system').addClass('btn btn-danger') ;
+         $('#man-in-system').removeClass('btn btn-danger') ;
+         $('#man-in-system').addClass('btn btn-primary') ;
+    }else{
+        $('#auto-in-system').removeClass('btn btn-danger') ;
+        $('#auto-in-system').addClass('btn btn-primary') ;
+        $('#man-in-system').removeClass('btn btn-primary') ;
+        $('#man-in-system').addClass('btn btn-danger') ;
+    }
+ }
+
+ // execute each pump 
+ // pump 1
+ if(allVariableConfig.nameVariable[i].name === 'pmp1_Auto-Man'){
+    if(data[i].data === 1){
+         $('#pump1-auto-in').removeClass('btn btn-primary') ;
+         $('#pump1-auto-in').addClass('btn btn-danger') ;
+         $('#pump1-man-in').removeClass('btn btn-danger') ;
+         $('#pump1-man-in').addClass('btn btn-primary') ;
+    }else{
+        $('#pump1-auto-in').removeClass('btn btn-danger') ;
+        $('#pump1-auto-in').addClass('btn btn-primary') ;
+        $('#pump1-man-in').removeClass('btn btn-primary') ;
+        $('#pump1-man-in').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
+    if(data[i].data === 1){
+         $('#pump1-start-motor1').removeClass('btn btn-primary') ;
+         $('#pump1-start-motor1').addClass('btn btn-danger') ;
+         $('#pump1-stop-motor1').removeClass('btn btn-danger') ;
+         $('#pump1-stop-motor1').addClass('btn btn-primary') ;
+    }else{
+        $('#pump1-start-motor1').removeClass('btn btn-danger') ;
+        $('#pump1-start-motor1').addClass('btn btn-primary') ;
+        $('#pump1-stop-motor1').removeClass('btn btn-primary') ;
+        $('#pump1-stop-motor1').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor2_Run'){
+    if(data[i].data === 1){
+         $('#pump1-start-motor2').removeClass('btn btn-primary') ;
+         $('#pump1-start-motor2').addClass('btn btn-danger') ;
+         $('#pump1-stop-motor2').removeClass('btn btn-danger') ;
+         $('#pump1-stop-motor2').addClass('btn btn-primary') ;
+    }else{
+        $('#pump1-start-motor2').removeClass('btn btn-danger') ;
+        $('#pump1-start-motor2').addClass('btn btn-primary') ;
+        $('#pump1-stop-motor2').removeClass('btn btn-primary') ;
+        $('#pump1-stop-motor2').addClass('btn btn-danger') ;
+    }
+ }
+ // pump 2
+ if(allVariableConfig.nameVariable[i].name === 'pmp2_Auto-Man'){
+    if(data[i].data === 1){
+         $('#pump2-auto-in').removeClass('btn btn-primary') ;
+         $('#pump2-auto-in').addClass('btn btn-danger') ;
+         $('#pump2-man-in').removeClass('btn btn-danger') ;
+         $('#pump2-man-in').addClass('btn btn-primary') ;
+    }else{
+        $('#pump2-auto-in').removeClass('btn btn-danger') ;
+        $('#pump2-auto-in').addClass('btn btn-primary') ;
+        $('#pump2-man-in').removeClass('btn btn-primary') ;
+        $('#pump2-man-in').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor1_Run'){
+    if(data[i].data === 1){
+         $('#pump2-start-motor1').removeClass('btn btn-primary') ;
+         $('#pump2-start-motor1').addClass('btn btn-danger') ;
+         $('#pump2-stop-motor1').removeClass('btn btn-danger') ;
+         $('#pump2-stop-motor1').addClass('btn btn-primary') ;
+    }else{
+        $('#pump2-start-motor1').removeClass('btn btn-danger') ;
+        $('#pump2-start-motor1').addClass('btn btn-primary') ;
+        $('#pump2-stop-motor1').removeClass('btn btn-primary') ;
+        $('#pump2-stop-motor1').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor2_Run'){
+    if(data[i].data === 1){
+         $('#pump2-start-motor2').removeClass('btn btn-primary') ;
+         $('#pump2-start-motor2').addClass('btn btn-danger') ;
+         $('#pump2-stop-motor2').removeClass('btn btn-danger') ;
+         $('#pump2-stop-motor2').addClass('btn btn-primary') ;
+    }else{
+        $('#pump2-start-motor2').removeClass('btn btn-danger') ;
+        $('#pump2-start-motor2').addClass('btn btn-primary') ;
+        $('#pump2-stop-motor2').removeClass('btn btn-primary') ;
+        $('#pump2-stop-motor2').addClass('btn btn-danger') ;
+    }
+ }
+ //pump 3
+ if(allVariableConfig.nameVariable[i].name === 'pmp3_Auto-Man'){
+    if(data[i].data === 1){
+         $('#pump3-auto-in').removeClass('btn btn-primary') ;
+         $('#pump3-auto-in').addClass('btn btn-danger') ;
+         $('#pump3-man-in').removeClass('btn btn-danger') ;
+         $('#pump3-man-in').addClass('btn btn-primary') ;
+    }else{
+        $('#pump3-auto-in').removeClass('btn btn-danger') ;
+        $('#pump3-auto-in').addClass('btn btn-primary') ;
+        $('#pump3-man-in').removeClass('btn btn-primary') ;
+        $('#pump3-man-in').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor1_Run'){
+    if(data[i].data === 1){
+         $('#pump3-start-motor1').removeClass('btn btn-primary') ;
+         $('#pump3-start-motor1').addClass('btn btn-danger') ;
+         $('#pump3-stop-motor1').removeClass('btn btn-danger') ;
+         $('#pump3-stop-motor1').addClass('btn btn-primary') ;
+    }else{
+        $('#pump3-start-motor1').removeClass('btn btn-danger') ;
+        $('#pump3-start-motor1').addClass('btn btn-primary') ;
+        $('#pump3-stop-motor1').removeClass('btn btn-primary') ;
+        $('#pump3-stop-motor1').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor2_Run'){
+    if(data[i].data === 1){
+         $('#pump3-start-motor2').removeClass('btn btn-primary') ;
+         $('#pump3-start-motor2').addClass('btn btn-danger') ;
+         $('#pump3-stop-motor2').removeClass('btn btn-danger') ;
+         $('#pump3-stop-motor2').addClass('btn btn-primary') ;
+    }else{
+        $('#pump3-start-motor2').removeClass('btn btn-danger') ;
+        $('#pump3-start-motor2').addClass('btn btn-primary') ;
+        $('#pump3-stop-motor2').removeClass('btn btn-primary') ;
+        $('#pump3-stop-motor2').addClass('btn btn-danger') ;
+    }
+ }
+ //pump4
+ if(allVariableConfig.nameVariable[i].name === 'pmp4_Auto-Man'){
+    if(data[i].data === 1){
+         $('#pump4-auto-in').removeClass('btn btn-primary') ;
+         $('#pump4-auto-in').addClass('btn btn-danger') ;
+         $('#pump4-man-in').removeClass('btn btn-danger') ;
+         $('#pump4-man-in').addClass('btn btn-primary') ;
+    }else{
+        $('#pump4-auto-in').removeClass('btn btn-danger') ;
+        $('#pump4-auto-in').addClass('btn btn-primary') ;
+        $('#pump4-man-in').removeClass('btn btn-primary') ;
+        $('#pump4-man-in').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor1_Run'){
+    if(data[i].data === 1){
+         $('#pump4-start-motor1').removeClass('btn btn-primary') ;
+         $('#pump4-start-motor1').addClass('btn btn-danger') ;
+         $('#pump4-stop-motor1').removeClass('btn btn-danger') ;
+         $('#pump4-stop-motor1').addClass('btn btn-primary') ;
+    }else{
+        $('#pump4-start-motor1').removeClass('btn btn-danger') ;
+        $('#pump4-start-motor1').addClass('btn btn-primary') ;
+        $('#pump4-stop-motor1').removeClass('btn btn-primary') ;
+        $('#pump4-stop-motor1').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor2_Run'){
+    if(data[i].data === 1){
+         $('#pump4-start-motor2').removeClass('btn btn-primary') ;
+         $('#pump4-start-motor2').addClass('btn btn-danger') ;
+         $('#pump4-stop-motor2').removeClass('btn btn-danger') ;
+         $('#pump4-stop-motor2').addClass('btn btn-primary') ;
+    }else{
+        $('#pump4-start-motor2').removeClass('btn btn-danger') ;
+        $('#pump4-start-motor2').addClass('btn btn-primary') ;
+        $('#pump4-stop-motor2').removeClass('btn btn-primary') ;
+        $('#pump4-stop-motor2').addClass('btn btn-danger') ;
+    }
+ }
+ //pump5
+ if(allVariableConfig.nameVariable[i].name === 'pmp5_Auto-Man'){
+    if(data[i].data === 1){
+         $('#pump5-auto-in').removeClass('btn btn-primary') ;
+         $('#pump5-auto-in').addClass('btn btn-danger') ;
+         $('#pump5-man-in').removeClass('btn btn-danger') ;
+         $('#pump5-man-in').addClass('btn btn-primary') ;
+    }else{
+        $('#pump5-auto-in').removeClass('btn btn-danger') ;
+        $('#pump5-auto-in').addClass('btn btn-primary') ;
+        $('#pump5-man-in').removeClass('btn btn-primary') ;
+        $('#pump5-man-in').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
+    if(data[i].data === 1){
+         $('#pump5-start-motor1').removeClass('btn btn-primary') ;
+         $('#pump5-start-motor1').addClass('btn btn-danger') ;
+         $('#pump5-stop-motor1').removeClass('btn btn-danger') ;
+         $('#pump5-stop-motor1').addClass('btn btn-primary') ;
+    }else{
+        $('#pump5-start-motor1').removeClass('btn btn-danger') ;
+        $('#pump5-start-motor1').addClass('btn btn-primary') ;
+        $('#pump5-stop-motor1').removeClass('btn btn-primary') ;
+        $('#pump5-stop-motor1').addClass('btn btn-danger') ;
+    }
+ }
+ if(allVariableConfig.nameVariable[i].name === 'pmp5_Motor2_Run'){
+    if(data[i].data === 1){
+         $('#pump5-start-motor2').removeClass('btn btn-primary') ;
+         $('#pump5-start-motor2').addClass('btn btn-danger') ;
+         $('#pump5-stop-motor2').removeClass('btn btn-danger') ;
+         $('#pump5-stop-motor2').addClass('btn btn-primary') ;
+    }else{
+        $('#pump5-start-motor2').removeClass('btn btn-danger') ;
+        $('#pump5-start-motor2').addClass('btn btn-primary') ;
+        $('#pump5-stop-motor2').removeClass('btn btn-primary') ;
+        $('#pump5-stop-motor2').addClass('btn btn-danger') ;
+    }
+ }
+  
+ // display chieu cao be kk , bl hcl , naoh
+ // kk
+ if(allVariableConfig.nameVariable[i].name === 'random'){
+   var progressBarVal= data[i].data;   
+   var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+   $("#h_Ki_Khi").html(html);   
+ }
+ // bl
+ if(allVariableConfig.nameVariable[i].name === 'random'){
+    var progressBarVal= data[i].data;   
+    var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+    $("#h_Be_Lang").html(html);   
+  }
+  // hcl
+  if(allVariableConfig.nameVariable[i].name === 'random'){
+    var progressBarVal= data[i].data;   
+    var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+    $("#h_Hcl").html(html);   
+  }
+  //naoh
+  if(allVariableConfig.nameVariable[i].name === 'random'){
+    var progressBarVal= data[i].data;   
+    var html="<div class='progress-bar  progress-bar-striped active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+    $("#h_Naoh").html(html);   
+  }
+
  }
 })
 
@@ -1027,17 +1294,680 @@ FusionCharts.ready(function () {
 // Write value
 // control panel 
 function StartControlPanel(){
- socket.emit('')
+ socket.emit(`setStart-Stop_In_System_PLC1`,{
+     name: 'Start-Stop_In_System_PLC1',
+     value: true 
+ })
+ socket.emit(`setStart-Stop_In_System_PLC2`,{
+    name: 'Start-Stop_In_System_PLC2',
+    value: true 
+})
 }
 function StopControlPanel(){
-    
+    socket.emit(`setStart-Stop_In_System_PLC1`,{
+        name: 'Start-Stop_In_System_PLC1',
+        value: false 
+    })
+    socket.emit(`setStart-Stop_In_System_PLC2`,{
+        name: 'Start-Stop_In_System_PLC2',
+        value: false 
+    })
 }
 function AutoControlPanel(){
-    
+    socket.emit(`setAuto-Man_In_System_PLC1`,{
+        name: 'Auto-Man_In_System_PLC1',
+        value: true 
+    }) ;
+    socket.emit(`setAuto-Man_In_System_PLC2`,{
+        name: 'Auto-Man_In_System_PLC2',
+        value: true 
+    }) ;
 }
 function ManControlPanel(){
-    
+    socket.emit(`setAuto-Man_In_System_PLC1`,{
+        name: 'Auto-Man_In_System_PLC1',
+        value: false 
+    }) ;
+    socket.emit(`setAuto-Man_In_System_PLC2`,{
+        name: 'Auto-Man_In_System_PLC2',
+        value: false 
+    }) ;
+
 }
 function ConfirmControlPanel(){
-    
+    socket.emit(`setConfirm_System_PLC1`,{
+        name: 'Confirm_System_PLC1',
+        value: true 
+    })
+    socket.emit(`setConfirm_System_PLC2`,{
+        name: 'Confirm_System_PLC2',
+        value: true 
+    })
+    setTimeout(() => {
+        socket.emit(`setConfirm_System_PLC1`,{
+            name: 'Confirm_System_PLC1',
+            value: false 
+        })
+        socket.emit(`setConfirm_System_PLC2`,{
+            name: 'Confirm_System_PLC2',
+            value: false 
+        })
+    }, 100);
 }
+// set time all tank 
+//KK
+$('#set-hour-KK').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_KK_h`,{
+            name: 'Time_Set_KK_h',
+            value: $('#set-hour-KK').val()
+        })
+    }
+});
+$('#set-minute-KK').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_KK_m`,{
+            name: 'Time_Set_KK_m',
+            value: $('#set-minute-KK').val()
+        })
+    }
+});
+$('#set-second-KK').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_KK_s`,{
+            name: 'Time_Set_KK_s',
+            value: $('#set-second-KK').val()
+        })
+    }
+});
+// HK
+$('#set-hour-HK').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_HK_h`,{
+            name: 'Time_Set_HK_h',
+            value: $('#set-hour-HK').val()
+        })
+    }
+});
+$('#set-minute-HK').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_HK_m`,{
+            name: 'Time_Set_HK_m',
+            value: $('#set-minute-HK').val()
+        })
+    }
+});
+$('#set-second-HK').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_HK_s`,{
+            name: 'Time_Set_HK_s',
+            value: $('#set-second-HK').val()
+        })
+    }
+});
+// BL
+$('#set-hour-BL').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_BL_h`,{
+            name: 'Time_Set_BL_h',
+            value: $('#set-hour-BL').val()
+        })
+    }
+});
+$('#set-minute-BL').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_BL_m`,{
+            name: 'Time_Set_BL_m',
+            value: $('#set-minute-BL').val()
+        })
+    }
+});
+$('#set-second-BL').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setTime_Set_BL_s`,{
+            name: 'Time_Set_BL_s',
+            value: $('#set-second-BL').val()
+        })
+    }
+});
+
+// set value eacch modal 
+
+// pump1 
+$('#pump1-auto-in').on("click", function(){
+    socket.emit(`setpmp1_Auto-Man_In`,{
+        name: 'pmp1_Auto-Man_In',
+        value: true 
+    })
+})
+$('#pump1-man-in').on("click", function(){
+    socket.emit(`setpmp1_Auto-Man_In`,{
+        name: 'pmp1_Auto-Man_In',
+        value: false 
+    })
+})
+$('#pump1-confirm-in').on("click",function(){
+    socket.emit(`setpmp1_Confirm2`,{
+        name: 'pmp1_Confirm2',
+        value: true 
+    })
+    setTimeout(() => {
+        socket.emit(`setpmp1_Confirm2`,{
+            name: 'pmp1_Confirm2',
+            value: false 
+        })
+    }, 100);
+})
+$('#pump1-start-motor1').on("click", function(){
+    socket.emit(`setpmp1_Start-Stop_Motor1`,{
+        name: 'pmp1_Start-Stop_Motor1',
+        value: true 
+    })
+})
+$('#pump1-stop-motor1').on("click", function(){
+    socket.emit(`setpmp1_Start-Stop_Motor1`,{
+        name: 'pmp1_Start-Stop_Motor1',
+        value: false 
+    })
+})
+$('#pump1-start-motor2').on("click", function(){
+    socket.emit(`setpmp1_Start-Stop_Motor2`,{
+        name: 'pmp1_Start-Stop_Motor2',
+        value: true 
+    })
+})
+$('#pump1-stop-motor2').on("click", function(){
+    socket.emit(`setpmp1_Start-Stop_Motor2`,{
+        name: 'pmp1_Start-Stop_Motor2',
+        value: false 
+    })
+})
+$('#hour-pump1_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp1_TimeSet1h`,{
+            name: 'pmp1_TimeSet1h',
+            value: $('#hour-pump1_1').val()
+        })
+    }
+});
+$('#minute-pump1_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp1_TimeSet1m`,{
+            name: 'pmp1_TimeSet1m',
+            value: $('#minute-pump1_1').val()
+        })
+    }
+});
+
+$('#hour-pump1_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp1_TimeSet2h`,{
+            name: 'pmp1_TimeSet2h',
+            value: $('#hour-pump1_2').val()
+        })
+    }
+});
+$('#minute-pump1_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp1_TimeSet2m`,{
+            name: 'pmp1_TimeSet2h',
+            value: $('#minute-pump1_2').val()
+        })
+    }
+});
+
+$('#RPM-pump1_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp1_W1`,{
+            name: 'pmp1_W1',
+            value: $('#RPM-pump1_1').val()
+        })
+    }
+});
+$('#RPM-pump1_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp1_W2`,{
+            name: 'pmp1_W2',
+            value: $('#RPM-pump1_2').val()
+        })
+    }
+});
+// pump2
+$('#pump2-auto-in').on("click", function(){
+    socket.emit(`setpmp2_Auto-Man_In`,{
+        name: 'pmp2_Auto-Man_In',
+        value: true 
+    })
+})
+$('#pump2-man-in').on("click", function(){
+    socket.emit(`setpmp2_Auto-Man_In`,{
+        name: 'pmp2_Auto-Man_In',
+        value: false 
+    })
+})
+$('#pump2-confirm-in').on("click",function(){
+    socket.emit(`setpmp2_Confirm2`,{
+        name: 'pmp2_Confirm2',
+        value: true 
+    })
+    setTimeout(() => {
+        socket.emit(`setpmp2_Confirm2`,{
+            name: 'pmp2_Confirm2',
+            value: false 
+        })
+    }, 100);
+})
+$('#pump2-start-motor1').on("click", function(){
+    socket.emit(`setpmp2_Start-Stop_Motor1`,{
+        name: 'pmp2_Start-Stop_Motor1',
+        value: true 
+    })
+})
+$('#pump2-stop-motor1').on("click", function(){
+    socket.emit(`setpmp2_Start-Stop_Motor1`,{
+        name: 'pmp2_Start-Stop_Motor1',
+        value: false 
+    })
+})
+$('#pump2-start-motor2').on("click", function(){
+    socket.emit(`setpmp2_Start-Stop_Motor2`,{
+        name: 'pmp2_Start-Stop_Motor2',
+        value: true 
+    })
+})
+$('#pump2-stop-motor2').on("click", function(){
+    socket.emit(`setpmp2_Start-Stop_Motor2`,{
+        name: 'pmp2_Start-Stop_Motor2',
+        value: false 
+    })
+})
+$('#hour-pump2_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp2_TimeSet1h`,{
+            name: 'pmp2_TimeSet1h',
+            value: $('#hour-pump2_1').val()
+        })
+    }
+});
+$('#minute-pump2_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp2_TimeSet1m`,{
+            name: 'pmp2_TimeSet1m',
+            value: $('#minute-pump2_1').val()
+        })
+    }
+});
+
+$('#hour-pump2_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp2_TimeSet2h`,{
+            name: 'pmp2_TimeSet2h',
+            value: $('#hour-pump2_2').val()
+        })
+    }
+});
+$('#minute-pump2_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp2_TimeSet2m`,{
+            name: 'pmp2_TimeSet2h',
+            value: $('#minute-pump2_2').val()
+        })
+    }
+});
+
+$('#RPM-pump2_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp2_W1`,{
+            name: 'pmp2_W1',
+            value: $('#RPM-pump2_1').val()
+        })
+    }
+});
+$('#RPM-pump2_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp2_W2`,{
+            name: 'pmp2_W2',
+            value: $('#RPM-pump2_2').val()
+        })
+    }
+});
+//pump3
+$('#pump3-auto-in').on("click", function(){
+    socket.emit(`setpmp3_Auto-Man_In`,{
+        name: 'pmp3_Auto-Man_In',
+        value: true 
+    })
+})
+$('#pump3-man-in').on("click", function(){
+    socket.emit(`setpmp3_Auto-Man_In`,{
+        name: 'pmp3_Auto-Man_In',
+        value: false 
+    })
+})
+$('#pump3-confirm-in').on("click",function(){
+    socket.emit(`setpmp3_Confirm2`,{
+        name: 'pmp3_Confirm2',
+        value: true 
+    })
+    setTimeout(() => {
+        socket.emit(`setpmp3_Confirm2`,{
+            name: 'pmp3_Confirm2',
+            value: false 
+        })
+    }, 100);
+})
+$('#pump3-start-motor1').on("click", function(){
+    socket.emit(`setpmp3_Start-Stop_Motor1`,{
+        name: 'pmp3_Start-Stop_Motor1',
+        value: true 
+    })
+})
+$('#pump3-stop-motor1').on("click", function(){
+    socket.emit(`setpmp3_Start-Stop_Motor1`,{
+        name: 'pmp3_Start-Stop_Motor1',
+        value: false 
+    })
+})
+$('#pump3-start-motor2').on("click", function(){
+    socket.emit(`setpmp3_Start-Stop_Motor2`,{
+        name: 'pmp3_Start-Stop_Motor2',
+        value: true 
+    })
+})
+$('#pump3-stop-motor2').on("click", function(){
+    socket.emit(`setpmp3_Start-Stop_Motor2`,{
+        name: 'pmp3_Start-Stop_Motor2',
+        value: false 
+    })
+})
+$('#hour-pump3_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp3_TimeSet1h`,{
+            name: 'pmp3_TimeSet1h',
+            value: $('#hour-pump3_1').val()
+        })
+    }
+});
+$('#minute-pump3_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp3_TimeSet1m`,{
+            name: 'pmp3_TimeSet1m',
+            value: $('#minute-pump3_1').val()
+        })
+    }
+});
+
+$('#hour-pump3_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp3_TimeSet2h`,{
+            name: 'pmp3_TimeSet2h',
+            value: $('#hour-pump3_2').val()
+        })
+    }
+});
+$('#minute-pump3_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp3_TimeSet2m`,{
+            name: 'pmp3_TimeSet2h',
+            value: $('#minute-pump3_2').val()
+        })
+    }
+});
+
+$('#RPM-pump3_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp3_W1`,{
+            name: 'pmp3_W1',
+            value: $('#RPM-pump3_1').val()
+        })
+    }
+});
+$('#RPM-pump3_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp3_W2`,{
+            name: 'pmp3_W2',
+            value: $('#RPM-pump3_2').val()
+        })
+    }
+});
+//pump4
+$('#pump4-auto-in').on("click", function(){
+    socket.emit(`setpmp4_Auto-Man_In`,{
+        name: 'pmp4_Auto-Man_In',
+        value: true 
+    })
+})
+$('#pump4-man-in').on("click", function(){
+    socket.emit(`setpmp4_Auto-Man_In`,{
+        name: 'pmp4_Auto-Man_In',
+        value: false 
+    })
+})
+$('#pump4-confirm-in').on("click",function(){
+    socket.emit(`setpmp4_Confirm2`,{
+        name: 'pmp4_Confirm2',
+        value: true 
+    })
+    setTimeout(() => {
+        socket.emit(`setpmp4_Confirm2`,{
+            name: 'pmp4_Confirm2',
+            value: false 
+        })
+    }, 100);
+})
+$('#pump4-start-motor1').on("click", function(){
+    socket.emit(`setpmp4_Start-Stop_Motor1`,{
+        name: 'pmp4_Start-Stop_Motor1',
+        value: true 
+    })
+})
+$('#pump4-stop-motor1').on("click", function(){
+    socket.emit(`setpmp4_Start-Stop_Motor1`,{
+        name: 'pmp4_Start-Stop_Motor1',
+        value: false 
+    })
+})
+$('#pump4-start-motor2').on("click", function(){
+    socket.emit(`setpmp4_Start-Stop_Motor2`,{
+        name: 'pmp4_Start-Stop_Motor2',
+        value: true 
+    })
+})
+$('#pump4-stop-motor2').on("click", function(){
+    socket.emit(`setpmp4_Start-Stop_Motor2`,{
+        name: 'pmp4_Start-Stop_Motor2',
+        value: false 
+    })
+})
+$('#hour-pump4_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp4_TimeSet1h`,{
+            name: 'pmp4_TimeSet1h',
+            value: $('#hour-pump4_1').val()
+        })
+    }
+});
+$('#minute-pump4_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp4_TimeSet1m`,{
+            name: 'pmp4_TimeSet1m',
+            value: $('#minute-pump4_1').val()
+        })
+    }
+});
+
+$('#hour-pump4_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp4_TimeSet2h`,{
+            name: 'pmp4_TimeSet2h',
+            value: $('#hour-pump4_2').val()
+        })
+    }
+});
+$('#minute-pump4_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp4_TimeSet2m`,{
+            name: 'pmp4_TimeSet2h',
+            value: $('#minute-pump4_2').val()
+        })
+    }
+});
+
+$('#RPM-pump4_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp4_W1`,{
+            name: 'pmp4_W1',
+            value: $('#RPM-pump4_1').val()
+        })
+    }
+});
+$('#RPM-pump4_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp4_W2`,{
+            name: 'pmp4_W2',
+            value: $('#RPM-pump4_2').val()
+        })
+    }
+});
+//pump5
+$('#pump5-auto-in').on("click", function(){
+    socket.emit(`setpmp5_Auto-Man_In`,{
+        name: 'pmp5_Auto-Man_In',
+        value: true 
+    })
+})
+$('#pump5-man-in').on("click", function(){
+    socket.emit(`setpmp5_Auto-Man_In`,{
+        name: 'pmp5_Auto-Man_In',
+        value: false 
+    })
+})
+$('#pump5-confirm-in').on("click",function(){
+    socket.emit(`setpmp5_Confirm2`,{
+        name: 'pmp5_Confirm2',
+        value: true 
+    })
+    setTimeout(() => {
+        socket.emit(`setpmp5_Confirm2`,{
+            name: 'pmp5_Confirm2',
+            value: false 
+        })
+    }, 100);
+})
+$('#pump5-start-motor1').on("click", function(){
+    socket.emit(`setpmp5_Start-Stop_Motor1`,{
+        name: 'pmp5_Start-Stop_Motor1',
+        value: true 
+    })
+})
+$('#pump5-stop-motor1').on("click", function(){
+    socket.emit(`setpmp5_Start-Stop_Motor1`,{
+        name: 'pmp5_Start-Stop_Motor1',
+        value: false 
+    })
+})
+$('#pump5-start-motor2').on("click", function(){
+    socket.emit(`setpmp5_Start-Stop_Motor2`,{
+        name: 'pmp5_Start-Stop_Motor2',
+        value: true 
+    })
+})
+$('#pump5-stop-motor2').on("click", function(){
+    socket.emit(`setpmp5_Start-Stop_Motor2`,{
+        name: 'pmp5_Start-Stop_Motor2',
+        value: false 
+    })
+})
+$('#hour-pump5_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp5_TimeSet1h`,{
+            name: 'pmp5_TimeSet1h',
+            value: $('#hour-pump5_1').val()
+        })
+    }
+});
+$('#minute-pump5_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp5_TimeSet1m`,{
+            name: 'pmp5_TimeSet1m',
+            value: $('#minute-pump5_1').val()
+        })
+    }
+});
+
+$('#hour-pump5_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp5_TimeSet2h`,{
+            name: 'pmp5_TimeSet2h',
+            value: $('#hour-pump5_2').val()
+        })
+    }
+});
+$('#minute-pump5_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp5_TimeSet2m`,{
+            name: 'pmp5_TimeSet2h',
+            value: $('#minute-pump5_2').val()
+        })
+    }
+});
+
+$('#RPM-pump5_1').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp5_W1`,{
+            name: 'pmp5_W1',
+            value: $('#RPM-pump5_1').val()
+        })
+    }
+});
+$('#RPM-pump5_2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        socket.emit(`setpmp5_W2`,{
+            name: 'pmp5_W2',
+            value: $('#RPM-pump5_2').val()
+        })
+    }
+});
+
+
+// get chieu cao kk , bl hcl , naoh
+ 

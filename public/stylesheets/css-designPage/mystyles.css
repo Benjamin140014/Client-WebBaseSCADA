@@ -47,12 +47,26 @@
     height:50px;
     font-weight: bold;
 }
-#symbols_1{
+#labelValve4_FB{
+    position: absolute;
+    top:460px  ; left: 2680px;
+    width: 100px;
+    height:50px;
+    font-weight: bold;
+}
+#labelGatBun{
+    position: absolute;
+    top:250px  ; left: 2600px;
+    width: 100px;
+    height:50px;
+    font-weight: bold;
+}
+/* #symbols_1{
     position: absolute;
     top:270px  ; left: 25px;
     width: 50px;
     height: 30px;
-}
+} */
 #symbols_2{
     position: absolute;
     top:255px  ; left: 333px;
@@ -767,6 +781,13 @@
     width: 200px;
     height: 250px;
 }
+#labelBeThai{
+    position: absolute;
+    top:1030px  ; left: 2025px; 
+    width: 100px;
+    height:50px;
+    font-weight: bold;
+}
 #pipe_62{
     position: absolute;
     top:635px  ; left: 2067px;
@@ -802,6 +823,18 @@
     top:325px  ; left: 2296px;
     width: 221px;
     height: 17px;
+}
+#pipe_before_valve4{
+    position: absolute;
+    top:425px  ; left: 2630px;
+    width: 50px;
+    height: 17px; 
+}
+#valve4_fb{
+    position: absolute;
+    top:412px  ; left: 2680px;
+    width: 50px;
+    height: 30px; 
 }
 #pipe_67{
     position: absolute;
@@ -967,4 +1000,48 @@
     top:665px  ; left: 2500px;
     width: 70px;
     height: 30px;
+}
+#h_Ki_Khi{
+    position: absolute;
+    top:215px  ; left: 1430px;
+    width: 30px;
+    height:250px;
+    min-height: 100px;
+    display: flex;
+    align-items: flex-end;
+    margin-right: 20px;
+    float: left;
+}
+#h_Be_Lang{
+    position: absolute;
+    top:364px  ; left: 2524px;
+    width: 30px;
+    height:247px;
+    min-height: 100px;
+    display: flex;
+    align-items: flex-end;
+    margin-right: 20px;
+    float: left;
+}
+#h_Naoh{
+    position: absolute;
+    top:83px  ; left: 817px;
+    width: 25px;
+    height:115px;
+    min-height: 100px;
+    display: flex;
+    align-items: flex-end;
+    margin-right: 20px;
+    float: left;
+}
+#h_Hcl{
+    position: absolute;
+    top:83px  ; left: 937px;
+    width: 25px;
+    height:115px;
+    min-height: 100px;
+    display: flex;
+    align-items: flex-end;
+    margin-right: 20px;
+    float: left;
 }

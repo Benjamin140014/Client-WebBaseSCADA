@@ -75,7 +75,7 @@
     <img src="images\symbols\Pipes\Pipes_012.png" alt="Pipes" id="pipe_7">   <!-- Pipes_013.png -->
 
     <!-- mũi tên chỉ thị hướng -->
-    <img src="images\symbols\International_Symbols\International_Symbols_013.png" alt="Symbols" id="symbols_1">  <!-- International_Symbols_018.png  -->
+    <!-- <img src="images\symbols\International_Symbols\International_Symbols_013.png" alt="Symbols" id="symbols_1">  International_Symbols_018.png  -->
     <img src="images\symbols\International_Symbols\International_Symbols_013.png" alt="Symbols" id="symbols_2"> <!-- International_Symbols_018.png -->
     <img src="images\symbols\International_Symbols\International_Symbols_013.png" alt="Symbols" id="symbols_3"> <!-- International_Symbols_018.png  -->
     <img src="images\symbols\International_Symbols\International_Symbols_013.png" alt="Symbols" id="symbols_9"> <!-- International_Symbols_018.png -->
@@ -269,6 +269,7 @@
     <img src="images\symbols\Pipes\Pipes_052.png" alt="Pipes" id="pipe_66">
     <img src="images\symbols\Pipes\Pipes_017.png" alt="Pipes" id="pipe_67">
     <img src="images\symbols\Pump\Pump_007.png" alt="pump" id="pumpBeLang">
+    <div><label for="" id="labelGatBun"> Motor Gạt Bùn</label></div>
 
     <!--Bể lắng-->
     <img src="\images\symbols\Tank\Tank_037.png" alt="Tank" id="tank_7">
@@ -300,12 +301,30 @@
     <img src="images\symbols\Container\Container_020.png" alt="Container" id="container_bottom">
 
     <label for="" id="labelMargin"></label>
+    
+    <!-- valve xa bun-->
+    <img src="images\symbols\Pipes\Pipes_052.png" alt="pipe" id="pipe_before_valve4">
+    <img src="images\symbols\Valve\Valve_050.png" alt="pipe" id="valve4_fb">
+    <label for="" id="labelValve4_FB">Valve4_FB </label>
 
+    <!-- Be thai cuoi cung-->
+    <label for="" id="labelBeThai"> Bể Thải</label>
     <!-- Den bao done-->
     <img src="images\symbols\Light\Light_013.png" alt="Light" id="TH_Done">
     <img src="images\symbols\Light\Light_013.png" alt="Light" id="KK_Done">
     <img src="images\symbols\Light\Light_013.png" alt="Light" id="HK_Done">
     <img src="images\symbols\Light\Light_013.png" alt="Light" id="BL_Done">
+    
+
+    <!-- muc nuoc be naoh , hcl , ki khi , be lang -->
+     <div class="progress" id="h_Ki_Khi">
+     </div>
+     <div class="progress" id="h_Be_Lang">
+     </div>
+    <div class="progress" id="h_Naoh">
+    </div>
+    <div class="progress" id="h_Hcl">
+    </div>
 
   </div>
 
@@ -608,25 +627,25 @@
         <form >
           <div class="form-group">
           <div class="row" style="text-align: center;">
-            <button type="button" class="btn btn-primary col lg-6" id="pump1-auto-in">AUTO</button>
-            <button type="button" class="btn btn-primary col lg-6" id="pump1-man-in">MAN</button>
+            <button type="button" class="btn btn-primary col lg-6" id="pump1-auto-in" >AUTO</button>
+            <button type="button" class="btn btn-primary col lg-6" id="pump1-man-in" >MAN</button>
           </div>
           </div>
           <div class="form-group">
           <div class="row">
-            <button type="button" class="btn btn-primary col lg-12" id="pump1-confirm-in">CONFIRM</button>
+            <button type="button" class="btn btn-primary col lg-12" id="pump1-confirm-in" >CONFIRM</button>
           </div>
           </div>
           <div class="form-group">
           <div class="row">
-            <button type="button" class="btn btn-primary col lg-6" id="pump1-start-motor1" >Start 1</button>
+            <button type="button" class="btn btn-primary col lg-6" id="pump1-start-motor1"  >Start 1</button>
             <button type="button" class="btn btn-primary col lg-6" id="pump1-start-motor2" >Start 2</button>
           </div>
           </div>
           <div class="form-group">
             <div class="row">
-              <button type="button" class="btn btn-primary col lg-6" id="pump1-start-motor1" >Stop 1</button>
-              <button type="button" class="btn btn-primary col lg-6" id="pump1-start-motor2" >Stop 2</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump1-stop-motor1" >Stop 1</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump1-stop-motor2" >Stop 2</button>
             </div>
             </div>
           <table class="table form-group" style="text-align: center;">
@@ -717,8 +736,8 @@
         </div>
         <div class="form-group">
           <div class="row">
-            <button type="button" class="btn btn-primary col lg-6" id="pump2-start-motor1" >Stop 1</button>
-            <button type="button" class="btn btn-primary col lg-6" id="pump2-start-motor2" >Stop 2</button>
+            <button type="button" class="btn btn-primary col lg-6" id="pump2-stop-motor1" >Stop 1</button>
+            <button type="button" class="btn btn-primary col lg-6" id="pump2-stop-motor2" >Stop 2</button>
           </div>
           </div>
         <table class="table form-group" style="text-align: center;">
@@ -809,8 +828,8 @@
           </div>
           <div class="form-group">
             <div class="row">
-              <button type="button" class="btn btn-primary col lg-6" id="pump3-start-motor1" >Stop 1</button>
-              <button type="button" class="btn btn-primary col lg-6" id="pump3-start-motor2" >Stop 2</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump3-stop-motor1" >Stop 1</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump3-stop-motor2" >Stop 2</button>
             </div>
             </div>
           <table class="table form-group" style="text-align: center;">
@@ -901,8 +920,8 @@
           </div>
           <div class="form-group">
             <div class="row">
-              <button type="button" class="btn btn-primary col lg-6" id="pump4-start-motor1" >Stop 1</button>
-              <button type="button" class="btn btn-primary col lg-6" id="pump4-start-motor2" >Stop 2</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump4-stop-motor1" >Stop 1</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump4-stop-motor2" >Stop 2</button>
             </div>
             </div>
           <table class="table form-group" style="text-align: center;">
@@ -993,8 +1012,8 @@
           </div>
           <div class="form-group">
             <div class="row">
-              <button type="button" class="btn btn-primary col lg-6" id="pump5-start-motor1" >Stop 1</button>
-              <button type="button" class="btn btn-primary col lg-6" id="pump5-start-motor2" >Stop 2</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump5-stop-motor1" >Stop 1</button>
+              <button type="button" class="btn btn-primary col lg-6" id="pump5-stop-motor2" >Stop 2</button>
             </div>
             </div>
           <table class="table form-group" style="text-align: center;">
