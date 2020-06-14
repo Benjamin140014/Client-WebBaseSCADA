@@ -229,7 +229,6 @@ socket.on("Read_msg", function(data) {
   $("#msg_read").html('value of variable is :' +data);
 });
 socket.on("Read", function(data) {
-  console.log(allVariableConfig) ; 
   for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
     if(allVariableConfig.nameVariable[i].name === 'random'){
       data_change = data[i];

@@ -8,7 +8,6 @@
     <meta name="author" content="">
     <title>My Website</title>
     <!-- Add custom CSS here -->
-    <link href="stylesheets/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/css-designPage/mystyles.css">
     <link rel="stylesheet" href="stylesheets/css-designPage/panelStyles.css">
      <!-- Bootstrap core CSS -->
@@ -133,13 +132,16 @@
     <img src="images\symbols\Pipes\Pipes_052.png" alt="Pipes" id="pipe_26"> <!-- Pipes_053.png-->
 
     <!--Sensor Bể Trung hòa-->
-    <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorHightBeTrungHoa">  <!-- Light_008.png -->
-    <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorLowBeTrungHoa">   <!-- Light_008.png -->
+    <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorLowBeTrungHoa">  <!-- Light_008.png -->
+    <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorHightBeTrungHoa">   <!-- Light_008.png -->
 
     <!--Sensor HCl và Naoh--> 
     <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorNAOH">   <!-- Light_008.png -->
     <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorHCL">     <!-- Light_008.png -->
 
+    <!--chieu cao naoh va hcl-->
+    <div><label for="" id="HighNaoh">h_NaOH : </label></div>
+    <div><label for="" id="HighHcl">h_HCL : </label></div>
     <!--Đo PH-->
     <div><label for="" id="valuePH">PH : </label></div>
     <img src="images\symbols\Flow_Meters\Flow_Meters_047.png" alt="PH" id="ph">
@@ -201,6 +203,7 @@
     <!-- Bể Kị khí-->
     <img src="images\symbols\Chemical\Chemical_015.png" alt="Tank" id="tank_4">
     <div><label for="" id="labelBeKiKhi"> Bể Kị Khí</label></div>
+    <div><label for="" id="HighKK">h_KK : </label></div>
     <!--sensor bể kị khí-->
     <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorKiKhi">
 
@@ -270,6 +273,7 @@
     <!--Bể lắng-->
     <img src="\images\symbols\Tank\Tank_037.png" alt="Tank" id="tank_7">
     <div><label for="" id="labelBeLang"> Bể Lắng</label></div>
+    <div><label for="" id="HighBL">h_Lang : </label></div>
 
     <!--Sensor bể lắng -->
     <img src="images\symbols\Light\Light_007.png" alt="Sensor" id="sensorHightBeLang">
@@ -313,21 +317,21 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <button type="button" class="btn btn-primary col lg-6" id="start-in-system" >START</button>
-          <button type="button" class="btn btn-primary col lg-6" id="stop-in-system" >STOP</button>
+          <button type="button" class="btn btn-primary col lg-6" id="start-in-system" onclick="StartControlPanel()" >START</button>
+          <button type="button" class="btn btn-primary col lg-6" id="stop-in-system" onclick="StopControlPanel()" >STOP</button>
         </div>
         <div class="row">
           <label for="" class="col lg-12">Run</label>
         </div>
         <div class="row">
-          <button type="button" class="btn btn-primary col lg-6" id="auto-in-system" >AUTO</button>
-          <button type="button" class="btn btn-primary col lg-6" id="man-in-system">MAN</button>
+          <button type="button" class="btn btn-primary col lg-6" id="auto-in-system" onclick="AutoControlPanel()" >AUTO</button>
+          <button type="button" class="btn btn-primary col lg-6" id="man-in-system"onclick="ManControlPanel()" >MAN</button>
         </div>
         <div class="row">
           <label for="" class="col lg-12">Mode</label>
         </div>
         <div class="row">
-          <button type="button" class="btn btn-primary col lg-12" id="confirm-in-system">CONFIRM</button>
+          <button type="button" class="btn btn-primary col lg-12" id="confirm-in-system" onclick="ConfirmControlPanel()" >CONFIRM</button>
         </div>
       </div>
     </div>
@@ -354,11 +358,11 @@
                 <label for="" class="col lg-1">Time Count</label>
                 <div class="col lg-4">
                   <div class="row">
-                    <input type="number" id="count-hour-KK" class="col lg-2 form-control">
+                    <input type="number" id="count-hour-KK" class="col lg-2 form-control" disabled>
                     <label for="" class="col lg-2">h</label>
-                    <input type="number" id="count-minute-KK" class="col lg-2 form-control">
+                    <input type="number" id="count-minute-KK" class="col lg-2 form-control" disabled>
                     <label for="" class="col lg-2">m</label>
-                    <input type="number" id="count-second-KK" class="col lg-2 form-control">
+                    <input type="number" id="count-second-KK" class="col lg-2 form-control" disabled>
                     <label for="" class="col lg-2">s</label>
                   </div>
                 </div>
@@ -389,11 +393,11 @@
                  <label for="" class="col lg-1">Time Count</label>
                  <div class="col lg-4">
                    <div class="row">
-                     <input type="number" id="count-hour-HK" class="col lg-2 form-control">
+                     <input type="number" id="count-hour-HK" class="col lg-2 form-control" disabled>
                      <label for="" class="col lg-2">h</label>
-                     <input type="number" id="count-minute-HK" class="col lg-2 form-control">
+                     <input type="number" id="count-minute-HK" class="col lg-2 form-control" disabled>
                      <label for="" class="col lg-2">m</label>
-                     <input type="number" id="count-second-HK" class="col lg-2 form-control">
+                     <input type="number" id="count-second-HK" class="col lg-2 form-control" disabled>
                      <label for="" class="col lg-2">s</label>
                    </div>
                  </div>
@@ -412,11 +416,11 @@
                  <label for="" class="col lg-1">Time Set</label>
                  <div class="col lg-4">
                    <div class="row">
-                     <input type="number" id="set-hour-L" class="col lg-2 form-control">
+                     <input type="number" id="set-hour-BL" class="col lg-2 form-control">
                      <label for="" class="col lg-2">h</label>
-                     <input type="number" id="set-minute-L" class="col lg-2 form-control">
+                     <input type="number" id="set-minute-BL" class="col lg-2 form-control">
                      <label for="" class="col lg-2">m</label>
-                     <input type="number" id="set-second-L" class="col lg-2 form-control">
+                     <input type="number" id="set-second-BL" class="col lg-2 form-control">
                      <label for="" class="col lg-2">s</label>
                    </div>
                  </div>
@@ -424,11 +428,11 @@
                  <label for="" class="col lg-1">Time Count</label>
                  <div class="col lg-4">
                    <div class="row">
-                     <input type="number" id="count-hour-L" class="col lg-2 form-control">
+                     <input type="number" id="count-hour-BL" class="col lg-2 form-control" disabled>
                      <label for="" class="col lg-2">h</label>
-                     <input type="number" id="count-minute-L" class="col lg-2 form-control">
+                     <input type="number" id="count-minute-BL" class="col lg-2 form-control" disabled>
                      <label for="" class="col lg-2">m</label>
-                     <input type="number" id="count-second-L" class="col lg-2 form-control">
+                     <input type="number" id="count-second-BL" class="col lg-2 form-control" disabled>
                      <label for="" class="col lg-2">s</label>
                    </div>
                  </div>
@@ -455,11 +459,19 @@
               </div>
               <div class="row" >
                 <label for="" class="col lg-6" id="RPM-Pump1_1">***</label>
-                <label for="" class="col lg-6" id="Time-Pump1_1">00h 00m 00s</label>
+                <div class="col lg-6">
+                  <label for=""  id="Time-Pump1_1_h">00h</label>
+                  <label for=""  id="Time-Pump1_1_m">00m</label>
+                  <label for=""  id="Time-Pump1_1_s">00s</label>
+                </div>
               </div>
               <div class="row" >
                 <label for="" class="col lg-6" id="RPM-Pump1_2">***</label>
-                <label for="" class="col lg-6" id="Time-Pump1_2">00h 00m 00s</label>
+                <div class="col lg-6">
+                  <label for=""  id="Time-Pump1_2_h">00h</label>
+                  <label for=""  id="Time-Pump1_2_m">00m</label>
+                  <label for=""  id="Time-Pump1_2_s">00s</label>
+                </div>
               </div>
              </div>       
            </div>
@@ -475,11 +487,19 @@
              </div>
              <div class="row" >
                <label for="" class="col lg-6" id="RPM-Pump2_1">***</label>
-               <label for="" class="col lg-6" id="Time-Pump2_1">00h 00m 00s</label>
+               <div class="col lg-6">
+                <label for=""  id="Time-Pump2_1_h">00h</label>
+                <label for=""  id="Time-Pump2_1_m">00m</label>
+                <label for=""  id="Time-Pump2_1_s">00s</label>
+              </div>
              </div>
              <div class="row" >
                <label for="" class="col lg-6" id="RPM-Pump2_2">***</label>
-               <label for="" class="col lg-6" id="Time-Pump2_2">00h 00m 00s</label>
+               <div class="col lg-6">
+                <label for=""  id="Time-Pump2_2_h">00h</label>
+                <label for=""  id="Time-Pump2_2_m">00m</label>
+                <label for=""  id="Time-Pump2_2_s">00s</label>
+              </div>
              </div>
             </div> 
            </div>
@@ -495,11 +515,19 @@
              </div>
              <div class="row" >
                <label for="" class="col lg-6" id="RPM-Pump3_1">***</label>
-               <label for="" class="col lg-6" id="Time-Pump3_2">00h 00m 00s</label>
+               <div class="col lg-6">
+                <label for=""  id="Time-Pump3_1_h">00h</label>
+                <label for=""  id="Time-Pump3_1_m">00m</label>
+                <label for=""  id="Time-Pump3_1_s">00s</label>
+              </div>
              </div>
              <div class="row" >
                <label for="" class="col lg-6" id="RPM-Pump3_2">***</label>
-               <label for="" class="col lg-6" id="Time-Pump3_2">00h 00m 00s</label>
+               <div class="col lg-6">
+                <label for=""  id="Time-Pump3_2_h">00h</label>
+                <label for=""  id="Time-Pump3_2_m">00m</label>
+                <label for=""  id="Time-Pump3_2_s">00s</label>
+              </div>
              </div>
             </div> 
             </div> 
@@ -515,11 +543,19 @@
                </div>
                <div class="row" >
                  <label for="" class="col lg-6" id="RPM-Pump4_1">***</label>
-                 <label for="" class="col lg-6" id="Time-Pump4_1">00h 00m 00s</label>
+                 <div class="col lg-6">
+                  <label for=""  id="Time-Pump4_1_h">00h</label>
+                  <label for=""  id="Time-Pump4_1_m">00m</label>
+                  <label for=""  id="Time-Pump4_1_s">00s</label>
+                </div>
                </div>
                <div class="row" >
                  <label for="" class="col lg-6" id="RPM-Pump4_2">***</label>
-                 <label for="" class="col lg-6" id="Time-Pump4_2">00h 00m 00s</label>
+                 <div class="col lg-6">
+                  <label for=""  id="Time-Pump4_2_h">00h</label>
+                  <label for=""  id="Time-Pump4_2_m">00m</label>
+                  <label for=""  id="Time-Pump4_2_s">00s</label>
+                </div>
                </div>
               </div> 
               </div> 
@@ -535,11 +571,19 @@
                  </div>
                  <div class="row" >
                    <label for="" class="col lg-6" id="RPM-Pump5_1">***</label>
-                   <label for="" class="col lg-6" id="Time-Pump5_1">00h 00m 00s</label>
+                   <div class="col lg-6">
+                    <label for=""  id="Time-Pump5_1_h">00h</label>
+                    <label for=""  id="Time-Pump5_1_m">00m</label>
+                    <label for=""  id="Time-Pump5_1_s">00s</label>
+                  </div>
                  </div>
                  <div class="row" >
                    <label for="" class="col lg-6" id="RPM-Pump5_2">***</label>
-                   <label for="" class="col lg-6" id="Time-Pump5_2">00h 00m 00s</label>
+                   <div class="col lg-6">
+                    <label for=""  id="Time-Pump5_2_h">00h</label>
+                    <label for=""  id="Time-Pump5_2_m">00m</label>
+                    <label for=""  id="Time-Pump5_2_s">00s</label>
+                  </div>
                  </div>
                 </div> 
                 </div> 

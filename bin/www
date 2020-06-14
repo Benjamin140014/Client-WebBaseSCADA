@@ -281,6 +281,7 @@ socket.on('optionsOPC' , (data)=>{
             if (!err) console.log( StatusCode , " Write OK !");
           });
           socket.emit("Read_msg", data);
+
       });
       
   }
