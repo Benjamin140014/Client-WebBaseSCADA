@@ -148,52 +148,6 @@ $(document).ready(function() {
     }
   });
 
-  // // Chart div google
-  // google.charts.load("current", { packages: ["corechart", "gauge"] });
-  // google.charts.setOnLoadCallback(drawChart1);
-  // function drawChart1() {
-  //   var data = google.visualization.arrayToDataTable([
-  //     ["Label", "Value"],
-  //     ["Memory", 80]
-  //   ]);
-  //   var options = {
-  //     title: "Random",
-  //     width: 200,
-  //     height: 200,
-  //     redFrom: 90,
-  //     redTo: 100,
-  //     yellowFrom: 75,
-  //     yellowTo: 90,
-  //     minorTicks: 5
-  //   };
-  //   var chart = new google.visualization.Gauge(
-  //     document.getElementById("chartdiv2")
-  //   );
-  //   chart.draw(data, options);
-  //   setInterval(function() {
-  //     data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-  //     chart.draw(data, options);
-  //   }, 1300);
-  // }
-  // google.charts.setOnLoadCallback(drawChart2);
-  // // Draw the chart and set the chart values
-  // function drawChart2() {
-  //   var data = google.visualization.arrayToDataTable([
-  //     ["Variable", "Value"],
-  //     ["Variable_1", 8],
-  //     ["Varicable_2", 2],
-  //     ["Variable_3", 4],
-  //     ["Variable_4", 2],
-  //     ["Variable_5", 8]
-  //   ]);
-  //   // Optional; add a title and set the width and height of the chart
-  //   var options = { title: "Chart Simulation", width: 300, height: 300 };
-  //   // Display the chart inside the <div> element with id="piechart"
-  //   var chart = new google.visualization.PieChart(
-  //     document.getElementById("piechart")
-  //   );
-  //   chart.draw(data, options);
-  // }
  
 });
 
@@ -219,15 +173,6 @@ socket.on('loadStatus',(data)=>{
    $('#endpoint').html(data.endpoint) ; 
 })
 
-
-
-function WriteValue() {
-  console.log('ok')
-  socket.emit("Write_msg", parseInt($("#msg_write").val()));
-}
-socket.on("Read_msg", function(data) {
-  $("#msg_read").html('value of variable is :' +data);
-});
 socket.on("Read", function(data) {
   for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
     if(allVariableConfig.nameVariable[i].name === 'random'){
