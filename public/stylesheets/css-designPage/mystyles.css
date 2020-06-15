@@ -1,6 +1,11 @@
 .bodyAll{
     background-color: rgb(127, 127, 127);
 }
+#clock-display{
+    position: absolute;
+    top:30px ; left: 10px;
+    width: 230px;
+}
 .inline_1{
     position: absolute;
     top:280px ; left: 20px;

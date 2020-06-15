@@ -112,6 +112,59 @@
         role="tabpanel"
         aria-labelledby="nav-dashboard-tab"
       >
+      <div style="position: absolute;width: 99%; top: 50px;left: 5px;" >
+      <!-- Dashboard -->
+    
+        <div class="card-deck" style="margin: 5px;">
+          <div class="card bg-secondary">
+            <div class="card-header">
+                   <h3 style="text-align: center; font-weight: bold;">  Nhiệt Độ T1 </h3>
+            </div>
+            <div class="card-body" style="display: flex; flex-direction: row;">
+              <div id="ChartT1" style="height: 300px; width: 70%;"></div>
+              <div id="ThermometerT1"></div>
+            </div>
+          </div>
+          <div class="card bg-secondary">
+            <div class="card-header">
+              <h3 style="text-align: center;  font-weight: bold;">  Nhiệt Độ T2 </h3>
+            </div>
+            <div class="card-body" style="display: flex; flex-direction: row;">
+              <div id="ChartT2" style="height: 300px; width: 70%;"></div>
+              <div id="ThermometerT2"></div>
+             </div>
+          </div> 
+        </div>
+        <div class="card-deck" style="margin: 5px;">
+          <div class="card bg-secondary">
+            <div class="card-header">
+                   <h3 style="text-align: center;  font-weight: bold;">  Nhiệt Độ T3 </h3>
+            </div>
+            <div class="card-body" style="display: flex; flex-direction: row;">
+              <div id="ChartT3" style="height: 300px; width: 70%;"></div>
+              <div id="ThermometerT3"></div>
+            </div>
+          </div>
+          <div class="card bg-secondary">
+            <div class="card-header">
+              <h3 style="text-align: center;  font-weight: bold;">  Nồng Độ Oxi DO </h3>
+            </div>
+            <div class="card-body">
+             <div id="Container_DO" style="margin-left: 23%;"></div>
+             </div>
+          </div> 
+        </div>
+
+      <!-- <div id="chartContainer" style="height: 200px; width: 100%; margin-bottom: 20px;"></div> -->
+
+      <div class="containerCharts" style="display: flex;">
+
+      <div id="chartdiv2" style="width: 300px; height: 300px;"></div>
+      <div id="piechart" style="width: 300px; height: 300px;"></div>
+
+      </div>
+      </div>
+      
 
       
 </div>
@@ -162,7 +215,7 @@
                     <th scope="col">Time</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
                  
                 </tbody>
               </table>
@@ -187,7 +240,7 @@
                     <th scope="col">Time</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="resultfindDataTable">
                   
                 </tbody>
               </table>
@@ -239,7 +292,8 @@
   aria-labelledby="nav-supervisor-tab"
 >
 <div class="System">
-
+  
+  <div id="clock-display"> </div>
   <div class="inline_1" id="chart-container1">Bể Chứa</div>
   <div class="inline_2" id="chart-container2">Bể Cân Bằng</div>
   <div class="inline_3" id="chart-container3">Bể Trung Hòa</div>
@@ -1258,7 +1312,28 @@
 </div>
 
     <!-- JavaScript -->
-    <script type="text/javascript" src="javascripts/js-designPage/myScripts.js" ></script>
-    <script src="javascripts/canvasjs.min.js"></script>
+    <!-- Hight chart-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <!--Speed Meter-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <!-- Graphs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  <script src="javascripts/canvasjs.min.js"></script>
+  <!-- theme Chart pie-->
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <!-- chart div google -->
+  <script type="text/javascripts" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="javascripts/js-designPage/myScripts.js" ></script>
+  <script src="javascripts/canvasjs.min.js"></script>
   </body>
 </html>

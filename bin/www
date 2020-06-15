@@ -348,7 +348,7 @@ socket.on('optionsOPC' , (data)=>{
             err,
             StatusCode
           ) {
-            if (!err) console.log( StatusCode , " Write OK !");
+            if (!err) console.log(" Write OK !");
           });
       });
       }

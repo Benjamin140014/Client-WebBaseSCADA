@@ -1,158 +1,10 @@
-/* globals Chart:false, feather:false */
-// io socket client
-var data_change;
 var socket = io.connect();
-
 var allVariableConfig = {}
 socket.on('loadAllDataConfig',(data)=>{
     allVariableConfig = data ; 
     
 })
-
-
-$(document).ready(function() {
-  
-    // Create chartContainer
-    var mycharts = document.getElementById("chartContainer");
-    var dps1 = [];
-    var dps2 = [];
-    var chart = new CanvasJS.Chart(mycharts, {
-      zoomEnabled: true,
-      title: {
-        text: "Chart"
-      },
-      axisY: {
-        includeZero: false,
-        title: "Number of Viewers",
-        suffix: "Don Vi"
-      },
-      toolTip: {
-        shared: "true"
-      },
-      legend: {
-        cursor: "pointer",
-        verticalAlign: "top",
-        fontSize: 22,
-        fontColor: "dimGrey",
-        itemclick: toggleDataSeries
-      },
-      data: [
-        {
-          type: "spline",
-          showInLegend: true,
-          name: "Line 1",
-          markerSize: 0,
-          dataPoints: dps1
-        },
-        {
-          type: "spline",
-          showInLegend: true,
-          name: "Line 2",
-          markerSize: 0,
-          dataPoints: dps2
-        }
-      ]
-    });
-    var yVal = 100;
-    var updateInterval = 1000;
-    var dataLength = 10; // number of dataPoints visible at any point
-    var updateChart = function() {
-      var xVal = new Date();
-      yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
-      dps1.push({
-        x: xVal,
-        y: yVal
-      });
-      var xVal1 = xVal + 1;
-      var yVal1 = yVal - 1;
-      dps2.push({
-        x: xVal,
-        y: yVal1
-      });
-
-      if (dps1.length > dataLength) {
-        dps1.shift();
-      }
-      if (dps2.length > dataLength) {
-        dps2.shift();
-      }
-      chart.options.data[0].legendText = " Line 1 Value : " + yVal;
-      chart.options.data[1].legendText = " Line 2 Value :  " + yVal1;
-      chart.render();
-    };
-    updateChart(dataLength);
-    setInterval(function() {
-      updateChart();
-    }, updateInterval);
-
-    // Get Feather
-    feather.replace();
- 
-
-  var intervalAddData = setInterval(() => {
-    myFunction();
-  }, 5000);
-
-  var chartdiv = document.getElementById("chartdiv1");
-  am4core.ready(function() {
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
-
-    // create chart
-    var chart = am4core.create(chartdiv, am4charts.GaugeChart);
-    chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
-
-    chart.innerRadius = -25;
-
-    var axis = chart.xAxes.push(new am4charts.ValueAxis());
-    axis.min = 0;
-    axis.max = 100;
-    axis.strictMinMax = true;
-    axis.renderer.grid.template.stroke = new am4core.InterfaceColorSet().getFor(
-      "background"
-    );
-    axis.renderer.grid.template.strokeOpacity = 0.3;
-
-    var colorSet = new am4core.ColorSet();
-
-    var range0 = axis.axisRanges.create();
-    range0.value = 0;
-    range0.endValue = 50;
-    range0.axisFill.fillOpacity = 1;
-    range0.axisFill.fill = colorSet.getIndex(0);
-    range0.axisFill.zIndex = -1;
-
-    var range1 = axis.axisRanges.create();
-    range1.value = 50;
-    range1.endValue = 80;
-    range1.axisFill.fillOpacity = 1;
-    range1.axisFill.fill = colorSet.getIndex(2);
-    range1.axisFill.zIndex = -1;
-
-    var range2 = axis.axisRanges.create();
-    range2.value = 80;
-    range2.endValue = 100;
-    range2.axisFill.fillOpacity = 1;
-    range2.axisFill.fill = colorSet.getIndex(10);
-    range2.axisFill.zIndex = -1;
-
-    var hand = chart.hands.push(new am4charts.ClockHand());
-
-    // using chart.setTimeout method as the timeout will be disposed together with a chart
-    chart.setTimeout(randomValue, 2000);
-
-    function randomValue() {
-      hand.showValue(data_change.data , 1000, am4core.ease.cubicOut);
-      chart.setTimeout(randomValue, 2000);
-    }
-  });
-
- 
-});
-
-
- // Socket with server 
+// Socket with server 
  socket.on('statusClient',(data)=>{
   $('#btnConnect').html('Connect').removeClass('disabled') ;
   $('#btnDisconnect').html('Disconnect').removeClass('disabled') ;
@@ -173,74 +25,6 @@ socket.on('loadStatus',(data)=>{
    $('#endpoint').html(data.endpoint) ; 
 })
 
-socket.on("Read", function(data) {
-  for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-    if(allVariableConfig.nameVariable[i].name === 'random'){
-      data_change = data[i];
-      var x = document.querySelectorAll("#read");
-      for (var j = 0; j < x.length; j++) {
-      x[j].innerHTML = data[i].data;
-     }
-    }
-  } 
-});
-
-// Add variable in table
-function myFunction() {
-  if (data_change !== undefined) {
-    var table = document.getElementById("myTable");
-    var row = table.insertRow(0);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    cell1.innerHTML = data_change._id;
-    cell2.innerHTML = data_change.data;
-    cell3.innerHTML = new Date(data_change.date);
-    cell4.innerHTML =
-      "<button type='button'" +
-      "onclick= 'productDelete(this) ;' " +
-      "class='btn btn-secondary'>" +
-      "Delete" +
-      "</button>";
-
-    if (table.rows.length > 5) {
-      table.deleteRow(table.rows.length - 1);
-    }
-  }
-}
-function productDelete(ctl) {
-  $(ctl)
-    .parents("tr")
-    .remove();
-}
-
-function toggleDataSeries(e) {
-  if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
-    e.dataSeries.visible = false;
-  } else {
-    e.dataSeries.visible = true;
-  }
-  chart.render();
-}
-function findData() {
-  var start = new Date($("#starttime").val());
-  var stop = new Date($("#endtime").val());
-  var dataarr = [start, stop];
-  socket.emit("findData", dataarr);
-}
-socket.on("resultFindData", function(data) {
-  for (var i = 0; i < data.length; i++) {
-    var table = document.getElementById("resultfindDataTable");
-    var row = table.insertRow(0);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    cell1.innerHTML = data[i]._id;
-    cell2.innerHTML = data[i].data;
-    cell3.innerHTML = new Date(data[i].date);
-  }
-});
 // function connect to opc ua
 function AuthenticationSetting() {
   if ($("#anonymous").prop("checked")) {
@@ -393,6 +177,7 @@ function changePath(){
 }
 
 
+
 // get time and color 
 function getTime(data){
   let today = data;
@@ -408,3 +193,5 @@ function getRandomColor() {
   }
   return color;
 }
+ // Get Feather
+ feather.replace();

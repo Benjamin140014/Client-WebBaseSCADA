@@ -452,11 +452,11 @@ socket.on('Read' , (data)=>{
   
   // T3 
   if(allVariableConfig.nameVariable[i].name === 'T3'){
-    $('#valueNhietDoHieuKhi').html('T2 : ' + data[i].data + ' ℃') ;
+    $('#valueNhietDoHieuKhi').html('T3 : ' + data[i].data + ' ℃') ;
     }
  // DO
  if(allVariableConfig.nameVariable[i].name === 'DO'){
-    $('#valueNongDoOxi').html('T2 : ' + data[i].data ) ;
+    $('#valueNongDoOxi').html('DO : ' + data[i].data ) ;
     }
  // Motor run
  if(allVariableConfig.nameVariable[i].name === 'Motor_Run'){
@@ -1969,5 +1969,859 @@ $('#RPM-pump5_2').keypress(function(event){
 });
 
 
-// get chieu cao kk , bl hcl , naoh
+
+// Dash board tab
+
+ // Create chartContainer nhiet do T1
+ var data_change ; 
+
+ {
+    var mychartsT1 = document.getElementById("ChartT1");
+    var dps1 = [];
+    var dps2 = [];
+    var chartT1 = new CanvasJS.Chart(mychartsT1, {
+      zoomEnabled: true,
+      theme: 'dark1' ,
+      title: {
+        text: "Chart"
+      },
+      axisY: {
+        includeZero: false,
+        title: "Number of Viewers",
+        suffix: "Don Vi"
+      },
+      toolTip: {
+        shared: "true"
+      },
+      legend: {
+        cursor: "pointer",
+        verticalAlign: "top",
+        fontSize: 22,
+        fontColor: "dimGrey",
+        itemclick: toggleDataSeries
+      },
+      data: [
+        {
+          type: "spline",
+          showInLegend: true,
+          name: "Line 1",
+          markerSize: 0,
+          dataPoints: dps1
+        },
+        {
+          type: "spline",
+          showInLegend: true,
+          name: "Line 2",
+          markerSize: 0,
+          dataPoints: dps2
+        }
+      ]
+    });
+    var yVal = 100;
+    var updateInterval = 1000;
+    var dataLength = 10; // number of dataPoints visible at any point
+    var updateChart = function() {
+      var xVal = new Date();
+      yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+      dps1.push({
+        x: xVal,
+        y: yVal
+      });
+      var xVal1 = xVal + 1;
+      var yVal1 = yVal - 1;
+      dps2.push({
+        x: xVal,
+        y: yVal1
+      });
+   
+      if (dps1.length > dataLength) {
+        dps1.shift();
+      }
+      if (dps2.length > dataLength) {
+        dps2.shift();
+      }
+      chartT1.options.data[0].legendText = " Line 1 Value : " + yVal;
+      chartT1.options.data[1].legendText = " Line 2 Value :  " + yVal1;
+      chartT1.render();
+    };
+    updateChart(dataLength);
+    setInterval(function() {
+      updateChart();
+    }, updateInterval);
+   function toggleDataSeries(e) {
+       if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+         e.dataSeries.visible = false;
+       } else {
+         e.dataSeries.visible = true;
+       }
+       chartT1.render();
+   }
+   // End chart container
+   
+   // fusion chart thermometer
+   FusionCharts.ready(function(){
+   var chartObjT1 = new FusionCharts({
+   type: 'thermometer',
+   renderAt: 'ThermometerT1',
+   width: '220',
+   height: '300',
+   dataFormat: 'json',
+   dataSource: {
+   "chart": {
+       "caption": "Temperature Monitor",
+       "lowerLimit": "-10",
+       "upperLimit": "0",
+       "bgColor": "#697179" ,
+   
+       "decimals": "1",
+       "numberSuffix": "°C",
+       "showhovereffect": "1",
+       "thmFillColor": "#008ee4",
+       "showGaugeBorder": "1",
+       "gaugeBorderColor": "#008ee4",
+       "gaugeBorderThickness": "2",
+       "gaugeBorderAlpha": "30",
+       "thmOriginX": "100",
+       "chartBottomMargin": "20",
+       "valueFontColor": "#000000",
+       "theme": "fusion"
+   },
+   "value": "-6",
+   
+   },
+   "events": {
+   "rendered": function(evt, arg) {
+       evt.sender.dataUpdate = setInterval(function() {
+           var value,
+               prevTemp = evt.sender.getData(),
+               mainTemp = (Math.random() * 10) * (-1),
+               diff = Math.abs(prevTemp - mainTemp);
+   
+           diff = diff > 1 ? (Math.random() * 1) : diff;
+           if (mainTemp > prevTemp) {
+               value = prevTemp + diff;
+           } else {
+               value = prevTemp - diff;
+           }
+   
+           evt.sender.feedData("&value=" + value);
+   
+       }, 3000);
+       
+   },
+   'renderComplete': function(evt, arg) {
+       evt.sender.updateAnnotation(evt, arg);
+   },
+   'realtimeUpdateComplete': function(evt, arg) {
+       evt.sender.updateAnnotation(evt, arg);
+   },
+   'disposed': function(evt, arg) {
+       clearInterval(evt.sender.dataUpdate);
+   }
+   }
+   }
+   );
+       chartObjT1.render();
+   });
+   
+ }
  
+
+// fusion chart nhietj do T2
+
+var mychartsT2 = document.getElementById("ChartT2");
+ var dps1 = [];
+ var dps2 = [];
+ var chartT2 = new CanvasJS.Chart(mychartsT2, {
+   zoomEnabled: true,
+   theme: 'dark1' ,
+   title: {
+     text: "Chart"
+   },
+   axisY: {
+     includeZero: false,
+     title: "Number of Viewers",
+     suffix: "Don Vi"
+   },
+   toolTip: {
+     shared: "true"
+   },
+   legend: {
+     cursor: "pointer",
+     verticalAlign: "top",
+     fontSize: 22,
+     fontColor: "dimGrey",
+     itemclick: toggleDataSeries
+   },
+   data: [
+     {
+       type: "spline",
+       showInLegend: true,
+       name: "Line 1",
+       markerSize: 0,
+       dataPoints: dps1
+     },
+     {
+       type: "spline",
+       showInLegend: true,
+       name: "Line 2",
+       markerSize: 0,
+       dataPoints: dps2
+     }
+   ]
+ });
+ var yVal = 100;
+ var updateInterval = 1000;
+ var dataLength = 10; // number of dataPoints visible at any point
+ var updateChart = function() {
+   var xVal = new Date();
+   yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+   dps1.push({
+     x: xVal,
+     y: yVal
+   });
+   var xVal1 = xVal + 1;
+   var yVal1 = yVal - 1;
+   dps2.push({
+     x: xVal,
+     y: yVal1
+   });
+
+   if (dps1.length > dataLength) {
+     dps1.shift();
+   }
+   if (dps2.length > dataLength) {
+     dps2.shift();
+   }
+   chartT2.options.data[0].legendText = " Line 1 Value : " + yVal;
+   chartT2.options.data[1].legendText = " Line 2 Value :  " + yVal1;
+   chartT2.render();
+ };
+ updateChart(dataLength);
+ setInterval(function() {
+   updateChart();
+ }, updateInterval);
+function toggleDataSeries(e) {
+    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
+    } else {
+      e.dataSeries.visible = true;
+    }
+    chart.render();
+}
+// End chart container
+
+// fusion chart thermometer
+FusionCharts.ready(function(){
+var chartObjT2 = new FusionCharts({
+type: 'thermometer',
+renderAt: 'ThermometerT2',
+width: '220',
+height: '300',
+dataFormat: 'json',
+dataSource: {
+"chart": {
+    "caption": "Temperature Monitor",
+    "lowerLimit": "-10",
+    "upperLimit": "0",
+    "bgColor": "#697179" ,
+
+    "decimals": "1",
+    "numberSuffix": "°C",
+    "showhovereffect": "1",
+    "thmFillColor": "#008ee4",
+    "showGaugeBorder": "1",
+    "gaugeBorderColor": "#008ee4",
+    "gaugeBorderThickness": "2",
+    "gaugeBorderAlpha": "30",
+    "thmOriginX": "100",
+    "chartBottomMargin": "20",
+    "valueFontColor": "#000000",
+    "theme": "fusion"
+},
+"value": "-6",
+
+},
+"events": {
+"rendered": function(evt, arg) {
+    evt.sender.dataUpdate = setInterval(function() {
+        var value,
+            prevTemp = evt.sender.getData(),
+            mainTemp = (Math.random() * 10) * (-1),
+            diff = Math.abs(prevTemp - mainTemp);
+
+        diff = diff > 1 ? (Math.random() * 1) : diff;
+        if (mainTemp > prevTemp) {
+            value = prevTemp + diff;
+        } else {
+            value = prevTemp - diff;
+        }
+
+        evt.sender.feedData("&value=" + value);
+
+    }, 3000);
+    
+},
+'renderComplete': function(evt, arg) {
+    evt.sender.updateAnnotation(evt, arg);
+},
+'realtimeUpdateComplete': function(evt, arg) {
+    evt.sender.updateAnnotation(evt, arg);
+},
+'disposed': function(evt, arg) {
+    clearInterval(evt.sender.dataUpdate);
+}
+}
+}
+);
+    chartObjT2.render();
+});
+
+
+// fusion chart nhiet do T3
+var mychartsT3 = document.getElementById("ChartT3");
+ var dps1 = [];
+ var dps2 = [];
+ var chartT3 = new CanvasJS.Chart(mychartsT3, {
+   zoomEnabled: true,
+   theme: 'dark1' ,
+   title: {
+     text: "Chart"
+   },
+   axisY: {
+     includeZero: false,
+     title: "Number of Viewers",
+     suffix: "Don Vi"
+   },
+   toolTip: {
+     shared: "true"
+   },
+   legend: {
+     cursor: "pointer",
+     verticalAlign: "top",
+     fontSize: 22,
+     fontColor: "dimGrey",
+     itemclick: toggleDataSeries
+   },
+   data: [
+     {
+       type: "spline",
+       showInLegend: true,
+       name: "Line 1",
+       markerSize: 0,
+       dataPoints: dps1
+     },
+     {
+       type: "spline",
+       showInLegend: true,
+       name: "Line 2",
+       markerSize: 0,
+       dataPoints: dps2
+     }
+   ]
+ });
+ var yVal = 100;
+ var updateInterval = 1000;
+ var dataLength = 10; // number of dataPoints visible at any point
+ var updateChart = function() {
+   var xVal = new Date();
+   yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+   dps1.push({
+     x: xVal,
+     y: yVal
+   });
+   var xVal1 = xVal + 1;
+   var yVal1 = yVal - 1;
+   dps2.push({
+     x: xVal,
+     y: yVal1
+   });
+
+   if (dps1.length > dataLength) {
+     dps1.shift();
+   }
+   if (dps2.length > dataLength) {
+     dps2.shift();
+   }
+   chartT3.options.data[0].legendText = " Line 1 Value : " + yVal;
+   chartT3.options.data[1].legendText = " Line 2 Value :  " + yVal1;
+   chartT3.render();
+ };
+ updateChart(dataLength);
+ setInterval(function() {
+   updateChart();
+ }, updateInterval);
+function toggleDataSeries(e) {
+    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
+    } else {
+      e.dataSeries.visible = true;
+    }
+    chartT3.render();
+}
+// End chart container
+
+// fusion chart thermometer
+FusionCharts.ready(function(){
+var chartObjT3 = new FusionCharts({
+type: 'thermometer',
+renderAt: 'ThermometerT3',
+width: '220',
+height: '300',
+dataFormat: 'json',
+dataSource: {
+"chart": {
+    "caption": "Temperature Monitor",
+    "lowerLimit": "-10",
+    "upperLimit": "0",
+    "bgColor": "#697179" ,
+
+    "decimals": "1",
+    "numberSuffix": "°C",
+    "showhovereffect": "1",
+    "thmFillColor": "#008ee4",
+    "showGaugeBorder": "1",
+    "gaugeBorderColor": "#008ee4",
+    "gaugeBorderThickness": "2",
+    "gaugeBorderAlpha": "30",
+    "thmOriginX": "100",
+    "chartBottomMargin": "20",
+    "valueFontColor": "#000000",
+    "theme": "fusion"
+},
+"value": "-6",
+
+},
+"events": {
+"rendered": function(evt, arg) {
+    evt.sender.dataUpdate = setInterval(function() {
+        var value,
+            prevTemp = evt.sender.getData(),
+            mainTemp = (Math.random() * 10) * (-1),
+            diff = Math.abs(prevTemp - mainTemp);
+
+        diff = diff > 1 ? (Math.random() * 1) : diff;
+        if (mainTemp > prevTemp) {
+            value = prevTemp + diff;
+        } else {
+            value = prevTemp - diff;
+        }
+
+        evt.sender.feedData("&value=" + value);
+
+    }, 3000);
+    
+},
+'renderComplete': function(evt, arg) {
+    evt.sender.updateAnnotation(evt, arg);
+},
+'realtimeUpdateComplete': function(evt, arg) {
+    evt.sender.updateAnnotation(evt, arg);
+},
+'disposed': function(evt, arg) {
+    clearInterval(evt.sender.dataUpdate);
+}
+}
+}
+);
+    chartObjT3.render();
+});
+
+
+
+// fusion chart speedometer DO
+const dataSource = {
+    chart: {
+      bgColor: "#697179" ,
+      captionpadding: "0",
+      origw: "320",
+      origh: "300",
+      gaugeouterradius: "115",
+      gaugestartangle: "270",
+      gaugeendangle: "-25",
+      showvalue: "1",
+      valuefontsize: "30",
+      majortmnumber: "13",
+      majortmthickness: "2",
+      majortmheight: "13",
+      minortmheight: "7",
+      minortmthickness: "1",
+      minortmnumber: "1",
+      showgaugeborder: "0",
+      theme: "fusion"
+    },
+    colorrange: {
+      color: [
+        {
+          minvalue: "0",
+          maxvalue: "300",
+          code: "#F6F6F6"
+        }
+      ]
+    },
+    dials: {
+      dial: [
+        {
+          value: "110",
+          bgcolor: "#F20F2F",
+          basewidth: "8"
+        }
+      ]
+    },
+    annotations: {
+      groups: [
+        {
+          items: [
+            {
+              type: "text",
+              id: "text",
+              text: "mph",
+              x: "$gaugeCenterX",
+              y: "$gaugeCenterY + 40",
+              fontsize: "20",
+              color: "#555555"
+            }
+          ]
+        }
+      ]
+    }
+  };
+FusionCharts.ready(function() {
+    var myChart = new FusionCharts({
+      type: "angulargauge",
+      renderAt: "Container_DO",
+      width: "400",
+      height: "400",
+      dataFormat: "json",
+      dataSource ,
+      events: {
+        "rendered": function (evtObj, argObj) {
+                socket.on('Read', function(data){
+                    for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
+                        if(allVariableConfig.nameVariable[i].name === 'random'){
+                            evtObj.sender.feedData("&value=" + data[i].data);	
+                            break ; 
+                         }
+                        }
+                      } )
+        }
+     }
+    }).render();
+  });
+  
+
+
+socket.on("Read", function(data) {
+    for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
+      if(allVariableConfig.nameVariable[i].name === 'random'){
+        data_change = data[i];
+        var x = document.querySelectorAll("#read");
+        for (var j = 0; j < x.length; j++) {
+        x[j].innerHTML = data[i].data;
+       }
+      }
+    } 
+  });
+  var intervalAddData = setInterval(() => {
+    myFunction();
+   }, 5000);
+  // Add variable in table
+function myFunction() {
+    if (data_change !== undefined) {
+      var table = document.getElementById("myTable");
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      cell1.innerHTML = data_change._id;
+      cell2.innerHTML = data_change.data;
+      cell3.innerHTML = new Date(data_change.date);
+      cell4.innerHTML =
+        "<button type='button'" +
+        "onclick= 'productDelete(this) ;' " +
+        "class='btn btn-secondary'>" +
+        "Delete" +
+        "</button>";
+  
+      if (table.rows.length > 5) {
+        table.deleteRow(table.rows.length - 1);
+      }
+    }
+  }
+function productDelete(ctl) {
+    $(ctl)
+      .parents("tr")
+      .remove();
+  }
+  
+  
+function findData() {
+    var start = new Date($("#starttime").val());
+    var stop = new Date($("#endtime").val());
+    var dataarr = [start, stop];
+    socket.emit("findData", dataarr);
+  }
+socket.on("resultFindData", function(data) {
+    for (var i = 0; i < data.length; i++) {
+      var table = document.getElementById("resultfindDataTable");
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      cell1.innerHTML = data[i]._id;
+      cell2.innerHTML = data[i].data;
+      cell3.innerHTML = new Date(data[i].date);
+    }
+  });
+
+
+
+
+// arm chart 
+var chartdiv = document.getElementById("armchart");
+am4core.ready(function() {
+ // Themes begin
+ am4core.useTheme(am4themes_animated);
+ // Themes end
+
+ // create chart
+ var chart = am4core.create(chartdiv, am4charts.GaugeChart);
+ chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
+ chart.innerRadius = -25;
+
+ var axis = chart.xAxes.push(new am4charts.ValueAxis());
+ axis.min = 0;
+ axis.max = 100;
+ axis.strictMinMax = true;
+ axis.renderer.grid.template.stroke = new am4core.InterfaceColorSet().getFor(
+   "background"
+ );
+ axis.renderer.grid.template.strokeOpacity = 0.3;
+
+ var colorSet = new am4core.ColorSet();
+
+ var range0 = axis.axisRanges.create();
+ range0.value = 0;
+ range0.endValue = 50;
+ range0.axisFill.fillOpacity = 1;
+ range0.axisFill.fill = colorSet.getIndex(0);
+ range0.axisFill.zIndex = -1;
+
+ var range1 = axis.axisRanges.create();
+ range1.value = 50;
+ range1.endValue = 80;
+ range1.axisFill.fillOpacity = 1;
+ range1.axisFill.fill = colorSet.getIndex(2);
+ range1.axisFill.zIndex = -1;
+
+ var range2 = axis.axisRanges.create();
+ range2.value = 80;
+ range2.endValue = 100;
+ range2.axisFill.fillOpacity = 1;
+ range2.axisFill.fill = colorSet.getIndex(10);
+ range2.axisFill.zIndex = -1;
+
+ var hand = chart.hands.push(new am4charts.ClockHand());
+
+ // using chart.setTimeout method as the timeout will be disposed together with a chart
+ chart.setTimeout(randomValue, 2000);
+
+ function randomValue() {
+   hand.showValue(data_change.data , 1000, am4core.ease.cubicOut);
+   chart.setTimeout(randomValue, 2000);
+ }
+});
+
+
+
+
+
+// get time and color 
+function getTime(data){
+    let today = data;
+    let date = today.getFullYear() + "-" +  (today.getMonth() + 1) + "-" + today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    return dateTime = date + " " + time;
+  }
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+// clock 
+/**
+ * Get the current time
+ */
+function getNow() {
+    var now = new Date();
+    return {
+      hours: now.getHours() + now.getMinutes() / 60,
+      minutes: now.getMinutes() * 12 / 60 + now.getSeconds() * 12 / 3600,
+      seconds: now.getSeconds() * 12 / 60
+    };
+  }
+  
+  /**
+   * Pad numbers
+   */
+function pad(number, length) {
+    // Create an array of the remaining length + 1 and join it with 0's
+    return new Array((length || 2) + 1 - String(number).length).join(0) + number;
+  }
+  var now = getNow();
+  // Create the chart
+  Highcharts.chart('clock-display', {
+    chart: {
+      type: 'gauge',
+      backgroundColor: "#0000" ,
+      plotBackgroundColor: null,
+      plotBackgroundImage: null,
+      plotBorderWidth: 0,
+      plotShadow: false,
+      height: '100%',
+     
+    },
+    exporting: { enabled: false } ,
+    credits: {
+      enabled: false
+    },
+  
+    title: {
+      text: 'Clock',
+      style: {
+        color: '#0000',
+        font: 'bold 18px "Trebuchet MS", Verdana, sans-serif'
+     }
+    },
+  
+    pane: {
+      background: [{
+        // default background
+      }, {
+        // reflex for supported browsers
+        backgroundColor: Highcharts.svg ? {
+          radialGradient: {
+            cx: 0.5,
+            cy: -0.4,
+            r: 1.9
+          },
+          stops: [
+            [0.5, 'rgba(255, 255, 255, 0.2)'],
+            [0.5, 'rgba(200, 200, 200, 0.2)']
+          ]
+        } : null
+      }]
+    },
+  
+    yAxis: {
+      labels: {
+        distance: -20
+      },
+      min: 0,
+      max: 12,
+      lineWidth: 0,
+      showFirstLabel: false,
+  
+      minorTickInterval: 'auto',
+      minorTickWidth: 1,
+      minorTickLength: 5,
+      minorTickPosition: 'inside',
+      minorGridLineWidth: 0,
+      minorTickColor: '#666',
+  
+      tickInterval: 1,
+      tickWidth: 2,
+      tickPosition: 'inside',
+      tickLength: 10,
+      tickColor: '#666',
+      title: {
+        text: 'Powered by<br/>Highcharts',
+        style: {
+          color: '#BBB',
+          fontWeight: 'normal',
+          fontSize: '8px',
+          lineHeight: '10px'
+        },
+        y: 10
+      }
+    },
+    tooltip: {
+      formatter: function () {
+        return this.series.chart.tooltipText;
+      }
+    },
+    series: [{
+      data: [{
+        id: 'hour',
+        y: now.hours,
+        dial: {
+          radius: '60%',
+          baseWidth: 4,
+          baseLength: '95%',
+          rearLength: 0
+        }
+      }, {
+        id: 'minute',
+        y: now.minutes,
+        dial: {
+          baseLength: '95%',
+          rearLength: 0
+        }
+      }, {
+        id: 'second',
+        y: now.seconds,
+        dial: {
+          radius: '100%',
+          baseWidth: 1,
+          rearLength: '20%'
+        }
+      }],
+      animation: false,
+      dataLabels: {
+        enabled: false
+      }
+    }]
+  },
+  // Move
+  function (chart) {
+    setInterval(function () {
+      now = getNow();
+      if (chart.axes) { // not destroyed
+        var hour = chart.get('hour'),
+          minute = chart.get('minute'),
+          second = chart.get('second'),
+          // run animation unless we're wrapping around from 59 to 0
+          animation = now.seconds === 0 ?
+            false : {
+              easing: 'easeOutBounce'
+            };
+        chart.tooltipText =
+            pad(Math.floor(now.hours), 2) + ':' +
+            pad(Math.floor(now.minutes * 5), 2) + ':' +
+            pad(now.seconds * 5, 2);
+        hour.update(now.hours, true, animation);
+        minute.update(now.minutes, true, animation);
+        second.update(now.seconds, true, animation);
+      }
+  
+    }, 1000);
+  
+  });
+Math.easeOutBounce = function (pos) {
+    if ((pos) < (1 / 2.75)) {
+      return (7.5625 * pos * pos);
+    }
+    if (pos < (2 / 2.75)) {
+      return (7.5625 * (pos -= (1.5 / 2.75)) * pos + 0.75);
+    }
+    if (pos < (2.5 / 2.75)) {
+      return (7.5625 * (pos -= (2.25 / 2.75)) * pos + 0.9375);
+    }
+    return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
+  };
+  
