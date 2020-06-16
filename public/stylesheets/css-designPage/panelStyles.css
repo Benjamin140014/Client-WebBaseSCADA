@@ -51,3 +51,63 @@
     background-color: rgb(127, 127, 127);
     font-weight: bolder;
 }
+
+
+/* google chart css 8/
+/* Outer-ring */
+#chart_div circle:nth-child(1) {
+    stroke-width: 5;
+    stroke: #999;
+    fill: #bbb;
+  }
+  
+  /* Main background */
+  #chart_div circle:nth-child(2) {
+    fill: black;
+    stroke: #ddd;
+    stroke-width: 5;
+  }
+  
+  /* Circle of the pointer */
+  #chart_div circle:nth-child(3) {
+    fill: pink;
+    stroke: white;
+    stroke-width: 6px;
+  }
+  
+  /* Main text of the gauge */
+  #chart_div text {
+    fill: yellow;
+    font-family: 'Comfortaa';
+  }
+  
+  /* Current value text */
+  #chart_div text:nth-child(1) {
+    fill: white;
+    font-size: 33;
+    font-weight: 700;
+    font-family: 'Orbitron';
+  }
+  
+  /* Ticks */
+  #chart_div path {
+    stroke: white;
+  }
+  
+  /* Circle */
+  #chart_div path:nth-child(2) {
+    fill: #FC6C05;
+    stroke: white;
+    stroke-width: 2px;
+    fill-opacity: 1;
+  }
+  
+  /* Warning area */
+  #chart_div path:nth-child(3) {
+    fill: lightgreen;
+  }
+  
+  /* Danger area */
+  #chart_div path:nth-child(4) {
+    fill: darkgreen;
+  }

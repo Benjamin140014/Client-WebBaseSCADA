@@ -11,1027 +11,1027 @@ var pump3 = {pump3_1: false , pump3_2: false} ;
 var pump4 = {pump4_1: false , pump4_2: false} ; 
 var pump5 = {pump5_1: false , pump5_2: false} ; 
 var stateKK = {state: false}
-socket.on('Read' , (data)=>{
-    for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
 
-        // sensor be chua
-        if(allVariableConfig.nameVariable[i].name === 'Ack1'){
-            	if(data[i].data === 1){
-                    $("#sensorBeChua").attr("src",'images/symbols/Light/Light_008.png');
+$(document).ready(function(){
+
+    socket.on('changeData' , (data)=>{
+        
+          console
+            // sensor be chua
+            if(data.name === 'Ack1'){
+                    if(data.data === 'true'){
+                        $("#sensorBeChua").attr("src",'images/symbols/Light/Light_008.png');
+                    }else{
+                        $("#sensorBeChua").attr("src",'images/symbols/Light/Light_007.png');
+                    }   
+             }
+             //pipe before pump1_1 and pump1_2
+             if(data.name === 'Pump1_1_Run'){
+                if(data.data === 'true'){
+                    pump1.pump1_1 = true
+                    $("#pipe_7").attr("src",'images/symbols/Pipes/Pipes_013.png');
+                    $('#pump1_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
+                    $("#pipe_8").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                    $("#pipe_10").attr("src",'images/symbols/Pipes/Pipes_018.png');
+                }else{
+                    pump1.pump1_1 = false
+                    $("#pipe_7").attr("src",'images/symbols/Pipes/Pipes_012.png');
+                    $('#pump1_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
+                    $("#pipe_8").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                    $("#pipe_10").attr("src",'images/symbols/Pipes/Pipes_017.png');
+                }
+             }
+             if(data.name === 'Pump1_2_Run'){
+                if(data.data === 'true'){
+                    pump1.pump1_2 = true
+                    $("#pipe_6").attr("src",'images/symbols/Pipes/Pipes_003.png');
+                    $('#pump1_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
+                    $("#pipe_9").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                    $("#pipe_11").attr("src",'images/symbols/Pipes/Pipes_008.png');        
+                }else{
+                    pump1.pump1_2 = false
+                    $("#pipe_6").attr("src",'images/symbols/Pipes/Pipes_002.png');
+                    $('#pump1_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
+                    $("#pipe_9").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                    $("#pipe_11").attr("src",'images/symbols/Pipes/Pipes_007.png');
+                }
+            }
+            if( pump1.pump1_1 === true ||  pump1.pump1_2 === true ){
+                $("#pipe_3").attr("src",'images/symbols/Pipes/Pipes_098.png');
+                $("#pipe_4").attr("src",'images/symbols/Pipes/Pipes_013.png');
+                $("#pipe_5").attr("src",'images/symbols/Pipes/Pipes_113.png');
+                $("#pipe_12").attr("src",'images/symbols/Pipes/Pipes_108.png');
+                $("#pipe_13").attr("src",'images/symbols/Pipes/Pipes_018.png');
+                $("#symbols_2").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
+            }else{
+                $("#pipe_3").attr("src",'images/symbols/Pipes/Pipes_097.png');
+                $("#pipe_4").attr("src",'images/symbols/Pipes/Pipes_012.png');
+                $("#pipe_5").attr("src",'images/symbols/Pipes/Pipes_112.png');
+                $("#pipe_12").attr("src",'images/symbols/Pipes/Pipes_107.png');
+                $("#pipe_13").attr("src",'images/symbols/Pipes/Pipes_017.png');
+                $("#symbols_2").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
+            }
+    
+            // sensor be can bang
+            if(data.name === 'H1'){
+                if(data.data === 'true'){
+                    $("#sensorHightBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
                     
                 }else{
-                    $("#sensorBeChua").attr("src",'images/symbols/Light/Light_007.png');
-                }
-         }
-         //pipe before pump1_1 and pump1_2
-
-         if(allVariableConfig.nameVariable[i].name === 'Pump1_1_Run'){
-            if(data[i].data === 1){
-                pump1.pump1_1 = true
-                $("#pipe_7").attr("src",'images/symbols/Pipes/Pipes_013.png');
-                $('#pump1_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
-                $("#pipe_8").attr("src",'images/symbols/Pipes/Pipes_053.png');
-                $("#pipe_10").attr("src",'images/symbols/Pipes/Pipes_018.png');
+                    $("#sensorHightBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
+                }}
+            if(data.name === 'H1_Thres'){
+                if(data.data === 'true'){
+                     $("#sensorThresBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
+                        
+                }else{
+                    $("#sensorThresBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
+                    } }  
+            if(data.name === 'L1'){
+                if(data.data === 'true'){
+                    $("#sensorlowBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
+                            
+                }else{
+                    $("#sensorlowBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
+                    }
+           }
+           // nhiet do T1
+           if(data.name === 'random'){
+              $('#valueNhietDoT1').html('T1 : ' + data.data + ' ℃') ;
+            }
+          //pipe before pump2_1 and pump2_2
+    
+          if(data.name === 'Pump2_1_Run'){
+            if(data.data === 'true'){
+                pump2.pump2_1 = true
+                $("#pipe_17").attr("src",'images/symbols/Pipes/Pipes_013.png');
+                $("#pipe_18").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_20").attr("src",'images/symbols/Pipes/Pipes_018.png');
+                $('#pump2_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
                
             }else{
-                pump1.pump1_1 = false
-                $("#pipe_7").attr("src",'images/symbols/Pipes/Pipes_012.png');
-                $('#pump1_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
-                $("#pipe_8").attr("src",'images/symbols/Pipes/Pipes_052.png');
-                $("#pipe_10").attr("src",'images/symbols/Pipes/Pipes_017.png');
+                pump2.pump2_1 = false
+                $("#pipe_17").attr("src",'images/symbols/Pipes/Pipes_012.png');
+                $("#pipe_18").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_20").attr("src",'images/symbols/Pipes/Pipes_017.png');
+                $('#pump2_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
+    
             }
          }
-         if(allVariableConfig.nameVariable[i].name === 'Pump1_2_Run'){
-            if(data[i].data === 1){
-                pump1.pump1_2 = true
-                $("#pipe_6").attr("src",'images/symbols/Pipes/Pipes_003.png');
-                $('#pump1_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
-                $("#pipe_9").attr("src",'images/symbols/Pipes/Pipes_053.png');
-                $("#pipe_11").attr("src",'images/symbols/Pipes/Pipes_008.png');        
+         if(data.name === 'Pump2_2_Run'){
+            if(data.data === 'true'){
+                pump2.pump2_2 = true
+                $("#pipe_16").attr("src",'images/symbols/Pipes/Pipes_003.png');
+                $("#pipe_19").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_21").attr("src",'images/symbols/Pipes/Pipes_008.png');
+                $('#pump2_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
+               
             }else{
-                pump1.pump1_2 = false
-                $("#pipe_6").attr("src",'images/symbols/Pipes/Pipes_002.png');
-                $('#pump1_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
-                $("#pipe_9").attr("src",'images/symbols/Pipes/Pipes_052.png');
-                $("#pipe_11").attr("src",'images/symbols/Pipes/Pipes_007.png');
+                pump2.pump2_2 = false
+                $("#pipe_16").attr("src",'images/symbols/Pipes/Pipes_002.png');
+                $("#pipe_19").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_21").attr("src",'images/symbols/Pipes/Pipes_007.png');
+                $('#pump2_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
+                
             }
         }
-        if( pump1.pump1_1 === true ||  pump1.pump1_2 === true ){
-            $("#pipe_3").attr("src",'images/symbols/Pipes/Pipes_098.png');
-            $("#pipe_4").attr("src",'images/symbols/Pipes/Pipes_013.png');
-            $("#pipe_5").attr("src",'images/symbols/Pipes/Pipes_113.png');
-            $("#pipe_12").attr("src",'images/symbols/Pipes/Pipes_108.png');
-            $("#pipe_13").attr("src",'images/symbols/Pipes/Pipes_018.png');
-            $("#symbols_2").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
+        if( pump2.pump2_1 === true ||  pump2.pump2_2 === true ){
+            $("#pipe_14").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $("#pipe_15").attr("src",'images/symbols/Pipes/Pipes_113.png');
+            $("#pipe_22").attr("src",'images/symbols/Pipes/Pipes_108.png');
+            $("#pipe_23").attr("src",'images/symbols/Pipes/Pipes_008.png');
+            $("#pipe_24").attr("src",'images/symbols/Pipes/Pipes_098.png');
+            $("#pipe_25").attr("src",'images/symbols/Pipes/Pipes_013.png');
+            $("#pipe_26").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $("#symbols_3").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
         }else{
-            $("#pipe_3").attr("src",'images/symbols/Pipes/Pipes_097.png');
-            $("#pipe_4").attr("src",'images/symbols/Pipes/Pipes_012.png');
-            $("#pipe_5").attr("src",'images/symbols/Pipes/Pipes_112.png');
-            $("#pipe_12").attr("src",'images/symbols/Pipes/Pipes_107.png');
-            $("#pipe_13").attr("src",'images/symbols/Pipes/Pipes_017.png');
-            $("#symbols_2").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
+            $("#pipe_14").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $("#pipe_15").attr("src",'images/symbols/Pipes/Pipes_112.png');
+            $("#pipe_22").attr("src",'images/symbols/Pipes/Pipes_107.png');
+            $("#pipe_23").attr("src",'images/symbols/Pipes/Pipes_007.png');
+            $("#pipe_24").attr("src",'images/symbols/Pipes/Pipes_097.png');
+            $("#pipe_25").attr("src",'images/symbols/Pipes/Pipes_012.png');
+            $("#pipe_26").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $("#symbols_3").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
+    
         }
-
-        // sensor be can bang
-        if(allVariableConfig.nameVariable[i].name === 'H1'){
-            if(data[i].data === 1){
-                $("#sensorHightBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
+        // sensor be trung hoa
+        if(data.name === 'H2'){
+            if(data.data === 'true'){
+                $("#sensorHightBeTrungHoa").attr("src",'images/symbols/Light/Light_008.png');
                 
             }else{
-                $("#sensorHightBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
+                $("#sensorHightBeTrungHoa").attr("src",'images/symbols/Light/Light_007.png');
             }}
-        if(allVariableConfig.nameVariable[i].name === 'H1_Thres'){
-            if(data[i].data === 1){
-                 $("#sensorThresBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
+        if(data.name === 'L2'){
+            if(data.data === 'true'){
+                 $("#sensorLowBeTrungHoa").attr("src",'images/symbols/Light/Light_008.png');
                     
             }else{
-                $("#sensorThresBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
+                $("#sensorLowBeTrungHoa").attr("src",'images/symbols/Light/Light_007.png');
                 } }  
-        if(allVariableConfig.nameVariable[i].name === 'L1'){
-            if(data[i].data === 1){
-                $("#sensorlowBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
-                        
+        //sensor naoh and hcl
+        if(data.name === 'L6'){
+            if(data.data === 'true'){
+                $("#sensorNAOH").attr("src",'images/symbols/Light/Light_008.png');
+                
             }else{
-                $("#sensorlowBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
-                }
-       }
-       // nhiet do T1
-       if(allVariableConfig.nameVariable[i].name === 'random'){
-          $('#valueNhietDoT1').html('T1 : ' + data[i].data + ' ℃') ;
-        }
-      //pipe before pump2_1 and pump2_2
-
-      if(allVariableConfig.nameVariable[i].name === 'Pump2_1_Run'){
-        if(data[i].data === 1){
-            pump2.pump2_1 = true
-            $("#pipe_17").attr("src",'images/symbols/Pipes/Pipes_013.png');
-            $("#pipe_18").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_20").attr("src",'images/symbols/Pipes/Pipes_018.png');
-            $('#pump2_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
-           
-        }else{
-            pump2.pump2_1 = false
-            $("#pipe_17").attr("src",'images/symbols/Pipes/Pipes_012.png');
-            $("#pipe_18").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_20").attr("src",'images/symbols/Pipes/Pipes_017.png');
-            $('#pump2_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
-
-        }
-     }
-     if(allVariableConfig.nameVariable[i].name === 'Pump2_2_Run'){
-        if(data[i].data === 1){
-            pump2.pump2_2 = true
-            $("#pipe_16").attr("src",'images/symbols/Pipes/Pipes_003.png');
-            $("#pipe_19").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_21").attr("src",'images/symbols/Pipes/Pipes_008.png');
-            $('#pump2_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
-           
-        }else{
-            pump2.pump2_2 = false
-            $("#pipe_16").attr("src",'images/symbols/Pipes/Pipes_002.png');
-            $("#pipe_19").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_21").attr("src",'images/symbols/Pipes/Pipes_007.png');
-            $('#pump2_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
-            
-        }
-    }
-    if( pump2.pump2_1 === true ||  pump2.pump2_2 === true ){
-        $("#pipe_14").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $("#pipe_15").attr("src",'images/symbols/Pipes/Pipes_113.png');
-        $("#pipe_22").attr("src",'images/symbols/Pipes/Pipes_108.png');
-        $("#pipe_23").attr("src",'images/symbols/Pipes/Pipes_008.png');
-        $("#pipe_24").attr("src",'images/symbols/Pipes/Pipes_098.png');
-        $("#pipe_25").attr("src",'images/symbols/Pipes/Pipes_013.png');
-        $("#pipe_26").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $("#symbols_3").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
-    }else{
-        $("#pipe_14").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $("#pipe_15").attr("src",'images/symbols/Pipes/Pipes_112.png');
-        $("#pipe_22").attr("src",'images/symbols/Pipes/Pipes_107.png');
-        $("#pipe_23").attr("src",'images/symbols/Pipes/Pipes_007.png');
-        $("#pipe_24").attr("src",'images/symbols/Pipes/Pipes_097.png');
-        $("#pipe_25").attr("src",'images/symbols/Pipes/Pipes_012.png');
-        $("#pipe_26").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $("#symbols_3").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
-
-    }
-    // sensor be trung hoa
-    if(allVariableConfig.nameVariable[i].name === 'H2'){
-        if(data[i].data === 1){
-            $("#sensorHightBeTrungHoa").attr("src",'images/symbols/Light/Light_008.png');
-            
-        }else{
-            $("#sensorHightBeTrungHoa").attr("src",'images/symbols/Light/Light_007.png');
-        }}
-    if(allVariableConfig.nameVariable[i].name === 'L2'){
-        if(data[i].data === 1){
-             $("#sensorLowBeTrungHoa").attr("src",'images/symbols/Light/Light_008.png');
+                $("#sensorNAOH").attr("src",'images/symbols/Light/Light_007.png');
+            }}
+        if(data.name === 'L7'){
+            if(data.data === 'true'){
+                 $("#sensorHCL").attr("src",'images/symbols/Light/Light_008.png');
+                    
+            }else{
+                $("#sensorHCL").attr("src",'images/symbols/Light/Light_007.png');
+                } }  
+         // chieu cao naoh va hcl
+         if(data.name === 'h_NaOH'){
+            $('#HighNaoh').html('h_NaOH : ' + data.data + ' m') ;
+          }
+        if(data.name === 'h_HCL'){
+            $('#HighHcl').html('h_HCL : ' + data.data + ' m') ;
+          }
+          // Valve naoh va Val Hcl
+          if(data.name === 'Val1_FB'){
+            if(data.data === 'true'){
+                $("#valveNAOH").attr("src",'images/symbols/Valve/Valve_036.png');
+                $("#pipe_naoh1").attr("src",'images/symbols/Pipes/Pipes_003.png');
+                $("#pipe_naoh2").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_123.png');
                 
-        }else{
-            $("#sensorLowBeTrungHoa").attr("src",'images/symbols/Light/Light_007.png');
-            } }  
-    //sensor naoh and hcl
-    if(allVariableConfig.nameVariable[i].name === 'L6'){
-        if(data[i].data === 1){
-            $("#sensorNAOH").attr("src",'images/symbols/Light/Light_008.png');
-            
-        }else{
-            $("#sensorNAOH").attr("src",'images/symbols/Light/Light_007.png');
-        }}
-    if(allVariableConfig.nameVariable[i].name === 'L7'){
-        if(data[i].data === 1){
-             $("#sensorHCL").attr("src",'images/symbols/Light/Light_008.png');
-                
-        }else{
-            $("#sensorHCL").attr("src",'images/symbols/Light/Light_007.png');
-            } }  
-     // chieu cao naoh va hcl
-     if(allVariableConfig.nameVariable[i].name === 'h_NaOH'){
-        $('#HighNaoh').html('h_NaOH : ' + data[i].data + ' m') ;
-      }
-    if(allVariableConfig.nameVariable[i].name === 'h_HCL'){
-        $('#HighHcl').html('h_HCL : ' + data[i].data + ' m') ;
-      }
-      // Valve naoh va Val Hcl
-      if(allVariableConfig.nameVariable[i].name === 'Val1_FB'){
-        if(data[i].data === 1){
-            $("#valveNAOH").attr("src",'images/symbols/Valve/Valve_036.png');
-            $("#pipe_naoh1").attr("src",'images/symbols/Pipes/Pipes_003.png');
-            $("#pipe_naoh2").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_123.png');
-            
-        }else{
-            $("#valveNAOH").attr("src",'images/symbols/Valve/Valve_035.png');
-            $("#pipe_naoh1").attr("src",'images/symbols/Pipes/Pipes_002.png');
-            $("#pipe_naoh2").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_122.png');
-        }}
-    if(allVariableConfig.nameVariable[i].name === 'Val2_FB'){
-        if(data[i].data === 1){
-            $("#valveHCL").attr("src",'images/symbols/Valve/Valve_036.png');
-            $("#pipe_hcl1").attr("src",'images/symbols/Pipes/Pipes_008.png');
-            $("#pipe_hcl2").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_123.png');
-                
-        }else{
-            $("#valveHCL").attr("src",'images/symbols/Valve/Valve_035.png');
-            $("#pipe_hcl1").attr("src",'images/symbols/Pipes/Pipes_007.png');
-            $("#pipe_hcl2").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_122.png');
-        }}
-       // pump naoh and hcl
-       if(allVariableConfig.nameVariable[i].name === 'Pump7_Run'){
-        if(data[i].data === 1){
-        $('#pumpNAOHHCL').attr("src",'images/symbols/Pump/Pump_028.png') ;
-        }else{
-        $('#pumpNAOHHCL').attr("src",'images/symbols/Pump/Pump_027.png') ;   
-        }
-      } 
-      // Mix Run
-      if(allVariableConfig.nameVariable[i].name === 'Mix_Run'){
-        if(data[i].data === 1){
-        $('#mixer_1').attr("src",'images/symbols/Mixer/Mixer_013.png') ;
-        }else{
-        $('#mixer_2').attr("src",'images/symbols/Mixer/Mixer_012.png') ;   
-        }
-      }
-      // PH 
-      if(allVariableConfig.nameVariable[i].name === 'Flow'){
-        $('#valuePH').html('PH : ' + data[i].data ) ;
-      } 
-     
-      //pipe before pump3_1 and pump3_2
-
-      if(allVariableConfig.nameVariable[i].name === 'Ack1'){
-        if(data[i].data === 1){
-            pump3.pump3_1 = true ;
-            $("#pipe_33").attr("src",'images/symbols/Pipes/Pipes_013.png');
-            $('#pump3_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
-            $("#pipe_34").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_36").attr("src",'images/symbols/Pipes/Pipes_018.png');
-           
-        }else{
-            pump3.pump3_1 = false ;
-            $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_112.png');
-            $("#pipe_33").attr("src",'images/symbols/Pipes/Pipes_012.png');
-            $('#pump3_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
-            $("#pipe_34").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_36").attr("src",'images/symbols/Pipes/Pipes_017.png');
-        }
-     }
-     if(allVariableConfig.nameVariable[i].name === 'Pump3_2_Run'){
-        if(data[i].data === 1){
-            pump3.pump3_2 = true ;
-            $("#pipe_32").attr("src",'images/symbols/Pipes/Pipes_003.png');
-            $('#pump3_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
-            $("#pipe_35").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_37").attr("src",'images/symbols/Pipes/Pipes_008.png');
-        }else{
-            pump3.pump3_2 = false ;
-            $("#pipe_32").attr("src",'images/symbols/Pipes/Pipes_002.png');
-            $('#pump3_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
-            $("#pipe_35").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_37").attr("src",'images/symbols/Pipes/Pipes_007.png'); 
-        }
-    }
-    if( pump3.pump3_1 === true || pump3.pump3_2 === true ){
-        $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_113.png');
-        $("#pipe_38").attr("src",'images/symbols/Pipes/Pipes_108.png');
-        $("#pipe_39").attr("src",'images/symbols/Pipes/Pipes_008.png');
-        $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_019.png');
-    }
-    else{
-        $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_112.png');
-        $("#pipe_38").attr("src",'images/symbols/Pipes/Pipes_107.png');
-        $("#pipe_39").attr("src",'images/symbols/Pipes/Pipes_007.png');
-        $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
-    }
-    // Val3_Fb
-    if(allVariableConfig.nameVariable[i].name === 'Val3_FB'){
-        if(data[i].data === 1){
-            $('#valve_3').attr("src",'images/symbols/Valve/Valve_036.png') ;
-            $("#pipe_40").attr("src",'images/symbols/Pipes/Pipes_098.png');
-            $("#pipe_41").attr("src",'images/symbols/Pipes/Pipes_013.png');
-            $("#pipe_42").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        }else{
-            $('#valve_3').attr("src",'images/symbols/Valve/Valve_035.png') ;
-            $("#pipe_40").attr("src",'images/symbols/Pipes/Pipes_097.png');
-            $("#pipe_41").attr("src",'images/symbols/Pipes/Pipes_012.png');
-            $("#pipe_42").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        }
-    }
-    // Flow1
-    if(allVariableConfig.nameVariable[i].name === 'Flow1'){
-        $('#valueFlow1').html('Flow1 : ' + data[i].data ) ;
-      }
-      // High Ki Khi
-    if(allVariableConfig.nameVariable[i].name === 'h_KK'){
-        $('#HighKK').html('h_KK : ' + data[i].data ) ;
-      }
-   // nhiet do T1
-   if(allVariableConfig.nameVariable[i].name === 'T2'){
-    $('#valueNhietDoKiKhi').html('T2 : ' + data[i].data + ' ℃') ;
-    }
-   //sensor ki khi 
-   if(allVariableConfig.nameVariable[i].name === 'Ack1'){
-    if(data[i].data === 1){
-        stateKK.state = true ; 
-        $("#sensorKiKhi").attr("src",'images/symbols/Light/Light_008.png');
-        
-    }else{
-        stateKK.state = false ; 
-        $("#sensorKiKhi").attr("src",'images/symbols/Light/Light_007.png');
-    }}
-    // pipe vao be tam
-    if((pump3.pump3_1 === true || pump3.pump3_2 === true) && stateKK.state === true ){
-        $("#pipe_43").attr("src",'images/symbols/Pipes/Pipes_053.png');
-    }else{
-        $("#pipe_43").attr("src",'images/symbols/Pipes/Pipes_052.png');
-    }
-   //sensor be tam 
-   if(allVariableConfig.nameVariable[i].name === 'H3'){
-    if(data[i].data === 1){
-        $("#sensorHightBeTam").attr("src",'images/symbols/Light/Light_008.png');
-        
-    }else{
-        $("#sensorHightBeTam").attr("src",'images/symbols/Light/Light_007.png');
-    }}
-    if(allVariableConfig.nameVariable[i].name === 'H3_Thres'){
-    if(data[i].data === 1){
-        $("#sensorThresBeTam").attr("src",'images/symbols/Light/Light_008.png');
-            
-    }else{
-        $("#sensorThresBeTam").attr("src",'images/symbols/Light/Light_007.png');
-    }}
-    if(allVariableConfig.nameVariable[i].name === 'L3'){
-    if(data[i].data === 1){
-        $("#sensorLowBeTam").attr("src",'images/symbols/Light/Light_008.png');
-                
-    }else{
-        $("#sensorLowBeTam").attr("src",'images/symbols/Light/Light_007.png');
-    }}
-    //pipe before pump4_1 and pump4_2
-    
-    if(allVariableConfig.nameVariable[i].name === 'Pump4_1_Run'){
-        if(data[i].data === 1){
-            pump4.pump4_1 = true ;
-            
-            $("#pipe_47").attr("src",'images/symbols/Pipes/Pipes_013.png');
-            $('#pump4_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
-            $("#pipe_48").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_50").attr("src",'images/symbols/Pipes/Pipes_018.png');
-           
-           
-        }else{
-            pump4.pump4_1 = false ;
-            
-            $("#pipe_47").attr("src",'images/symbols/Pipes/Pipes_012.png');
-            $('#pump4_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
-            $("#pipe_48").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_50").attr("src",'images/symbols/Pipes/Pipes_017.png');
-            
-        }
-     }
-     if(allVariableConfig.nameVariable[i].name === 'Pump4_2_Run'){
-        if(data[i].data === 1){
-            pump4.pump4_2 = true ;
-            $("#pipe_46").attr("src",'images/symbols/Pipes/Pipes_003.png');
-            $('#pump4_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
-            $("#pipe_49").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_51").attr("src",'images/symbols/Pipes/Pipes_008.png');
-        }else{
-            pump4.pump4_2 = false ;
-            $("#pipe_46").attr("src",'images/symbols/Pipes/Pipes_002.png');
-            $('#pump4_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
-            $("#pipe_49").attr("src",'images/symbols/Pipes/Pipes_052.png');
-            $("#pipe_51").attr("src",'images/symbols/Pipes/Pipes_007.png');
-           
-        }
-    }
-    if( pump4.pump4_1 === true ||  pump4.pump4_2 === true ){
-        $("#pipe_44").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $("#pipe_45").attr("src",'images/symbols/Pipes/Pipes_113.png');
-        $("#pipe_52").attr("src",'images/symbols/Pipes/Pipes_108.png');
-        $("#pipe_53").attr("src",'images/symbols/Pipes/Pipes_008.png');
-        $("#pipe_54").attr("src",'images/symbols/Pipes/Pipes_098.png');
-        $("#pipe_55").attr("src",'images/symbols/Pipes/Pipes_013.png');
-        $("#pipe_56").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $("#symbols_5").attr("src",'images/symbols/International_Symbols/International_Symbols_019.png');
-    }else{
-        $("#pipe_44").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $("#pipe_45").attr("src",'images/symbols/Pipes/Pipes_112.png');
-        $("#pipe_52").attr("src",'images/symbols/Pipes/Pipes_107.png');
-        $("#pipe_53").attr("src",'images/symbols/Pipes/Pipes_007.png');
-        $("#pipe_54").attr("src",'images/symbols/Pipes/Pipes_097.png');
-        $("#pipe_55").attr("src",'images/symbols/Pipes/Pipes_012.png');
-        $("#pipe_56").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $("#symbols_5").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
-    }
-
-    // Flow 2 
-    if(allVariableConfig.nameVariable[i].name === 'Flow2'){
-        $('#valueFlow2').html('Flow2 : ' + data[i].data ) ;
-      }
-   //pipe before pump4_1 and pump4_2
-    
-   if(allVariableConfig.nameVariable[i].name === 'Pump5_1_Run'){
-    if(data[i].data === 1){
-        pump5.pump5_1 = true ;
-        $("#pipe_68").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $('#pump5_1').attr("src",'images/symbols/Pump/Pump_048.png') ;
-        $("#pipe_70").attr("src",'images/symbols/Pipes/Pipes_018.png');
-    }else{
-        pump5.pump5_1 = false ;
-        $("#pipe_68").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $('#pump5_1').attr("src",'images/symbols/Pump/Pump_047.png') ;
-        $("#pipe_70").attr("src",'images/symbols/Pipes/Pipes_017.png');   
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'Pump5_2_Run'){
-    if(data[i].data === 1){
-        pump5.pump5_2 = true ;
-        $("#pipe_69").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $('#pump5_2').attr("src",'images/symbols/Pump/Pump_048.png') ;
-        $("#pipe_71").attr("src",'images/symbols/Pipes/Pipes_008.png'); 
-    }else{
-        pump5.pump5_2 = false ;
-        $("#pipe_69").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $('#pump5_2').attr("src",'images/symbols/Pump/Pump_047.png') ;
-        $("#pipe_71").attr("src",'images/symbols/Pipes/Pipes_007.png'); 
-    }
-  }
- if( pump5.pump5_1 === true ||  pump5.pump5_2 === true ){
-    $("#pipe_72").attr("src",'images/symbols/Pipes/Pipes_108.png');
-    $("#pipe_73").attr("src",'images/symbols/Pipes/Pipes_018.png');
-    $("#pipe_74").attr("src",'images/symbols/Pipes/Pipes_098.png');
-  }else{
-    $("#pipe_72").attr("src",'images/symbols/Pipes/Pipes_107.png');
-    $("#pipe_73").attr("src",'images/symbols/Pipes/Pipes_017.png');
-    $("#pipe_74").attr("src",'images/symbols/Pipes/Pipes_097.png');
-  }
-  
-  // T3 
-  if(allVariableConfig.nameVariable[i].name === 'T3'){
-    $('#valueNhietDoHieuKhi').html('T3 : ' + data[i].data + ' ℃') ;
-    }
- // DO
- if(allVariableConfig.nameVariable[i].name === 'DO'){
-    $('#valueNongDoOxi').html('DO : ' + data[i].data ) ;
-    }
- // Motor run
- if(allVariableConfig.nameVariable[i].name === 'Motor_Run'){
-    if(data[i].data === 1){
-        $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_018.png');
-        $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_008.png') ;
-        $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
-    }else{
-        $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_017.png');
-        $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_007.png') ; 
-        $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
-    }
- }
-  // High Be Lang
-  if(allVariableConfig.nameVariable[i].name === 'h_Lang'){
-    $('#HighBL').html('h_Lang : ' + data[i].data ) ;
-  }
- // sensor be lang
- if(allVariableConfig.nameVariable[i].name === 'H5'){
-    if(data[i].data === 1){
-        $("#sensorHightBeLang").attr("src",'images/symbols/Light/Light_008.png');
-        
-    }else{
-        $("#sensorHightBeLang").attr("src",'images/symbols/Light/Light_007.png');
-    }}
-    if(allVariableConfig.nameVariable[i].name === 'H5_Thres'){
-    if(data[i].data === 1){
-        $("#sensorThresBeLang").attr("src",'images/symbols/Light/Light_008.png');
-            
-    }else{
-        $("#sensorThresBeLang").attr("src",'images/symbols/Light/Light_007.png');
-    }}
-    if(allVariableConfig.nameVariable[i].name === 'L5'){
-    if(data[i].data === 1){
-        $("#sensorLowBeLang").attr("src",'images/symbols/Light/Light_008.png');
-                
-    }else{
-        $("#sensorLowBeLang").attr("src",'images/symbols/Light/Light_007.png');
-    }}
-  // pump6 run
-  if(allVariableConfig.nameVariable[i].name === 'Pump6_Run'){
-    if(data[i].data === 1){
-        $("#pipe_63").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $("#pipe_64").attr("src",'images/symbols/Pipes/Pipes_008.png');
-        $("#pipe_65").attr("src",'images/symbols/Pipes/Pipes_098.png');
-        $('#pump6').attr("src",'images/symbols/Pump/Pump_018.png');
-        $("#pipe_59").attr("src",'images/symbols/Pipes/Pipes_098.png');
-        $("#pipe_60").attr("src",'images/symbols/Pipes/Pipes_108.png');
-        $("#pipe_61").attr("src",'images/symbols/Pipes/Pipes_098.png');
-        $("#pipe_62").attr("src",'images/symbols/Pipes/Pipes_053.png');
-        $("#symbols_8").attr("src",'images/symbols/International_Symbols/International_Symbols_017.png');
-    }else{
-        $("#pipe_63").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $("#pipe_64").attr("src",'images/symbols/Pipes/Pipes_007.png');
-        $("#pipe_65").attr("src",'images/symbols/Pipes/Pipes_097.png');
-        $('#pump6').attr("src",'images/symbols/Pump/Pump_017.png');
-        $("#pipe_59").attr("src",'images/symbols/Pipes/Pipes_097.png');
-        $("#pipe_60").attr("src",'images/symbols/Pipes/Pipes_107.png');
-        $("#pipe_61").attr("src",'images/symbols/Pipes/Pipes_097.png');
-        $("#pipe_62").attr("src",'images/symbols/Pipes/Pipes_052.png');
-        $("#symbols_8").attr("src",'images/symbols/International_Symbols/International_Symbols_008.png');
-    }
- }
-    // valve 5 fb
-   if(allVariableConfig.nameVariable[i].name === 'Val5_FB'){
-    if(data[i].data === 1){
-    $("#pipe_57").attr("src",'images/symbols/Pipes/Pipes_098.png');
-    $("#pipe_58").attr("src",'images/symbols/Pipes/Pipes_013.png');
-    $("#valve_5").attr("src",'images/symbols/Valve/Valve_036.png');
-    $("#symbols_6").attr("src",'images/symbols/International_Symbols/International_Symbols_019.png');
-   }else{
-    $("#pipe_57").attr("src",'images/symbols/Pipes/Pipes_097.png');
-    $("#pipe_58").attr("src",'images/symbols/Pipes/Pipes_012.png');
-    $("#valve_5").attr("src",'images/symbols/Valve/Valve_035.png');
-    $("#symbols_6").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
-   }}
-    // valve 6 fb
-   if(allVariableConfig.nameVariable[i].name === 'Val6_FB'){
-    if(data[i].data === 1){
-    $("#valve_6").attr("src",'images/symbols/Valve/Valve_036.png');
-    $("#symbols_7").attr("src",'images/symbols/International_Symbols/International_Symbols_020.png');
-   }else{
-    $("#valve_6").attr("src",'images/symbols/Valve/Valve_035.png');
-    $("#symbols_7").attr("src",'images/symbols/International_Symbols/International_Symbols_004.png');
-  }}
- 
-  // den bao giai doan
-  if(allVariableConfig.nameVariable[i].name === 'TH_Done'){
-    if(data[i].data === 1){
-        $("#TH_Done").attr("src",'images/symbols/Light/Light_014.png');
-    }else{
-        $("#TH_Done").attr("src",'images/symbols/Light/Light_013.png');
-    }
-    }
- if(allVariableConfig.nameVariable[i].name === 'KK_Done'){
-      if(data[i].data === 1){
-            $("#KK_Done").attr("src",'images/symbols/Light/Light_014.png');
-      }else{
-            $("#KK_Done").attr("src",'images/symbols/Light/Light_013.png');
-      }  
-        }
- if(allVariableConfig.nameVariable[i].name === 'HK_Done'){
-    if(data[i].data === 1){
-        $("#HK_Done").attr("src",'images/symbols/Light/Light_014.png');
-    }else{
-         $("#HK_Done").attr("src",'images/symbols/Light/Light_013.png');
+            }else{
+                $("#valveNAOH").attr("src",'images/symbols/Valve/Valve_035.png');
+                $("#pipe_naoh1").attr("src",'images/symbols/Pipes/Pipes_002.png');
+                $("#pipe_naoh2").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_122.png');
+            }}
+        if(data.name === 'Val2_FB'){
+            if(data.data === 'true'){
+                $("#valveHCL").attr("src",'images/symbols/Valve/Valve_036.png');
+                $("#pipe_hcl1").attr("src",'images/symbols/Pipes/Pipes_008.png');
+                $("#pipe_hcl2").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_123.png');
+                    
+            }else{
+                $("#valveHCL").attr("src",'images/symbols/Valve/Valve_035.png');
+                $("#pipe_hcl1").attr("src",'images/symbols/Pipes/Pipes_007.png');
+                $("#pipe_hcl2").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_122.png');
+            }}
+           // pump naoh and hcl
+           if(data.name === 'Pump7_Run'){
+            if(data.data === 'true'){
+            $('#pumpNAOHHCL').attr("src",'images/symbols/Pump/Pump_028.png') ;
+            }else{
+            $('#pumpNAOHHCL').attr("src",'images/symbols/Pump/Pump_027.png') ;   
             }
-    }
- if(allVariableConfig.nameVariable[i].name === 'BL_Done'){
-    if(data[i].data === 1){
-        $("#BL_Done").attr("src",'images/symbols/Light/Light_014.png');
-    }else{
-        $("#BL_Done").attr("src",'images/symbols/Light/Light_013.png');
-    }
-    }
-  
+          } 
+          // Mix Run
+          if(data.name === 'Mix_Run'){
+            if(data.data === 'true'){
+            $('#mixer_1').attr("src",'images/symbols/Mixer/Mixer_013.png') ;
+            }else{
+            $('#mixer_2').attr("src",'images/symbols/Mixer/Mixer_012.png') ;   
+            }
+          }
+          // PH 
+          if(data.name === 'Flow'){
+            $('#valuePH').html('PH : ' + data.data ) ;
+          } 
+         
+          //pipe before pump3_1 and pump3_2
+    
+          if(data.name === 'Pump3_1_Run'){
+            if(data.data === 'true'){
+                pump3.pump3_1 = true ;
+                $("#pipe_33").attr("src",'images/symbols/Pipes/Pipes_013.png');
+                $('#pump3_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
+                $("#pipe_34").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_36").attr("src",'images/symbols/Pipes/Pipes_018.png');
+               
+            }else{
+                pump3.pump3_1 = false ;
+                $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_112.png');
+                $("#pipe_33").attr("src",'images/symbols/Pipes/Pipes_012.png');
+                $('#pump3_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
+                $("#pipe_34").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_36").attr("src",'images/symbols/Pipes/Pipes_017.png');
+            }
+         }
+         if(data.name === 'Pump3_2_Run'){
+            if(data.data === 'true'){
+                pump3.pump3_2 = true ;
+                $("#pipe_32").attr("src",'images/symbols/Pipes/Pipes_003.png');
+                $('#pump3_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
+                $("#pipe_35").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_37").attr("src",'images/symbols/Pipes/Pipes_008.png');
+            }else{
+                pump3.pump3_2 = false ;
+                $("#pipe_32").attr("src",'images/symbols/Pipes/Pipes_002.png');
+                $('#pump3_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
+                $("#pipe_35").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_37").attr("src",'images/symbols/Pipes/Pipes_007.png'); 
+            }
+        }
+        if( pump3.pump3_1 === true || pump3.pump3_2 === true ){
+            $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_113.png');
+            $("#pipe_38").attr("src",'images/symbols/Pipes/Pipes_108.png');
+            $("#pipe_39").attr("src",'images/symbols/Pipes/Pipes_008.png');
+            $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_019.png');
+        }
+        else{
+            $("#pipe_31").attr("src",'images/symbols/Pipes/Pipes_112.png');
+            $("#pipe_38").attr("src",'images/symbols/Pipes/Pipes_107.png');
+            $("#pipe_39").attr("src",'images/symbols/Pipes/Pipes_007.png');
+            $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
+        }
+        // Val3_Fb
+        if(data.name === 'Val3_FB'){
+            if(data.data === 'true'){
+                $('#valve_3').attr("src",'images/symbols/Valve/Valve_036.png') ;
+                $("#pipe_40").attr("src",'images/symbols/Pipes/Pipes_098.png');
+                $("#pipe_41").attr("src",'images/symbols/Pipes/Pipes_013.png');
+                $("#pipe_42").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            }else{
+                $('#valve_3').attr("src",'images/symbols/Valve/Valve_035.png') ;
+                $("#pipe_40").attr("src",'images/symbols/Pipes/Pipes_097.png');
+                $("#pipe_41").attr("src",'images/symbols/Pipes/Pipes_012.png');
+                $("#pipe_42").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            }
+        }
+        // Flow1
+        if(data.name === 'Flow1'){
+            $('#valueFlow1').html('Flow1 : ' + data.data ) ;
+          }
+          // High Ki Khi
+        if(data.name === 'h_KK'){
+            $('#HighKK').html('h_KK : ' + data.data ) ;
+          }
+       // nhiet do T1
+       if(data.name === 'T2'){
+        $('#valueNhietDoKiKhi').html('T2 : ' + data.data + ' ℃') ;
+        }
+       //sensor ki khi 
+       if(data.name === 'H4'){
+        if(data.data === 'true'){
+            stateKK.state = true ; 
+            $("#sensorKiKhi").attr("src",'images/symbols/Light/Light_008.png');
+            
+        }else{
+            stateKK.state = false ; 
+            $("#sensorKiKhi").attr("src",'images/symbols/Light/Light_007.png');
+        }}
+        // pipe vao be tam
+        if((pump3.pump3_1 === true || pump3.pump3_2 === true) && stateKK.state === true ){
+            $("#pipe_43").attr("src",'images/symbols/Pipes/Pipes_053.png');
+        }else{
+            $("#pipe_43").attr("src",'images/symbols/Pipes/Pipes_052.png');
+        }
+       //sensor be tam 
+       if(data.name === 'H3'){
+        if(data.data === 'true'){
+            $("#sensorHightBeTam").attr("src",'images/symbols/Light/Light_008.png');
+            
+        }else{
+            $("#sensorHightBeTam").attr("src",'images/symbols/Light/Light_007.png');
+        }}
+        if(data.name === 'H3_Thres'){
+        if(data.data === 'true'){
+            $("#sensorThresBeTam").attr("src",'images/symbols/Light/Light_008.png');
+                
+        }else{
+            $("#sensorThresBeTam").attr("src",'images/symbols/Light/Light_007.png');
+        }}
+        if(data.name === 'L3'){
+        if(data.data === 'true'){
+            $("#sensorLowBeTam").attr("src",'images/symbols/Light/Light_008.png');
+                    
+        }else{
+            $("#sensorLowBeTam").attr("src",'images/symbols/Light/Light_007.png');
+        }}
+        //pipe before pump4_1 and pump4_2
+        
+        if(data.name === 'Pump4_1_Run'){
+            if(data.data === 'true'){
+                pump4.pump4_1 = true ;
+                
+                $("#pipe_47").attr("src",'images/symbols/Pipes/Pipes_013.png');
+                $('#pump4_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
+                $("#pipe_48").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_50").attr("src",'images/symbols/Pipes/Pipes_018.png');
+               
+               
+            }else{
+                pump4.pump4_1 = false ;
+                
+                $("#pipe_47").attr("src",'images/symbols/Pipes/Pipes_012.png');
+                $('#pump4_1').attr("src",'images/symbols/Pump/Pump_012.png') ;
+                $("#pipe_48").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_50").attr("src",'images/symbols/Pipes/Pipes_017.png');
+                
+            }
+         }
+         if(data.name === 'Pump4_2_Run'){
+            if(data.data === 'true'){
+                pump4.pump4_2 = true ;
+                $("#pipe_46").attr("src",'images/symbols/Pipes/Pipes_003.png');
+                $('#pump4_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
+                $("#pipe_49").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_51").attr("src",'images/symbols/Pipes/Pipes_008.png');
+            }else{
+                pump4.pump4_2 = false ;
+                $("#pipe_46").attr("src",'images/symbols/Pipes/Pipes_002.png');
+                $('#pump4_2').attr("src",'images/symbols/Pump/Pump_012.png') ;
+                $("#pipe_49").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_51").attr("src",'images/symbols/Pipes/Pipes_007.png');
+               
+            }
+        }
+        if( pump4.pump4_1 === true ||  pump4.pump4_2 === true ){
+            $("#pipe_44").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $("#pipe_45").attr("src",'images/symbols/Pipes/Pipes_113.png');
+            $("#pipe_52").attr("src",'images/symbols/Pipes/Pipes_108.png');
+            $("#pipe_53").attr("src",'images/symbols/Pipes/Pipes_008.png');
+            $("#pipe_54").attr("src",'images/symbols/Pipes/Pipes_098.png');
+            $("#pipe_55").attr("src",'images/symbols/Pipes/Pipes_013.png');
+            $("#pipe_56").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $("#symbols_5").attr("src",'images/symbols/International_Symbols/International_Symbols_019.png');
+        }else{
+            $("#pipe_44").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $("#pipe_45").attr("src",'images/symbols/Pipes/Pipes_112.png');
+            $("#pipe_52").attr("src",'images/symbols/Pipes/Pipes_107.png');
+            $("#pipe_53").attr("src",'images/symbols/Pipes/Pipes_007.png');
+            $("#pipe_54").attr("src",'images/symbols/Pipes/Pipes_097.png');
+            $("#pipe_55").attr("src",'images/symbols/Pipes/Pipes_012.png');
+            $("#pipe_56").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $("#symbols_5").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
+        }
+    
+        // Flow 2 
+        if(data.name === 'Flow2'){
+            $('#valueFlow2').html('Flow2 : ' + data.data ) ;
+          }
+       //pipe before pump4_1 and pump4_2
+        
+       if(data.name === 'Pump5_1_Run'){
+        if(data.data === 'true'){
+            pump5.pump5_1 = true ;
+            $("#pipe_68").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $('#pump5_1').attr("src",'images/symbols/Pump/Pump_048.png') ;
+            $("#pipe_70").attr("src",'images/symbols/Pipes/Pipes_018.png');
+        }else{
+            pump5.pump5_1 = false ;
+            $("#pipe_68").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $('#pump5_1').attr("src",'images/symbols/Pump/Pump_047.png') ;
+            $("#pipe_70").attr("src",'images/symbols/Pipes/Pipes_017.png');   
+        }
+     }
+     if(data.name === 'Pump5_2_Run'){
+        if(data.data === 'true'){
+            pump5.pump5_2 = true ;
+            $("#pipe_69").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $('#pump5_2').attr("src",'images/symbols/Pump/Pump_048.png') ;
+            $("#pipe_71").attr("src",'images/symbols/Pipes/Pipes_008.png'); 
+        }else{
+            pump5.pump5_2 = false ;
+            $("#pipe_69").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $('#pump5_2').attr("src",'images/symbols/Pump/Pump_047.png') ;
+            $("#pipe_71").attr("src",'images/symbols/Pipes/Pipes_007.png'); 
+        }
+      }
+     if( pump5.pump5_1 === true ||  pump5.pump5_2 === true ){
+        $("#pipe_72").attr("src",'images/symbols/Pipes/Pipes_108.png');
+        $("#pipe_73").attr("src",'images/symbols/Pipes/Pipes_018.png');
+        $("#pipe_74").attr("src",'images/symbols/Pipes/Pipes_098.png');
+      }else{
+        $("#pipe_72").attr("src",'images/symbols/Pipes/Pipes_107.png');
+        $("#pipe_73").attr("src",'images/symbols/Pipes/Pipes_017.png');
+        $("#pipe_74").attr("src",'images/symbols/Pipes/Pipes_097.png');
+      }
+      
+      // T3 
+      if(data.name === 'T3'){
+        $('#valueNhietDoHieuKhi').html('T3 : ' + data.data + ' ℃') ;
+        }
+     // DO
+     if(data.name === 'DO'){
+        $('#valueNongDoOxi').html('DO : ' + data.data ) ;
+        }
+     // Motor run
+     if(data.name === 'Motor_Run'){
+        if(data.data === 'true'){
+            $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_018.png');
+            $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_008.png') ;
+            $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
+        }else{
+            $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_017.png');
+            $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_007.png') ; 
+            $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
+        }
+     }
+      // High Be Lang
+      if(data.name === 'h_Lang'){
+        $('#HighBL').html('h_Lang : ' + data.data ) ;
+      }
+     // sensor be lang
+     if(data.name === 'H5'){
+        if(data.data === 'true'){
+            $("#sensorHightBeLang").attr("src",'images/symbols/Light/Light_008.png');
+            
+        }else{
+            $("#sensorHightBeLang").attr("src",'images/symbols/Light/Light_007.png');
+        }}
+        if(data.name === 'H5_Thres'){
+        if(data.data === 'true'){
+            $("#sensorThresBeLang").attr("src",'images/symbols/Light/Light_008.png');
+                
+        }else{
+            $("#sensorThresBeLang").attr("src",'images/symbols/Light/Light_007.png');
+        }}
+        if(data.name === 'L5'){
+        if(data.data === 'true'){
+            $("#sensorLowBeLang").attr("src",'images/symbols/Light/Light_008.png');
+                    
+        }else{
+            $("#sensorLowBeLang").attr("src",'images/symbols/Light/Light_007.png');
+        }}
+      // pump6 run
+      if(data.name === 'Pump6_Run'){
+        if(data.data === 'true'){
+            $("#pipe_63").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $("#pipe_64").attr("src",'images/symbols/Pipes/Pipes_008.png');
+            $("#pipe_65").attr("src",'images/symbols/Pipes/Pipes_098.png');
+            $('#pump6').attr("src",'images/symbols/Pump/Pump_018.png');
+            $("#pipe_59").attr("src",'images/symbols/Pipes/Pipes_098.png');
+            $("#pipe_60").attr("src",'images/symbols/Pipes/Pipes_108.png');
+            $("#pipe_61").attr("src",'images/symbols/Pipes/Pipes_098.png');
+            $("#pipe_62").attr("src",'images/symbols/Pipes/Pipes_053.png');
+            $("#symbols_8").attr("src",'images/symbols/International_Symbols/International_Symbols_017.png');
+        }else{
+            $("#pipe_63").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $("#pipe_64").attr("src",'images/symbols/Pipes/Pipes_007.png');
+            $("#pipe_65").attr("src",'images/symbols/Pipes/Pipes_097.png');
+            $('#pump6').attr("src",'images/symbols/Pump/Pump_017.png');
+            $("#pipe_59").attr("src",'images/symbols/Pipes/Pipes_097.png');
+            $("#pipe_60").attr("src",'images/symbols/Pipes/Pipes_107.png');
+            $("#pipe_61").attr("src",'images/symbols/Pipes/Pipes_097.png');
+            $("#pipe_62").attr("src",'images/symbols/Pipes/Pipes_052.png');
+            $("#symbols_8").attr("src",'images/symbols/International_Symbols/International_Symbols_008.png');
+        }
+     }
+        // valve 5 fb
+       if(data.name === 'Val5_FB'){
+        if(data.data === 'true'){
+        $("#pipe_57").attr("src",'images/symbols/Pipes/Pipes_098.png');
+        $("#pipe_58").attr("src",'images/symbols/Pipes/Pipes_013.png');
+        $("#valve_5").attr("src",'images/symbols/Valve/Valve_036.png');
+        $("#symbols_6").attr("src",'images/symbols/International_Symbols/International_Symbols_019.png');
+       }else{
+        $("#pipe_57").attr("src",'images/symbols/Pipes/Pipes_097.png');
+        $("#pipe_58").attr("src",'images/symbols/Pipes/Pipes_012.png');
+        $("#valve_5").attr("src",'images/symbols/Valve/Valve_035.png');
+        $("#symbols_6").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
+       }}
+        // valve 6 fb
+       if(data.name === 'Val6_FB'){
+        if(data.data === 'true'){
+        $("#valve_6").attr("src",'images/symbols/Valve/Valve_036.png');
+        $("#symbols_7").attr("src",'images/symbols/International_Symbols/International_Symbols_020.png');
+       }else{
+        $("#valve_6").attr("src",'images/symbols/Valve/Valve_035.png');
+        $("#symbols_7").attr("src",'images/symbols/International_Symbols/International_Symbols_004.png');
+      }}
+     
+      // den bao giai doan
+      if(data.name === 'TH_Done'){
+        if(data.data === 'true'){
+            $("#TH_Done").attr("src",'images/symbols/Light/Light_014.png');
+        }else{
+            $("#TH_Done").attr("src",'images/symbols/Light/Light_013.png');
+        }
+        }
+     if(data.name === 'KK_Done'){
+          if(data.data === 'true'){
+                $("#KK_Done").attr("src",'images/symbols/Light/Light_014.png');
+          }else{
+                $("#KK_Done").attr("src",'images/symbols/Light/Light_013.png');
+          }  
+            }
+     if(data.name === 'HK_Done'){
+        if(data.data === 'true'){
+            $("#HK_Done").attr("src",'images/symbols/Light/Light_014.png');
+        }else{
+             $("#HK_Done").attr("src",'images/symbols/Light/Light_013.png');
+                }
+        }
+     if(data.name === 'BL_Done'){
+        if(data.data === 'true'){
+            $("#BL_Done").attr("src",'images/symbols/Light/Light_014.png');
+        }else{
+            $("#BL_Done").attr("src",'images/symbols/Light/Light_013.png');
+        }
+        }
+      
+    
+     // display time and speed pump 1,2,3,4, sut khi
+     // pump1_1
+     if(data.name === 'Pump1_1_RPM'){ 
+        $('#RPM-Pump1_1').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump1_1_h'){ 
+        $('#Time-Pump1_1_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump1_1_m'){ 
+        $('#Time-Pump1_1_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump1_1_s'){ 
+        $('#Time-Pump1_1_s').html(data.data + ' s')
+     }
+     // pump1_2
+     if(data.name === 'Pump1_2_RPM'){ 
+        $('#RPM-Pump1_2').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump1_2_h'){ 
+        $('#Time-Pump1_2_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump1_2_m'){ 
+        $('#Time-Pump1_2_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump1_2_s'){ 
+        $('#Time-Pump1_2_s').html(data.data + ' s')
+     }
+     // pump2_1
+     if(data.name === 'Pump2_1_RPM'){ 
+        $('#RPM-Pump2_1').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump2_1_h'){ 
+        $('#Time-Pump2_1_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump2_1_m'){ 
+        $('#Time-Pump2_1_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump2_1_s'){ 
+        $('#Time-Pump2_1_s').html(data.data + ' s')
+     }
+     // pump2_2
+     if(data.name === 'Pump2_2_RPM'){ 
+        $('#RPM-Pump2_2').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump2_2_h'){ 
+        $('#Time-Pump2_2_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump2_2_m'){ 
+        $('#Time-Pump2_2_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump2_2_s'){ 
+        $('#Time-Pump2_2_s').html(data.data + ' s')
+     }
+     // pump3_1
+     if(data.name === 'Pump3_1_RPM'){ 
+        $('#RPM-Pump3_1').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump3_1_h'){ 
+        $('#Time-Pump3_1_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump3_1_m'){ 
+        $('#Time-Pump3_1_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump3_1_s'){ 
+        $('#Time-Pump3_1_s').html(data.data + ' s')
+     }
+     // pump3_2
+     if(data.name === 'Pump3_2_RPM'){ 
+        $('#RPM-Pump3_2').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump3_2_h'){ 
+        $('#Time-Pump3_2_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump3_2_m'){ 
+        $('#Time-Pump3_2_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump3_2_s'){ 
+        $('#Time-Pump3_2_s').html(data.data + ' s')
+     }
+     // pump4_1
+     if(data.name === 'Pump4_1_RPM'){ 
+        $('#RPM-Pump4_1').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump4_1_h'){ 
+        $('#Time-Pump4_1_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump4_1_m'){ 
+        $('#Time-Pump4_1_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump4_1_s'){ 
+        $('#Time-Pump4_1_s').html(data.data + ' s')
+     }
+     // pump4_2
+     if(data.name === 'Pump4_2_RPM'){ 
+        $('#RPM-Pump4_2').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump4_2_h'){ 
+        $('#Time-Pump4_2_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump4_2_m'){ 
+        $('#Time-Pump4_2_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump4_2_s'){ 
+        $('#Time-Pump4_2_s').html(data.data + ' s')
+     }
+      // pump5_1
+      if(data.name === 'Pump5_1_RPM'){ 
+        $('#RPM-Pump5_1').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump5_1_h'){ 
+        $('#Time-Pump5_1_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump5_1_m'){ 
+        $('#Time-Pump5_1_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump5_1_s'){ 
+        $('#Time-Pump5_1_s').html(data.data + ' s')
+     }
+     // pump5_2
+     if(data.name === 'Pump5_2_RPM'){ 
+        $('#RPM-Pump5_2').html(data.data )
+     }
+     if(data.name === 'Time_Count_Pump5_2_h'){ 
+        $('#Time-Pump5_2_h').html(data.data + ' h')
+     }
+     if(data.name === 'Time_Count_Pump5_2_m'){ 
+        $('#Time-Pump5_2_m').html(data.data + ' m')
+     }
+     if(data.name === 'Time_Count_Pump5_2_s'){ 
+        $('#Time-Pump5_2_s').html(data.data + ' s')
+     }
+    
+     // time count and time set kk , hk , l
+     // KK
+    
+    //  if(data.name === 'Time_Set_KK_h'){
+    //     $('#set-hour-KK').val(data.data) 
+    //  }
+    //  if(data.name === 'Time_Set_KK_m'){
+    //     $('#set-minute-KK').val(data.data) 
+    //  }
+    //  if(data.name === 'Time_Set_KK_s'){
+    //     $('#set-second-KK').val(data.data) 
+    //  }
+    
+     if(data.name === 'Time_Count_KK_h'){
+        $('#count-hour-KK').val(data.data) 
+     }
+     if(data.name === 'Time_Count_KK_m'){
+        $('#count-minute-KK').val(data.data) 
+     }
+     if(data.name === 'Time_Count_KK_s'){
+        $('#count-second-KK').val(data.data) 
+     }
+    
+     // HK
+     
+    //  if(data.name === 'Time_Set_HK_h'){
+    //     $('#set-hour-HK').val(data.data) 
+    //  }
+    //  if(data.name === 'Time_Set_HK_m'){
+    //     $('#set-minute-HK').val(data.data) 
+    //  }
+    //  if(data.name === 'Time_Set_HK_s'){
+    //     $('#set-second-HK').val(data.data) 
+    //  }
+    
+     if(data.name === 'Time_Count_HK_h'){
+        $('#count-hour-HK').val(data.data) 
+     }
+     if(data.name === 'Time_Count_HK_m'){
+        $('#count-minute-HK').val(data.data) 
+     }
+     if(data.name === 'Time_Count_HK_s'){
+        $('#count-second-HK').val(data.data) 
+     }
+     // BL
+    
+    //  if(data.name === 'Time_Set_BL_h'){
+    //     $('#set-hour-BL').val(data.data) 
+    //  }
+    //  if(data.name === 'Time_Set_BL_m'){
+    //     $('#set-minute-BL').val(data.data) 
+    //  }
+    //  if(data.name === 'Time_Set_BL_s'){
+    //     $('#set-second-BL').val(data.data) 
+    //  }
+    
+     if(data.name === 'Time_Count_BL_h'){
+        $('#count-hour-BL').val(data.data) 
+     }
+     if(data.name === 'Time_Count_BL_m'){
+        $('#count-minute-BL').val(data.data) 
+     }
+     if(data.name === 'Time_Count_BL_s'){
+        $('#count-second-BL').val(data.data) 
+     }
+    
+     // execute control system
+     if(data.name === 'Run_System_PLC1'){
+        if(data.data === 'true'){
+             $('#start-in-system').removeClass('btn btn-primary') ;
+             $('#start-in-system').addClass('btn btn-danger') ;
+             $('#stop-in-system').removeClass('btn btn-danger') ;
+             $('#stop-in-system').addClass('btn btn-primary') ;
+        }else{
+            $('#start-in-system').removeClass('btn btn-danger') ;
+            $('#start-in-system').addClass('btn btn-primary') ;
+            $('#stop-in-system').removeClass('btn btn-primary') ;
+            $('#stop-in-system').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'Auto-Man_System_PLC1'){
+        if(data.data === 'true'){
+             $('#auto-in-system').removeClass('btn btn-primary') ;
+             $('#auto-in-system').addClass('btn btn-danger') ;
+             $('#man-in-system').removeClass('btn btn-danger') ;
+             $('#man-in-system').addClass('btn btn-primary') ;
+        }else{
+            $('#auto-in-system').removeClass('btn btn-danger') ;
+            $('#auto-in-system').addClass('btn btn-primary') ;
+            $('#man-in-system').removeClass('btn btn-primary') ;
+            $('#man-in-system').addClass('btn btn-danger') ;
+        }
+     }
+    
+     // execute each pump 
+     // pump 1
+     if(data.name === 'pmp1_Auto-Man'){
+        if(data.data === 'true'){
+             $('#pump1-auto-in').removeClass('btn btn-primary') ;
+             $('#pump1-auto-in').addClass('btn btn-danger') ;
+             $('#pump1-man-in').removeClass('btn btn-danger') ;
+             $('#pump1-man-in').addClass('btn btn-primary') ;
+        }else{
+            $('#pump1-auto-in').removeClass('btn btn-danger') ;
+            $('#pump1-auto-in').addClass('btn btn-primary') ;
+            $('#pump1-man-in').removeClass('btn btn-primary') ;
+            $('#pump1-man-in').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp1_Motor1_Run'){
+        if(data.data === 'true'){
+             $('#pump1-start-motor1').removeClass('btn btn-primary') ;
+             $('#pump1-start-motor1').addClass('btn btn-danger') ;
+             $('#pump1-stop-motor1').removeClass('btn btn-danger') ;
+             $('#pump1-stop-motor1').addClass('btn btn-primary') ;
+        }else{
+            $('#pump1-start-motor1').removeClass('btn btn-danger') ;
+            $('#pump1-start-motor1').addClass('btn btn-primary') ;
+            $('#pump1-stop-motor1').removeClass('btn btn-primary') ;
+            $('#pump1-stop-motor1').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp1_Motor2_Run'){
+        if(data.data === 'true'){
+             $('#pump1-start-motor2').removeClass('btn btn-primary') ;
+             $('#pump1-start-motor2').addClass('btn btn-danger') ;
+             $('#pump1-stop-motor2').removeClass('btn btn-danger') ;
+             $('#pump1-stop-motor2').addClass('btn btn-primary') ;
+        }else{
+            $('#pump1-start-motor2').removeClass('btn btn-danger') ;
+            $('#pump1-start-motor2').addClass('btn btn-primary') ;
+            $('#pump1-stop-motor2').removeClass('btn btn-primary') ;
+            $('#pump1-stop-motor2').addClass('btn btn-danger') ;
+        }
+     }
+     // pump 2
+     if(data.name === 'pmp2_Auto-Man'){
+        if(data.data === 'true'){
+             $('#pump2-auto-in').removeClass('btn btn-primary') ;
+             $('#pump2-auto-in').addClass('btn btn-danger') ;
+             $('#pump2-man-in').removeClass('btn btn-danger') ;
+             $('#pump2-man-in').addClass('btn btn-primary') ;
+        }else{
+            $('#pump2-auto-in').removeClass('btn btn-danger') ;
+            $('#pump2-auto-in').addClass('btn btn-primary') ;
+            $('#pump2-man-in').removeClass('btn btn-primary') ;
+            $('#pump2-man-in').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp2_Motor1_Run'){
+        if(data.data === 'true'){
+             $('#pump2-start-motor1').removeClass('btn btn-primary') ;
+             $('#pump2-start-motor1').addClass('btn btn-danger') ;
+             $('#pump2-stop-motor1').removeClass('btn btn-danger') ;
+             $('#pump2-stop-motor1').addClass('btn btn-primary') ;
+        }else{
+            $('#pump2-start-motor1').removeClass('btn btn-danger') ;
+            $('#pump2-start-motor1').addClass('btn btn-primary') ;
+            $('#pump2-stop-motor1').removeClass('btn btn-primary') ;
+            $('#pump2-stop-motor1').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp2_Motor2_Run'){
+        if(data.data === 'true'){
+             $('#pump2-start-motor2').removeClass('btn btn-primary') ;
+             $('#pump2-start-motor2').addClass('btn btn-danger') ;
+             $('#pump2-stop-motor2').removeClass('btn btn-danger') ;
+             $('#pump2-stop-motor2').addClass('btn btn-primary') ;
+        }else{
+            $('#pump2-start-motor2').removeClass('btn btn-danger') ;
+            $('#pump2-start-motor2').addClass('btn btn-primary') ;
+            $('#pump2-stop-motor2').removeClass('btn btn-primary') ;
+            $('#pump2-stop-motor2').addClass('btn btn-danger') ;
+        }
+     }
+     //pump 3
+     if(data.name === 'pmp3_Auto-Man'){
+        if(data.data === 'true'){
+             $('#pump3-auto-in').removeClass('btn btn-primary') ;
+             $('#pump3-auto-in').addClass('btn btn-danger') ;
+             $('#pump3-man-in').removeClass('btn btn-danger') ;
+             $('#pump3-man-in').addClass('btn btn-primary') ;
+        }else{
+            $('#pump3-auto-in').removeClass('btn btn-danger') ;
+            $('#pump3-auto-in').addClass('btn btn-primary') ;
+            $('#pump3-man-in').removeClass('btn btn-primary') ;
+            $('#pump3-man-in').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp3_Motor1_Run'){
+        if(data.data === 'true'){
+             $('#pump3-start-motor1').removeClass('btn btn-primary') ;
+             $('#pump3-start-motor1').addClass('btn btn-danger') ;
+             $('#pump3-stop-motor1').removeClass('btn btn-danger') ;
+             $('#pump3-stop-motor1').addClass('btn btn-primary') ;
+        }else{
+            $('#pump3-start-motor1').removeClass('btn btn-danger') ;
+            $('#pump3-start-motor1').addClass('btn btn-primary') ;
+            $('#pump3-stop-motor1').removeClass('btn btn-primary') ;
+            $('#pump3-stop-motor1').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp3_Motor2_Run'){
+        if(data.data === 'true'){
+             $('#pump3-start-motor2').removeClass('btn btn-primary') ;
+             $('#pump3-start-motor2').addClass('btn btn-danger') ;
+             $('#pump3-stop-motor2').removeClass('btn btn-danger') ;
+             $('#pump3-stop-motor2').addClass('btn btn-primary') ;
+        }else{
+            $('#pump3-start-motor2').removeClass('btn btn-danger') ;
+            $('#pump3-start-motor2').addClass('btn btn-primary') ;
+            $('#pump3-stop-motor2').removeClass('btn btn-primary') ;
+            $('#pump3-stop-motor2').addClass('btn btn-danger') ;
+        }
+     }
+     //pump4
+     if(data.name === 'pmp4_Auto-Man'){
+        if(data.data === 'true'){
+             $('#pump4-auto-in').removeClass('btn btn-primary') ;
+             $('#pump4-auto-in').addClass('btn btn-danger') ;
+             $('#pump4-man-in').removeClass('btn btn-danger') ;
+             $('#pump4-man-in').addClass('btn btn-primary') ;
+        }else{
+            $('#pump4-auto-in').removeClass('btn btn-danger') ;
+            $('#pump4-auto-in').addClass('btn btn-primary') ;
+            $('#pump4-man-in').removeClass('btn btn-primary') ;
+            $('#pump4-man-in').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp4_Motor1_Run'){
+        if(data.data === 'true'){
+             $('#pump4-start-motor1').removeClass('btn btn-primary') ;
+             $('#pump4-start-motor1').addClass('btn btn-danger') ;
+             $('#pump4-stop-motor1').removeClass('btn btn-danger') ;
+             $('#pump4-stop-motor1').addClass('btn btn-primary') ;
+        }else{
+            $('#pump4-start-motor1').removeClass('btn btn-danger') ;
+            $('#pump4-start-motor1').addClass('btn btn-primary') ;
+            $('#pump4-stop-motor1').removeClass('btn btn-primary') ;
+            $('#pump4-stop-motor1').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp4_Motor2_Run'){
+        if(data.data === 'true'){
+             $('#pump4-start-motor2').removeClass('btn btn-primary') ;
+             $('#pump4-start-motor2').addClass('btn btn-danger') ;
+             $('#pump4-stop-motor2').removeClass('btn btn-danger') ;
+             $('#pump4-stop-motor2').addClass('btn btn-primary') ;
+        }else{
+            $('#pump4-start-motor2').removeClass('btn btn-danger') ;
+            $('#pump4-start-motor2').addClass('btn btn-primary') ;
+            $('#pump4-stop-motor2').removeClass('btn btn-primary') ;
+            $('#pump4-stop-motor2').addClass('btn btn-danger') ;
+        }
+     }
+     //pump5
+     if(data.name === 'pmp5_Auto-Man'){
+        if(data.data === 'true'){
+             $('#pump5-auto-in').removeClass('btn btn-primary') ;
+             $('#pump5-auto-in').addClass('btn btn-danger') ;
+             $('#pump5-man-in').removeClass('btn btn-danger') ;
+             $('#pump5-man-in').addClass('btn btn-primary') ;
+        }else{
+            $('#pump5-auto-in').removeClass('btn btn-danger') ;
+            $('#pump5-auto-in').addClass('btn btn-primary') ;
+            $('#pump5-man-in').removeClass('btn btn-primary') ;
+            $('#pump5-man-in').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp1_Motor1_Run'){
+        if(data.data === 'true'){
+             $('#pump5-start-motor1').removeClass('btn btn-primary') ;
+             $('#pump5-start-motor1').addClass('btn btn-danger') ;
+             $('#pump5-stop-motor1').removeClass('btn btn-danger') ;
+             $('#pump5-stop-motor1').addClass('btn btn-primary') ;
+        }else{
+            $('#pump5-start-motor1').removeClass('btn btn-danger') ;
+            $('#pump5-start-motor1').addClass('btn btn-primary') ;
+            $('#pump5-stop-motor1').removeClass('btn btn-primary') ;
+            $('#pump5-stop-motor1').addClass('btn btn-danger') ;
+        }
+     }
+     if(data.name === 'pmp5_Motor2_Run'){
+        if(data.data === 'true'){
+             $('#pump5-start-motor2').removeClass('btn btn-primary') ;
+             $('#pump5-start-motor2').addClass('btn btn-danger') ;
+             $('#pump5-stop-motor2').removeClass('btn btn-danger') ;
+             $('#pump5-stop-motor2').addClass('btn btn-primary') ;
+        }else{
+            $('#pump5-start-motor2').removeClass('btn btn-danger') ;
+            $('#pump5-start-motor2').addClass('btn btn-primary') ;
+            $('#pump5-stop-motor2').removeClass('btn btn-primary') ;
+            $('#pump5-stop-motor2').addClass('btn btn-danger') ;
+        }
+     }
+      
+     // display chieu cao be kk , bl hcl , naoh
+     // kk
+     if(data.name === 'random'){
+       var progressBarVal= data.data;   
+       var html="<div class='progress-bar progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+       $("#h_Ki_Khi").html(html);   
+     }
+     // bl
+     if(data.name === 'random'){
+        var progressBarVal= data.data;   
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+        $("#h_Be_Lang").html(html);   
+      }
+      // hcl
+      if(data.name === 'random'){
+        var progressBarVal= data.data;   
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+        $("#h_Hcl").html(html);   
+      }
+      //naoh
+      if(data.name === 'random'){
+        var progressBarVal= data.data;   
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+        $("#h_Naoh").html(html);   
+      }
+    
+    })
 
- // display time and speed pump 1,2,3,4, sut khi
- // pump1_1
- if(allVariableConfig.nameVariable[i].name === 'Pump1_1_RPM'){ 
-    $('#RPM-Pump1_1').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_1_h'){ 
-    $('#Time-Pump1_1_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_1_m'){ 
-    $('#Time-Pump1_1_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_1_s'){ 
-    $('#Time-Pump1_1_s').html(data[i].data + ' s')
- }
- // pump1_2
- if(allVariableConfig.nameVariable[i].name === 'Pump1_2_RPM'){ 
-    $('#RPM-Pump1_2').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_2_h'){ 
-    $('#Time-Pump1_2_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_2_m'){ 
-    $('#Time-Pump1_2_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_2_s'){ 
-    $('#Time-Pump1_2_s').html(data[i].data + ' s')
- }
- // pump2_1
- if(allVariableConfig.nameVariable[i].name === 'Pump2_1_RPM'){ 
-    $('#RPM-Pump2_1').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_1_h'){ 
-    $('#Time-Pump2_1_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_1_m'){ 
-    $('#Time-Pump2_1_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_1_s'){ 
-    $('#Time-Pump2_1_s').html(data[i].data + ' s')
- }
- // pump2_2
- if(allVariableConfig.nameVariable[i].name === 'Pump2_2_RPM'){ 
-    $('#RPM-Pump2_2').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_2_h'){ 
-    $('#Time-Pump2_2_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_2_m'){ 
-    $('#Time-Pump2_2_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_2_s'){ 
-    $('#Time-Pump2_2_s').html(data[i].data + ' s')
- }
- // pump3_1
- if(allVariableConfig.nameVariable[i].name === 'Pump3_1_RPM'){ 
-    $('#RPM-Pump3_1').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_1_h'){ 
-    $('#Time-Pump3_1_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_1_m'){ 
-    $('#Time-Pump3_1_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_1_s'){ 
-    $('#Time-Pump3_1_s').html(data[i].data + ' s')
- }
- // pump3_2
- if(allVariableConfig.nameVariable[i].name === 'Pump3_2_RPM'){ 
-    $('#RPM-Pump3_2').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_2_h'){ 
-    $('#Time-Pump3_2_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_2_m'){ 
-    $('#Time-Pump3_2_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_2_s'){ 
-    $('#Time-Pump3_2_s').html(data[i].data + ' s')
- }
- // pump4_1
- if(allVariableConfig.nameVariable[i].name === 'Pump4_1_RPM'){ 
-    $('#RPM-Pump4_1').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_1_h'){ 
-    $('#Time-Pump4_1_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_1_m'){ 
-    $('#Time-Pump4_1_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_1_s'){ 
-    $('#Time-Pump4_1_s').html(data[i].data + ' s')
- }
- // pump4_2
- if(allVariableConfig.nameVariable[i].name === 'Pump4_2_RPM'){ 
-    $('#RPM-Pump4_2').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_2_h'){ 
-    $('#Time-Pump4_2_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_2_m'){ 
-    $('#Time-Pump4_2_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_2_s'){ 
-    $('#Time-Pump4_2_s').html(data[i].data + ' s')
- }
-  // pump5_1
-  if(allVariableConfig.nameVariable[i].name === 'Pump5_1_RPM'){ 
-    $('#RPM-Pump5_1').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_1_h'){ 
-    $('#Time-Pump5_1_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_1_m'){ 
-    $('#Time-Pump5_1_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_1_s'){ 
-    $('#Time-Pump5_1_s').html(data[i].data + ' s')
- }
- // pump5_2
- if(allVariableConfig.nameVariable[i].name === 'Pump5_2_RPM'){ 
-    $('#RPM-Pump5_2').html(data[i].data )
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_2_h'){ 
-    $('#Time-Pump5_2_h').html(data[i].data + ' h')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_2_m'){ 
-    $('#Time-Pump5_2_m').html(data[i].data + ' m')
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_2_s'){ 
-    $('#Time-Pump5_2_s').html(data[i].data + ' s')
- }
-
- // time count and time set kk , hk , l
- // KK
-
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_h'){
-//     $('#set-hour-KK').val(data[i].data) 
-//  }
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_m'){
-//     $('#set-minute-KK').val(data[i].data) 
-//  }
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_s'){
-//     $('#set-second-KK').val(data[i].data) 
-//  }
-
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_KK_h'){
-    $('#count-hour-KK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_KK_m'){
-    $('#count-minute-KK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_KK_s'){
-    $('#count-second-KK').val(data[i].data) 
- }
-
- // HK
- 
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_h'){
-//     $('#set-hour-HK').val(data[i].data) 
-//  }
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_m'){
-//     $('#set-minute-HK').val(data[i].data) 
-//  }
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_s'){
-//     $('#set-second-HK').val(data[i].data) 
-//  }
-
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_HK_h'){
-    $('#count-hour-HK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_HK_m'){
-    $('#count-minute-HK').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_HK_s'){
-    $('#count-second-HK').val(data[i].data) 
- }
- // BL
-
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_h'){
-//     $('#set-hour-BL').val(data[i].data) 
-//  }
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_m'){
-//     $('#set-minute-BL').val(data[i].data) 
-//  }
-//  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_s'){
-//     $('#set-second-BL').val(data[i].data) 
-//  }
-
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_h'){
-    $('#count-hour-BL').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_m'){
-    $('#count-minute-BL').val(data[i].data) 
- }
- if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_s'){
-    $('#count-second-BL').val(data[i].data) 
- }
-
- // execute control system
- if(allVariableConfig.nameVariable[i].name === 'Run_System_PLC1'){
-    if(data[i].data === 1){
-         $('#start-in-system').removeClass('btn btn-primary') ;
-         $('#start-in-system').addClass('btn btn-danger') ;
-         $('#stop-in-system').removeClass('btn btn-danger') ;
-         $('#stop-in-system').addClass('btn btn-primary') ;
-    }else{
-        $('#start-in-system').removeClass('btn btn-danger') ;
-        $('#start-in-system').addClass('btn btn-primary') ;
-        $('#stop-in-system').removeClass('btn btn-primary') ;
-        $('#stop-in-system').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'Auto-Man_System_PLC1'){
-    if(data[i].data === 1){
-         $('#auto-in-system').removeClass('btn btn-primary') ;
-         $('#auto-in-system').addClass('btn btn-danger') ;
-         $('#man-in-system').removeClass('btn btn-danger') ;
-         $('#man-in-system').addClass('btn btn-primary') ;
-    }else{
-        $('#auto-in-system').removeClass('btn btn-danger') ;
-        $('#auto-in-system').addClass('btn btn-primary') ;
-        $('#man-in-system').removeClass('btn btn-primary') ;
-        $('#man-in-system').addClass('btn btn-danger') ;
-    }
- }
-
- // execute each pump 
- // pump 1
- if(allVariableConfig.nameVariable[i].name === 'pmp1_Auto-Man'){
-    if(data[i].data === 1){
-         $('#pump1-auto-in').removeClass('btn btn-primary') ;
-         $('#pump1-auto-in').addClass('btn btn-danger') ;
-         $('#pump1-man-in').removeClass('btn btn-danger') ;
-         $('#pump1-man-in').addClass('btn btn-primary') ;
-    }else{
-        $('#pump1-auto-in').removeClass('btn btn-danger') ;
-        $('#pump1-auto-in').addClass('btn btn-primary') ;
-        $('#pump1-man-in').removeClass('btn btn-primary') ;
-        $('#pump1-man-in').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
-    if(data[i].data === 1){
-         $('#pump1-start-motor1').removeClass('btn btn-primary') ;
-         $('#pump1-start-motor1').addClass('btn btn-danger') ;
-         $('#pump1-stop-motor1').removeClass('btn btn-danger') ;
-         $('#pump1-stop-motor1').addClass('btn btn-primary') ;
-    }else{
-        $('#pump1-start-motor1').removeClass('btn btn-danger') ;
-        $('#pump1-start-motor1').addClass('btn btn-primary') ;
-        $('#pump1-stop-motor1').removeClass('btn btn-primary') ;
-        $('#pump1-stop-motor1').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor2_Run'){
-    if(data[i].data === 1){
-         $('#pump1-start-motor2').removeClass('btn btn-primary') ;
-         $('#pump1-start-motor2').addClass('btn btn-danger') ;
-         $('#pump1-stop-motor2').removeClass('btn btn-danger') ;
-         $('#pump1-stop-motor2').addClass('btn btn-primary') ;
-    }else{
-        $('#pump1-start-motor2').removeClass('btn btn-danger') ;
-        $('#pump1-start-motor2').addClass('btn btn-primary') ;
-        $('#pump1-stop-motor2').removeClass('btn btn-primary') ;
-        $('#pump1-stop-motor2').addClass('btn btn-danger') ;
-    }
- }
- // pump 2
- if(allVariableConfig.nameVariable[i].name === 'pmp2_Auto-Man'){
-    if(data[i].data === 1){
-         $('#pump2-auto-in').removeClass('btn btn-primary') ;
-         $('#pump2-auto-in').addClass('btn btn-danger') ;
-         $('#pump2-man-in').removeClass('btn btn-danger') ;
-         $('#pump2-man-in').addClass('btn btn-primary') ;
-    }else{
-        $('#pump2-auto-in').removeClass('btn btn-danger') ;
-        $('#pump2-auto-in').addClass('btn btn-primary') ;
-        $('#pump2-man-in').removeClass('btn btn-primary') ;
-        $('#pump2-man-in').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor1_Run'){
-    if(data[i].data === 1){
-         $('#pump2-start-motor1').removeClass('btn btn-primary') ;
-         $('#pump2-start-motor1').addClass('btn btn-danger') ;
-         $('#pump2-stop-motor1').removeClass('btn btn-danger') ;
-         $('#pump2-stop-motor1').addClass('btn btn-primary') ;
-    }else{
-        $('#pump2-start-motor1').removeClass('btn btn-danger') ;
-        $('#pump2-start-motor1').addClass('btn btn-primary') ;
-        $('#pump2-stop-motor1').removeClass('btn btn-primary') ;
-        $('#pump2-stop-motor1').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor2_Run'){
-    if(data[i].data === 1){
-         $('#pump2-start-motor2').removeClass('btn btn-primary') ;
-         $('#pump2-start-motor2').addClass('btn btn-danger') ;
-         $('#pump2-stop-motor2').removeClass('btn btn-danger') ;
-         $('#pump2-stop-motor2').addClass('btn btn-primary') ;
-    }else{
-        $('#pump2-start-motor2').removeClass('btn btn-danger') ;
-        $('#pump2-start-motor2').addClass('btn btn-primary') ;
-        $('#pump2-stop-motor2').removeClass('btn btn-primary') ;
-        $('#pump2-stop-motor2').addClass('btn btn-danger') ;
-    }
- }
- //pump 3
- if(allVariableConfig.nameVariable[i].name === 'pmp3_Auto-Man'){
-    if(data[i].data === 1){
-         $('#pump3-auto-in').removeClass('btn btn-primary') ;
-         $('#pump3-auto-in').addClass('btn btn-danger') ;
-         $('#pump3-man-in').removeClass('btn btn-danger') ;
-         $('#pump3-man-in').addClass('btn btn-primary') ;
-    }else{
-        $('#pump3-auto-in').removeClass('btn btn-danger') ;
-        $('#pump3-auto-in').addClass('btn btn-primary') ;
-        $('#pump3-man-in').removeClass('btn btn-primary') ;
-        $('#pump3-man-in').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor1_Run'){
-    if(data[i].data === 1){
-         $('#pump3-start-motor1').removeClass('btn btn-primary') ;
-         $('#pump3-start-motor1').addClass('btn btn-danger') ;
-         $('#pump3-stop-motor1').removeClass('btn btn-danger') ;
-         $('#pump3-stop-motor1').addClass('btn btn-primary') ;
-    }else{
-        $('#pump3-start-motor1').removeClass('btn btn-danger') ;
-        $('#pump3-start-motor1').addClass('btn btn-primary') ;
-        $('#pump3-stop-motor1').removeClass('btn btn-primary') ;
-        $('#pump3-stop-motor1').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor2_Run'){
-    if(data[i].data === 1){
-         $('#pump3-start-motor2').removeClass('btn btn-primary') ;
-         $('#pump3-start-motor2').addClass('btn btn-danger') ;
-         $('#pump3-stop-motor2').removeClass('btn btn-danger') ;
-         $('#pump3-stop-motor2').addClass('btn btn-primary') ;
-    }else{
-        $('#pump3-start-motor2').removeClass('btn btn-danger') ;
-        $('#pump3-start-motor2').addClass('btn btn-primary') ;
-        $('#pump3-stop-motor2').removeClass('btn btn-primary') ;
-        $('#pump3-stop-motor2').addClass('btn btn-danger') ;
-    }
- }
- //pump4
- if(allVariableConfig.nameVariable[i].name === 'pmp4_Auto-Man'){
-    if(data[i].data === 1){
-         $('#pump4-auto-in').removeClass('btn btn-primary') ;
-         $('#pump4-auto-in').addClass('btn btn-danger') ;
-         $('#pump4-man-in').removeClass('btn btn-danger') ;
-         $('#pump4-man-in').addClass('btn btn-primary') ;
-    }else{
-        $('#pump4-auto-in').removeClass('btn btn-danger') ;
-        $('#pump4-auto-in').addClass('btn btn-primary') ;
-        $('#pump4-man-in').removeClass('btn btn-primary') ;
-        $('#pump4-man-in').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor1_Run'){
-    if(data[i].data === 1){
-         $('#pump4-start-motor1').removeClass('btn btn-primary') ;
-         $('#pump4-start-motor1').addClass('btn btn-danger') ;
-         $('#pump4-stop-motor1').removeClass('btn btn-danger') ;
-         $('#pump4-stop-motor1').addClass('btn btn-primary') ;
-    }else{
-        $('#pump4-start-motor1').removeClass('btn btn-danger') ;
-        $('#pump4-start-motor1').addClass('btn btn-primary') ;
-        $('#pump4-stop-motor1').removeClass('btn btn-primary') ;
-        $('#pump4-stop-motor1').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor2_Run'){
-    if(data[i].data === 1){
-         $('#pump4-start-motor2').removeClass('btn btn-primary') ;
-         $('#pump4-start-motor2').addClass('btn btn-danger') ;
-         $('#pump4-stop-motor2').removeClass('btn btn-danger') ;
-         $('#pump4-stop-motor2').addClass('btn btn-primary') ;
-    }else{
-        $('#pump4-start-motor2').removeClass('btn btn-danger') ;
-        $('#pump4-start-motor2').addClass('btn btn-primary') ;
-        $('#pump4-stop-motor2').removeClass('btn btn-primary') ;
-        $('#pump4-stop-motor2').addClass('btn btn-danger') ;
-    }
- }
- //pump5
- if(allVariableConfig.nameVariable[i].name === 'pmp5_Auto-Man'){
-    if(data[i].data === 1){
-         $('#pump5-auto-in').removeClass('btn btn-primary') ;
-         $('#pump5-auto-in').addClass('btn btn-danger') ;
-         $('#pump5-man-in').removeClass('btn btn-danger') ;
-         $('#pump5-man-in').addClass('btn btn-primary') ;
-    }else{
-        $('#pump5-auto-in').removeClass('btn btn-danger') ;
-        $('#pump5-auto-in').addClass('btn btn-primary') ;
-        $('#pump5-man-in').removeClass('btn btn-primary') ;
-        $('#pump5-man-in').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
-    if(data[i].data === 1){
-         $('#pump5-start-motor1').removeClass('btn btn-primary') ;
-         $('#pump5-start-motor1').addClass('btn btn-danger') ;
-         $('#pump5-stop-motor1').removeClass('btn btn-danger') ;
-         $('#pump5-stop-motor1').addClass('btn btn-primary') ;
-    }else{
-        $('#pump5-start-motor1').removeClass('btn btn-danger') ;
-        $('#pump5-start-motor1').addClass('btn btn-primary') ;
-        $('#pump5-stop-motor1').removeClass('btn btn-primary') ;
-        $('#pump5-stop-motor1').addClass('btn btn-danger') ;
-    }
- }
- if(allVariableConfig.nameVariable[i].name === 'pmp5_Motor2_Run'){
-    if(data[i].data === 1){
-         $('#pump5-start-motor2').removeClass('btn btn-primary') ;
-         $('#pump5-start-motor2').addClass('btn btn-danger') ;
-         $('#pump5-stop-motor2').removeClass('btn btn-danger') ;
-         $('#pump5-stop-motor2').addClass('btn btn-primary') ;
-    }else{
-        $('#pump5-start-motor2').removeClass('btn btn-danger') ;
-        $('#pump5-start-motor2').addClass('btn btn-primary') ;
-        $('#pump5-stop-motor2').removeClass('btn btn-primary') ;
-        $('#pump5-stop-motor2').addClass('btn btn-danger') ;
-    }
- }
-  
- // display chieu cao be kk , bl hcl , naoh
- // kk
- if(allVariableConfig.nameVariable[i].name === 'random'){
-   var progressBarVal= data[i].data;   
-   var html="<div class='progress-bar progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
-   $("#h_Ki_Khi").html(html);   
- }
- // bl
- if(allVariableConfig.nameVariable[i].name === 'random'){
-    var progressBarVal= data[i].data;   
-    var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
-    $("#h_Be_Lang").html(html);   
-  }
-  // hcl
-  if(allVariableConfig.nameVariable[i].name === 'random'){
-    var progressBarVal= data[i].data;   
-    var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
-    $("#h_Hcl").html(html);   
-  }
-  //naoh
-  if(allVariableConfig.nameVariable[i].name === 'random'){
-    var progressBarVal= data[i].data;   
-    var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
-    $("#h_Naoh").html(html);   
-  }
-
- }
-})
 
 // all function chart 
 FusionCharts.ready(function () {
@@ -1070,13 +1070,10 @@ FusionCharts.ready(function () {
         },
         "events": {
             "rendered": function (evtObj, argObj) {
-                    socket.on('Read', function(data){
-                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-                            if(allVariableConfig.nameVariable[i].name === 'random'){
-                                evtObj.sender.feedData("&value=" + data[i].data);	
-                                break ; 
+                    socket.on('changeData', function(data){
+                            if(data.name === 'random'){
+                                evtObj.sender.feedData("&value=" + data.data);	
                              }
-                        }
                     })
             }
         }
@@ -1122,13 +1119,12 @@ FusionCharts.ready(function () {
         },
         "events": {
             "rendered": function (evtObj, argObj) {
-                    socket.on('Read', function(data){
-                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-                            if(allVariableConfig.nameVariable[i].name === 'h_CB'){
-                                evtObj.sender.feedData("&value=" + data[i].data);	
-                                break ; 
+                    socket.on('changeData', function(data){
+                        
+                            if(data.name === 'h_CB'){
+                                evtObj.sender.feedData("&value=" + data.data);	
                              }
-                            }
+                            
                           } )  
             }
         }
@@ -1173,13 +1169,12 @@ FusionCharts.ready(function () {
         },
         "events": {
             "rendered": function (evtObj, argObj) {
-                    socket.on('Read', function(data){
-                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-                            if(allVariableConfig.nameVariable[i].name === 'h_TH'){
-                                evtObj.sender.feedData("&value=" + data[i].data);	
-                                break ; 
+                    socket.on('changeData', function(data){
+                        
+                            if(data.name === 'h_TH'){
+                                evtObj.sender.feedData("&value=" + data.data);	
                              }
-                            }
+                            
                           } ) 
             }
         }
@@ -1225,13 +1220,12 @@ FusionCharts.ready(function () {
         },
         "events": {
             "rendered": function (evtObj, argObj) {
-                    socket.on('Read', function(data){
-                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-                            if(allVariableConfig.nameVariable[i].name === 'h_Temp'){
-                                evtObj.sender.feedData("&value=" + data[i].data);	
-                                break ; 
+                    socket.on('changeData', function(data){
+                        
+                            if(data.name === 'h_Temp'){
+                                evtObj.sender.feedData("&value=" + data.data);	
                              }
-                            }
+                            
                           } )
             }
         }
@@ -1277,19 +1271,575 @@ FusionCharts.ready(function () {
         },
         "events": {
             "rendered": function (evtObj, argObj) {
-                    socket.on('Read', function(data){
-                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-                            if(allVariableConfig.nameVariable[i].name === 'h_HK'){
-                                evtObj.sender.feedData("&value=" + data[i].data);	
-                                break ; 
+                    socket.on('changeData', function(data){
+                        
+                            if(data.name === 'h_HK'){
+                                evtObj.sender.feedData("&value=" + data.data);	
                              }
-                            }
+                            
                           } )  
             }
         }
     });
     fusioncharts5.render();
 }) ; 
+
+
+
+// Dash board tab
+    var mychartsT1 = document.getElementById("ChartT1");
+    var pointT1 = [];
+    var chartT1 = new CanvasJS.Chart(mychartsT1, {
+      zoomEnabled: true,
+      theme: 'dark1' ,
+      title: {
+        text: "T1"
+      },
+      axisY: {
+        includeZero: false,
+        suffix: "℃"
+      },
+      toolTip: {
+        shared: "true"
+      },
+      legend: {
+        cursor: "pointer",
+        verticalAlign: "top",
+        fontSize: 22,
+        fontColor: "dimGrey"
+      },
+      data: [
+        {
+          type: "spline",
+          showInLegend: true,
+          name: "Line 1",
+          markerSize: 0,
+          dataPoints: pointT1
+        }
+      ]
+    });
+    function renderChartT1() {
+      var xVal = new Date();
+      yVal = 100 + Math.round(5 + Math.random() * (-5 - 5));
+      console.log(yVal)
+      pointT1.push({
+        x: xVal,
+        y: yVal
+      });
+      if (pointT1.length > 10) {
+        pointT1.shift();
+      }
+      chartT1.options.data[0].legendText = " Value T1 : " + yVal;
+      chartT1.render();
+    };
+    setInterval(function() {
+    renderChartT1();
+    }, 1000);
+  
+   // End chart container
+   
+   // fusion chart thermometer
+   FusionCharts.ready(function(){
+   var chartObjT1 = new FusionCharts({
+   type: 'thermometer',
+   renderAt: 'ThermometerT1',
+   width: '220',
+   height: '300',
+   dataFormat: 'json',
+   dataSource: {
+   "chart": {
+       "caption": "Temperature Monitor",
+       "lowerLimit": "0",
+       "upperLimit": "0",
+       "bgColor": "#697179" ,
+   
+       "decimals": "1",
+       "numberSuffix": "°C",
+       "showhovereffect": "1",
+       "thmFillColor": "#008ee4",
+       "showGaugeBorder": "1",
+       "gaugeBorderColor": "#008ee4",
+       "gaugeBorderThickness": "2",
+       "gaugeBorderAlpha": "30",
+       "thmOriginX": "100",
+       "chartBottomMargin": "20",
+       "valueFontColor": "#000000",
+       "theme": "fusion"
+   },
+   "value": "0",
+   
+   },
+   "events": {
+    "rendered": function (evtObj, argObj) {
+        socket.on('changeData', function(data){
+                if(data.name === 'random'){
+                    evtObj.sender.feedData("&value=" + data.data);	
+                 }  
+              } )  
+    }
+   }
+   }
+   );
+       chartObjT1.render();
+   });
+   
+
+// fusion chart nhietj do T2
+
+var mychartsT2 = document.getElementById("ChartT2");
+var pointT2 = [];
+var chartT2 = new CanvasJS.Chart(mychartsT2, {
+  zoomEnabled: true,
+  theme: 'dark1' ,
+  title: {
+    text: "T2"
+  },
+  axisY: {
+    includeZero: false,
+    suffix: "℃"
+  },
+  toolTip: {
+    shared: "true"
+  },
+  legend: {
+    cursor: "pointer",
+    verticalAlign: "top",
+    fontSize: 22,
+    fontColor: "dimGrey"
+  },
+  data: [
+    {
+      type: "spline",
+      showInLegend: true,
+      name: "Line 1",
+      markerSize: 0,
+      dataPoints: pointT2
+    }
+  ]
+});
+function renderChartT2() {
+  var xVal = new Date();
+  yVal = 100 + Math.round(5 + Math.random() * (-5 - 5));
+  console.log(yVal)
+  pointT2.push({
+    x: xVal,
+    y: yVal
+  });
+  if (pointT2.length > 10) {
+    pointT2.shift();
+  }
+  chartT2.options.data[0].legendText = " Value T2 : " + yVal;
+  chartT2.render();
+};
+setInterval(function() {
+renderChartT2();
+}, 1000);
+// End chart container
+
+// fusion chart thermometer
+FusionCharts.ready(function(){
+var chartObjT2 = new FusionCharts({
+type: 'thermometer',
+renderAt: 'ThermometerT2',
+width: '220',
+height: '300',
+dataFormat: 'json',
+dataSource: {
+"chart": {
+    "caption": "Temperature Monitor",
+    "lowerLimit": "0",
+    "upperLimit": "0",
+    "bgColor": "#697179" ,
+
+    "decimals": "1",
+    "numberSuffix": "°C",
+    "showhovereffect": "1",
+    "thmFillColor": "#008ee4",
+    "showGaugeBorder": "1",
+    "gaugeBorderColor": "#008ee4",
+    "gaugeBorderThickness": "2",
+    "gaugeBorderAlpha": "30",
+    "thmOriginX": "100",
+    "chartBottomMargin": "20",
+    "valueFontColor": "#000000",
+    "theme": "fusion"
+},
+"value": "0",
+
+},
+"events": {
+    "rendered": function (evtObj, argObj) {
+        socket.on('changeData', function(data){
+                if(data.name === 'random'){
+                    evtObj.sender.feedData("&value=" + data.data);	
+                 }  
+              } )  
+    }
+   }
+}
+);
+    chartObjT2.render();
+});
+
+
+// fusion chart nhiet do T3
+var mychartsT3 = document.getElementById("ChartT3");
+ var dps1 = [];
+ var dps2 = [];
+ var chartT3 = new CanvasJS.Chart(mychartsT3, {
+   zoomEnabled: true,
+   theme: 'dark1' ,
+   title: {
+     text: "T3"
+   },
+   axisY: {
+    includeZero: false,
+    suffix: "℃"
+  },
+   toolTip: {
+     shared: "true"
+   },
+   legend: {
+     cursor: "pointer",
+     verticalAlign: "top",
+     fontSize: 22,
+     fontColor: "dimGrey",
+     itemclick: toggleDataSeries
+   },
+   data: [
+     {
+       type: "spline",
+       showInLegend: true,
+       name: "Line 1",
+       markerSize: 0,
+       dataPoints: dps1
+     },
+     {
+       type: "spline",
+       showInLegend: true,
+       name: "Line 2",
+       markerSize: 0,
+       dataPoints: dps2
+     }
+   ]
+ });
+ var yVal = 100;
+ var updateInterval = 1000;
+ var dataLength = 10; // number of dataPoints visible at any point
+ var updateChart = function() {
+   var xVal = new Date();
+   yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+   dps1.push({
+     x: xVal,
+     y: yVal
+   });
+   var xVal1 = xVal + 1;
+   var yVal1 = yVal - 1;
+   dps2.push({
+     x: xVal,
+     y: yVal1
+   });
+
+   if (dps1.length > dataLength) {
+     dps1.shift();
+   }
+   if (dps2.length > dataLength) {
+     dps2.shift();
+   }
+   chartT3.options.data[0].legendText = " Line 1 Value : " + yVal;
+   chartT3.options.data[1].legendText = " Line 2 Value :  " + yVal1;
+   chartT3.render();
+ };
+ updateChart(dataLength);
+ setInterval(function() {
+   updateChart();
+ }, updateInterval);
+function toggleDataSeries(e) {
+    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
+    } else {
+      e.dataSeries.visible = true;
+    }
+    chartT3.render();
+}
+// End chart container
+
+// fusion chart thermometer
+FusionCharts.ready(function(){
+var chartObjT3 = new FusionCharts({
+type: 'thermometer',
+renderAt: 'ThermometerT3',
+width: '220',
+height: '300',
+dataFormat: 'json',
+dataSource: {
+"chart": {
+    "caption": "Temperature Monitor",
+    "lowerLimit": "0",
+    "upperLimit": "0",
+    "bgColor": "#697179" ,
+
+    "decimals": "1",
+    "numberSuffix": "°C",
+    "showhovereffect": "1",
+    "thmFillColor": "#008ee4",
+    "showGaugeBorder": "1",
+    "gaugeBorderColor": "#008ee4",
+    "gaugeBorderThickness": "2",
+    "gaugeBorderAlpha": "30",
+    "thmOriginX": "100",
+    "chartBottomMargin": "20",
+    "valueFontColor": "#000000",
+    "theme": "fusion"
+},
+"value": "0",
+
+},
+"events": {
+    "rendered": function (evtObj, argObj) {
+        socket.on('changeData', function(data){
+                if(data.name === 'random'){
+                    evtObj.sender.feedData("&value=" + data.data);	
+                 }  
+              } )  
+    }
+   }
+}
+);
+    chartObjT3.render();
+});
+
+
+// fusion chart speedometer DO
+const dataSource = {
+    chart: {
+      bgColor: "#697179" ,
+      captionpadding: "0",
+      origw: "320",
+      origh: "300",
+      gaugeouterradius: "115",
+      gaugestartangle: "270",
+      gaugeendangle: "-25",
+      showvalue: "1",
+      valuefontsize: "30",
+      majortmnumber: "13",
+      majortmthickness: "2",
+      majortmheight: "13",
+      minortmheight: "7",
+      minortmthickness: "1",
+      minortmnumber: "1",
+      showgaugeborder: "0",
+      theme: "fusion"
+    },
+    colorrange: {
+      color: [
+        {
+          minvalue: "0",
+          maxvalue: "300",
+          code: "#F6F6F6"
+        }
+      ]
+    },
+    dials: {
+      dial: [
+        {
+          value: "110",
+          bgcolor: "#F20F2F",
+          basewidth: "8"
+        }
+      ]
+    },
+    annotations: {
+      groups: [
+        {
+          items: [
+            {
+              type: "text",
+              id: "text",
+              text: "mph",
+              x: "$gaugeCenterX",
+              y: "$gaugeCenterY + 40",
+              fontsize: "20",
+              color: "#555555"
+            }
+          ]
+        }
+      ]
+    }
+  };
+FusionCharts.ready(function() {
+    var myChart = new FusionCharts({
+      type: "angulargauge",
+      renderAt: "Container_DO",
+      width: "400",
+      height: "400",
+      dataFormat: "json",
+      dataSource ,
+      events: {
+        "rendered": function (evtObj, argObj) {
+                socket.on('changeData', function(data){  
+                        if(data.name === 'random'){
+                            evtObj.sender.feedData("&value=" + data.data);
+                         }
+                      } )
+        }
+     }
+    }).render();
+  });
+
+ // PH chart and Flow chart 
+
+ // ph
+ var opts = {
+    // color configs
+    colorStart: "#6fadcf",
+    colorStop: void 0,
+    gradientType: 0,
+    strokeColor: "#e0e0e0",
+    generateGradient: true,
+    percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]],
+
+    // customize pointer
+    pointer: {
+      length: 0.8,
+      strokeWidth: 0.035,
+      iconScale: 1.0
+    },
+
+    // static labels
+    staticLabels: {
+      font: "10px sans-serif",
+      labels: [200, 500, 2100, 2800],
+      fractionDigits: 0
+    },
+
+    // static zones
+    staticZones: [
+      {strokeStyle: "#F03E3E", min: 0, max: 200},
+      {strokeStyle: "#FFDD00", min: 200, max: 500},
+      {strokeStyle: "#30B32D", min: 500, max: 2100},
+      {strokeStyle: "#FFDD00", min: 2100, max: 2800},
+      {strokeStyle: "#F03E3E", min: 2800, max: 3000}
+    ],
+
+    // render ticks
+    renderTicks: {
+      divisions: 5,
+      divWidth: 1.1,
+      divLength: 0.7,
+      divColor: '#333333',
+      subDivisions: 3,
+      subLength: 0.5,
+      subWidth: 0.6,
+      subColor: '#666666'
+    },
+
+    // the span of the gauge arc
+    angle: 0.15,
+
+    // line thickness
+    lineWidth: 0.44,
+
+    // radius scale
+    radiusScale: 1.0,
+
+    // font size
+    fontSize: 40,
+
+    // if false, max value increases automatically if value > maxValue
+    limitMax: false,
+
+    // if true, the min value of the gauge will be fixed
+    limitMin: false,
+
+    // High resolution support
+    highDpiSupport: true
+};
+var target = document.getElementById('Container-PH'); 
+var gauge = new Gauge(target).setOptions(opts);
+document.getElementById("preview-textfield").className = "preview-textfield";
+gauge.setTextField(document.getElementById("preview-textfield"));
+gauge.maxValue = 3000;
+gauge.setMinValue(0); 
+socket.on('changeData',(data)=>{
+    gauge.set(data.data * 30);
+})
+gauge.animationSpeed = 32
+
+// flow1 va Flow 2
+google.charts.load('current', {'packages':['gauge']});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+          
+  var Trefresh = 3000; //ms
+  
+  var data = google.visualization.arrayToDataTable([
+    ['Label', 'Value'],
+    ['Flow1', 80],
+    ['Flow2', 55]
+  ]);
+
+  var options = {
+    width: 700, height: 240,
+    redFrom: 80, redTo: 100,
+    yellowFrom:55, yellowTo: 90,
+    minorTicks: 5
+  };
+
+  var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+  chart.draw(data, options);
+
+  setInterval(function() {
+    data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+    chart.draw(data, options);
+  }, Trefresh);
+  setInterval(function() {
+    data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+    chart.draw(data, options);
+  }, Trefresh);
+}
+
+
+
+var previousData = {} ; 
+socket.on('changeData',(data)=>{
+    var nextData = data ; 
+    if(Object.keys(previousData).length === 0 || previousData.name !== nextData.name || previousData.data !== nextData.data){
+        myFunction(data) ; 
+        previousData = nextData ; 
+    }
+})
+  // Add variable in table
+function myFunction(data_change) {
+    if (data_change !== undefined) {
+      var table = document.getElementById("tableDataChange");
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      cell1.innerHTML = data_change.name;
+      cell2.innerHTML = data_change.dataType;
+      cell3.innerHTML = data_change.data;
+      cell4.innerHTML = getTime(new Date(data_change.date)) ; 
+      if (table.rows.length > 10) {
+        table.deleteRow(table.rows.length - 1);
+      }
+    }
+  }
+function productDelete(ctl) {
+    $(ctl)
+      .parents("tr")
+      .remove();
+  }
+
+
+
+})
+
+
+
 
 // Write value
 // control panel 
@@ -1338,11 +1888,11 @@ function ConfirmControlPanel(){
     socket.emit(`setConfirm_System_PLC1`,{
         name: 'Confirm_System_PLC1',
         value: true 
-    })
+    }) ;
     socket.emit(`setConfirm_System_PLC2`,{
         name: 'Confirm_System_PLC2',
         value: true 
-    })
+    }) ;
     setTimeout(() => {
         socket.emit(`setConfirm_System_PLC1`,{
             name: 'Confirm_System_PLC1',
@@ -1352,7 +1902,7 @@ function ConfirmControlPanel(){
             name: 'Confirm_System_PLC2',
             value: false 
         })
-    }, 100);
+    },500);
 }
 // set time all tank 
 //KK
@@ -1970,669 +2520,40 @@ $('#RPM-pump5_2').keypress(function(event){
 
 
 
-// Dash board tab
-
- // Create chartContainer nhiet do T1
- var data_change ; 
-
- {
-    var mychartsT1 = document.getElementById("ChartT1");
-    var dps1 = [];
-    var dps2 = [];
-    var chartT1 = new CanvasJS.Chart(mychartsT1, {
-      zoomEnabled: true,
-      theme: 'dark1' ,
-      title: {
-        text: "Chart"
-      },
-      axisY: {
-        includeZero: false,
-        title: "Number of Viewers",
-        suffix: "Don Vi"
-      },
-      toolTip: {
-        shared: "true"
-      },
-      legend: {
-        cursor: "pointer",
-        verticalAlign: "top",
-        fontSize: 22,
-        fontColor: "dimGrey",
-        itemclick: toggleDataSeries
-      },
-      data: [
-        {
-          type: "spline",
-          showInLegend: true,
-          name: "Line 1",
-          markerSize: 0,
-          dataPoints: dps1
-        },
-        {
-          type: "spline",
-          showInLegend: true,
-          name: "Line 2",
-          markerSize: 0,
-          dataPoints: dps2
-        }
-      ]
-    });
-    var yVal = 100;
-    var updateInterval = 1000;
-    var dataLength = 10; // number of dataPoints visible at any point
-    var updateChart = function() {
-      var xVal = new Date();
-      yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
-      dps1.push({
-        x: xVal,
-        y: yVal
-      });
-      var xVal1 = xVal + 1;
-      var yVal1 = yVal - 1;
-      dps2.push({
-        x: xVal,
-        y: yVal1
-      });
-   
-      if (dps1.length > dataLength) {
-        dps1.shift();
-      }
-      if (dps2.length > dataLength) {
-        dps2.shift();
-      }
-      chartT1.options.data[0].legendText = " Line 1 Value : " + yVal;
-      chartT1.options.data[1].legendText = " Line 2 Value :  " + yVal1;
-      chartT1.render();
-    };
-    updateChart(dataLength);
-    setInterval(function() {
-      updateChart();
-    }, updateInterval);
-   function toggleDataSeries(e) {
-       if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
-         e.dataSeries.visible = false;
-       } else {
-         e.dataSeries.visible = true;
-       }
-       chartT1.render();
-   }
-   // End chart container
-   
-   // fusion chart thermometer
-   FusionCharts.ready(function(){
-   var chartObjT1 = new FusionCharts({
-   type: 'thermometer',
-   renderAt: 'ThermometerT1',
-   width: '220',
-   height: '300',
-   dataFormat: 'json',
-   dataSource: {
-   "chart": {
-       "caption": "Temperature Monitor",
-       "lowerLimit": "-10",
-       "upperLimit": "0",
-       "bgColor": "#697179" ,
-   
-       "decimals": "1",
-       "numberSuffix": "°C",
-       "showhovereffect": "1",
-       "thmFillColor": "#008ee4",
-       "showGaugeBorder": "1",
-       "gaugeBorderColor": "#008ee4",
-       "gaugeBorderThickness": "2",
-       "gaugeBorderAlpha": "30",
-       "thmOriginX": "100",
-       "chartBottomMargin": "20",
-       "valueFontColor": "#000000",
-       "theme": "fusion"
-   },
-   "value": "-6",
-   
-   },
-   "events": {
-   "rendered": function(evt, arg) {
-       evt.sender.dataUpdate = setInterval(function() {
-           var value,
-               prevTemp = evt.sender.getData(),
-               mainTemp = (Math.random() * 10) * (-1),
-               diff = Math.abs(prevTemp - mainTemp);
-   
-           diff = diff > 1 ? (Math.random() * 1) : diff;
-           if (mainTemp > prevTemp) {
-               value = prevTemp + diff;
-           } else {
-               value = prevTemp - diff;
-           }
-   
-           evt.sender.feedData("&value=" + value);
-   
-       }, 3000);
-       
-   },
-   'renderComplete': function(evt, arg) {
-       evt.sender.updateAnnotation(evt, arg);
-   },
-   'realtimeUpdateComplete': function(evt, arg) {
-       evt.sender.updateAnnotation(evt, arg);
-   },
-   'disposed': function(evt, arg) {
-       clearInterval(evt.sender.dataUpdate);
-   }
-   }
-   }
-   );
-       chartObjT1.render();
-   });
-   
- }
- 
-
-// fusion chart nhietj do T2
-
-var mychartsT2 = document.getElementById("ChartT2");
- var dps1 = [];
- var dps2 = [];
- var chartT2 = new CanvasJS.Chart(mychartsT2, {
-   zoomEnabled: true,
-   theme: 'dark1' ,
-   title: {
-     text: "Chart"
-   },
-   axisY: {
-     includeZero: false,
-     title: "Number of Viewers",
-     suffix: "Don Vi"
-   },
-   toolTip: {
-     shared: "true"
-   },
-   legend: {
-     cursor: "pointer",
-     verticalAlign: "top",
-     fontSize: 22,
-     fontColor: "dimGrey",
-     itemclick: toggleDataSeries
-   },
-   data: [
-     {
-       type: "spline",
-       showInLegend: true,
-       name: "Line 1",
-       markerSize: 0,
-       dataPoints: dps1
-     },
-     {
-       type: "spline",
-       showInLegend: true,
-       name: "Line 2",
-       markerSize: 0,
-       dataPoints: dps2
-     }
-   ]
- });
- var yVal = 100;
- var updateInterval = 1000;
- var dataLength = 10; // number of dataPoints visible at any point
- var updateChart = function() {
-   var xVal = new Date();
-   yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
-   dps1.push({
-     x: xVal,
-     y: yVal
-   });
-   var xVal1 = xVal + 1;
-   var yVal1 = yVal - 1;
-   dps2.push({
-     x: xVal,
-     y: yVal1
-   });
-
-   if (dps1.length > dataLength) {
-     dps1.shift();
-   }
-   if (dps2.length > dataLength) {
-     dps2.shift();
-   }
-   chartT2.options.data[0].legendText = " Line 1 Value : " + yVal;
-   chartT2.options.data[1].legendText = " Line 2 Value :  " + yVal1;
-   chartT2.render();
- };
- updateChart(dataLength);
- setInterval(function() {
-   updateChart();
- }, updateInterval);
-function toggleDataSeries(e) {
-    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
-      e.dataSeries.visible = false;
-    } else {
-      e.dataSeries.visible = true;
-    }
-    chart.render();
-}
-// End chart container
-
-// fusion chart thermometer
-FusionCharts.ready(function(){
-var chartObjT2 = new FusionCharts({
-type: 'thermometer',
-renderAt: 'ThermometerT2',
-width: '220',
-height: '300',
-dataFormat: 'json',
-dataSource: {
-"chart": {
-    "caption": "Temperature Monitor",
-    "lowerLimit": "-10",
-    "upperLimit": "0",
-    "bgColor": "#697179" ,
-
-    "decimals": "1",
-    "numberSuffix": "°C",
-    "showhovereffect": "1",
-    "thmFillColor": "#008ee4",
-    "showGaugeBorder": "1",
-    "gaugeBorderColor": "#008ee4",
-    "gaugeBorderThickness": "2",
-    "gaugeBorderAlpha": "30",
-    "thmOriginX": "100",
-    "chartBottomMargin": "20",
-    "valueFontColor": "#000000",
-    "theme": "fusion"
-},
-"value": "-6",
-
-},
-"events": {
-"rendered": function(evt, arg) {
-    evt.sender.dataUpdate = setInterval(function() {
-        var value,
-            prevTemp = evt.sender.getData(),
-            mainTemp = (Math.random() * 10) * (-1),
-            diff = Math.abs(prevTemp - mainTemp);
-
-        diff = diff > 1 ? (Math.random() * 1) : diff;
-        if (mainTemp > prevTemp) {
-            value = prevTemp + diff;
-        } else {
-            value = prevTemp - diff;
-        }
-
-        evt.sender.feedData("&value=" + value);
-
-    }, 3000);
-    
-},
-'renderComplete': function(evt, arg) {
-    evt.sender.updateAnnotation(evt, arg);
-},
-'realtimeUpdateComplete': function(evt, arg) {
-    evt.sender.updateAnnotation(evt, arg);
-},
-'disposed': function(evt, arg) {
-    clearInterval(evt.sender.dataUpdate);
-}
-}
-}
-);
-    chartObjT2.render();
-});
-
-
-// fusion chart nhiet do T3
-var mychartsT3 = document.getElementById("ChartT3");
- var dps1 = [];
- var dps2 = [];
- var chartT3 = new CanvasJS.Chart(mychartsT3, {
-   zoomEnabled: true,
-   theme: 'dark1' ,
-   title: {
-     text: "Chart"
-   },
-   axisY: {
-     includeZero: false,
-     title: "Number of Viewers",
-     suffix: "Don Vi"
-   },
-   toolTip: {
-     shared: "true"
-   },
-   legend: {
-     cursor: "pointer",
-     verticalAlign: "top",
-     fontSize: 22,
-     fontColor: "dimGrey",
-     itemclick: toggleDataSeries
-   },
-   data: [
-     {
-       type: "spline",
-       showInLegend: true,
-       name: "Line 1",
-       markerSize: 0,
-       dataPoints: dps1
-     },
-     {
-       type: "spline",
-       showInLegend: true,
-       name: "Line 2",
-       markerSize: 0,
-       dataPoints: dps2
-     }
-   ]
- });
- var yVal = 100;
- var updateInterval = 1000;
- var dataLength = 10; // number of dataPoints visible at any point
- var updateChart = function() {
-   var xVal = new Date();
-   yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
-   dps1.push({
-     x: xVal,
-     y: yVal
-   });
-   var xVal1 = xVal + 1;
-   var yVal1 = yVal - 1;
-   dps2.push({
-     x: xVal,
-     y: yVal1
-   });
-
-   if (dps1.length > dataLength) {
-     dps1.shift();
-   }
-   if (dps2.length > dataLength) {
-     dps2.shift();
-   }
-   chartT3.options.data[0].legendText = " Line 1 Value : " + yVal;
-   chartT3.options.data[1].legendText = " Line 2 Value :  " + yVal1;
-   chartT3.render();
- };
- updateChart(dataLength);
- setInterval(function() {
-   updateChart();
- }, updateInterval);
-function toggleDataSeries(e) {
-    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
-      e.dataSeries.visible = false;
-    } else {
-      e.dataSeries.visible = true;
-    }
-    chartT3.render();
-}
-// End chart container
-
-// fusion chart thermometer
-FusionCharts.ready(function(){
-var chartObjT3 = new FusionCharts({
-type: 'thermometer',
-renderAt: 'ThermometerT3',
-width: '220',
-height: '300',
-dataFormat: 'json',
-dataSource: {
-"chart": {
-    "caption": "Temperature Monitor",
-    "lowerLimit": "-10",
-    "upperLimit": "0",
-    "bgColor": "#697179" ,
-
-    "decimals": "1",
-    "numberSuffix": "°C",
-    "showhovereffect": "1",
-    "thmFillColor": "#008ee4",
-    "showGaugeBorder": "1",
-    "gaugeBorderColor": "#008ee4",
-    "gaugeBorderThickness": "2",
-    "gaugeBorderAlpha": "30",
-    "thmOriginX": "100",
-    "chartBottomMargin": "20",
-    "valueFontColor": "#000000",
-    "theme": "fusion"
-},
-"value": "-6",
-
-},
-"events": {
-"rendered": function(evt, arg) {
-    evt.sender.dataUpdate = setInterval(function() {
-        var value,
-            prevTemp = evt.sender.getData(),
-            mainTemp = (Math.random() * 10) * (-1),
-            diff = Math.abs(prevTemp - mainTemp);
-
-        diff = diff > 1 ? (Math.random() * 1) : diff;
-        if (mainTemp > prevTemp) {
-            value = prevTemp + diff;
-        } else {
-            value = prevTemp - diff;
-        }
-
-        evt.sender.feedData("&value=" + value);
-
-    }, 3000);
-    
-},
-'renderComplete': function(evt, arg) {
-    evt.sender.updateAnnotation(evt, arg);
-},
-'realtimeUpdateComplete': function(evt, arg) {
-    evt.sender.updateAnnotation(evt, arg);
-},
-'disposed': function(evt, arg) {
-    clearInterval(evt.sender.dataUpdate);
-}
-}
-}
-);
-    chartObjT3.render();
-});
-
-
-
-// fusion chart speedometer DO
-const dataSource = {
-    chart: {
-      bgColor: "#697179" ,
-      captionpadding: "0",
-      origw: "320",
-      origh: "300",
-      gaugeouterradius: "115",
-      gaugestartangle: "270",
-      gaugeendangle: "-25",
-      showvalue: "1",
-      valuefontsize: "30",
-      majortmnumber: "13",
-      majortmthickness: "2",
-      majortmheight: "13",
-      minortmheight: "7",
-      minortmthickness: "1",
-      minortmnumber: "1",
-      showgaugeborder: "0",
-      theme: "fusion"
-    },
-    colorrange: {
-      color: [
-        {
-          minvalue: "0",
-          maxvalue: "300",
-          code: "#F6F6F6"
-        }
-      ]
-    },
-    dials: {
-      dial: [
-        {
-          value: "110",
-          bgcolor: "#F20F2F",
-          basewidth: "8"
-        }
-      ]
-    },
-    annotations: {
-      groups: [
-        {
-          items: [
-            {
-              type: "text",
-              id: "text",
-              text: "mph",
-              x: "$gaugeCenterX",
-              y: "$gaugeCenterY + 40",
-              fontsize: "20",
-              color: "#555555"
-            }
-          ]
-        }
-      ]
-    }
-  };
-FusionCharts.ready(function() {
-    var myChart = new FusionCharts({
-      type: "angulargauge",
-      renderAt: "Container_DO",
-      width: "400",
-      height: "400",
-      dataFormat: "json",
-      dataSource ,
-      events: {
-        "rendered": function (evtObj, argObj) {
-                socket.on('Read', function(data){
-                    for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-                        if(allVariableConfig.nameVariable[i].name === 'random'){
-                            evtObj.sender.feedData("&value=" + data[i].data);	
-                            break ; 
-                         }
-                        }
-                      } )
-        }
-     }
-    }).render();
-  });
-  
-
-
-socket.on("Read", function(data) {
-    for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i++){
-      if(allVariableConfig.nameVariable[i].name === 'random'){
-        data_change = data[i];
-        var x = document.querySelectorAll("#read");
-        for (var j = 0; j < x.length; j++) {
-        x[j].innerHTML = data[i].data;
-       }
-      }
-    } 
-  });
-  var intervalAddData = setInterval(() => {
-    myFunction();
-   }, 5000);
-  // Add variable in table
-function myFunction() {
-    if (data_change !== undefined) {
-      var table = document.getElementById("myTable");
-      var row = table.insertRow(0);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      var cell4 = row.insertCell(3);
-      cell1.innerHTML = data_change._id;
-      cell2.innerHTML = data_change.data;
-      cell3.innerHTML = new Date(data_change.date);
-      cell4.innerHTML =
-        "<button type='button'" +
-        "onclick= 'productDelete(this) ;' " +
-        "class='btn btn-secondary'>" +
-        "Delete" +
-        "</button>";
-  
-      if (table.rows.length > 5) {
-        table.deleteRow(table.rows.length - 1);
-      }
-    }
-  }
-function productDelete(ctl) {
-    $(ctl)
-      .parents("tr")
-      .remove();
-  }
-  
   
 function findData() {
+    $("#tableFindData").empty();
     var start = new Date($("#starttime").val());
     var stop = new Date($("#endtime").val());
     var dataarr = [start, stop];
-    socket.emit("findData", dataarr);
-  }
+    var name = $('#tagNameFind').val() ; 
+    socket.emit("findData", {dataarr , name});
+    console.log({dataarr , name})
+}
 socket.on("resultFindData", function(data) {
-    for (var i = 0; i < data.length; i++) {
-      var table = document.getElementById("resultfindDataTable");
+    if(data.length === 0 ){
+        console.log('ok')
+        $('#messageFindVariable').html('No Result').css('color','red')
+    }
+    for (var i = 0; i < data.length; i++) {  
+      var table = document.getElementById("tableFindData");
       var row = table.insertRow(0);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      cell1.innerHTML = data[i]._id;
-      cell2.innerHTML = data[i].data;
-      cell3.innerHTML = new Date(data[i].date);
+      var cellstt = row.insertCell(0);
+      cellstt.id = "stt" ; 
+      var cell1 = row.insertCell(1);
+      var cell2 = row.insertCell(2);
+      var cell3 = row.insertCell(3);
+      var cell4 = row.insertCell(4);
+      cell1.innerHTML = data[i].name;
+      cell2.innerHTML = data[i].dataType;
+      cell3.innerHTML = data[i].data;
+      cell4.innerHTML = getTime(new Date(data[i].date));
+      $('#stt').html(data.length - i) ; 
     }
   });
 
 
 
-
-// arm chart 
-var chartdiv = document.getElementById("armchart");
-am4core.ready(function() {
- // Themes begin
- am4core.useTheme(am4themes_animated);
- // Themes end
-
- // create chart
- var chart = am4core.create(chartdiv, am4charts.GaugeChart);
- chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
-
- chart.innerRadius = -25;
-
- var axis = chart.xAxes.push(new am4charts.ValueAxis());
- axis.min = 0;
- axis.max = 100;
- axis.strictMinMax = true;
- axis.renderer.grid.template.stroke = new am4core.InterfaceColorSet().getFor(
-   "background"
- );
- axis.renderer.grid.template.strokeOpacity = 0.3;
-
- var colorSet = new am4core.ColorSet();
-
- var range0 = axis.axisRanges.create();
- range0.value = 0;
- range0.endValue = 50;
- range0.axisFill.fillOpacity = 1;
- range0.axisFill.fill = colorSet.getIndex(0);
- range0.axisFill.zIndex = -1;
-
- var range1 = axis.axisRanges.create();
- range1.value = 50;
- range1.endValue = 80;
- range1.axisFill.fillOpacity = 1;
- range1.axisFill.fill = colorSet.getIndex(2);
- range1.axisFill.zIndex = -1;
-
- var range2 = axis.axisRanges.create();
- range2.value = 80;
- range2.endValue = 100;
- range2.axisFill.fillOpacity = 1;
- range2.axisFill.fill = colorSet.getIndex(10);
- range2.axisFill.zIndex = -1;
-
- var hand = chart.hands.push(new am4charts.ClockHand());
-
- // using chart.setTimeout method as the timeout will be disposed together with a chart
- chart.setTimeout(randomValue, 2000);
-
- function randomValue() {
-   hand.showValue(data_change.data , 1000, am4core.ease.cubicOut);
-   chart.setTimeout(randomValue, 2000);
- }
-});
 
 
 
