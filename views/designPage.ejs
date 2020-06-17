@@ -306,8 +306,17 @@
   role="tabpanel"
   aria-labelledby="nav-supervisor-tab"
 >
-<div class="System">
-  
+<div class="System" >
+   
+   <button type="button" class="btn btn-danger btn-circle btn-xl" id="btnEmergency">Emergency</button>
+   <div id="emergencyCircle"></div>
+   <div id="lampRun"></div>
+   <div id="lampWarning"></div>
+   <div id="lampStop"></div>
+
+
+  <!-- Emg_Scada1 vs Emg_Scada2-->
+
   <div id="clock-display"> </div>
   <div class="inline_1" id="chart-container1">Bể Chứa</div>
   <div class="inline_2" id="chart-container2">Bể Cân Bằng</div>
@@ -578,7 +587,7 @@
   <div class="progress" id="h_Hcl">
   </div>
 
-</div>
+
 
 <!--Main panel -->
 <div class="Symbols" >
@@ -862,8 +871,46 @@
          </div>
        </div>
     </div>
-  </!->
+
+     <!-- Overload and emergency -->
+   <label for="" id= "overloadPump1" ></label> <!--overload_1-->
+   <label for="" id= "overloadPump2" ></label> <!--overload_2-->
+   <label for="" id= "overloadPump3" ></label> <!--overload_3-->
+   <label for="" id= "overloadTH" ></label> <!--overload_7-->
+   <label for="" id= "overloadMix" ></label> <!--overload_9-->
+   <label for="" id= "overloadPump4" ></label> <!--overload_4-->
+   <label for="" id= "overloadPump5" ></label> <!--overload_5-->
+   <label for="" id= "overloadPumpBun" ></label> <!--overload_6-->
+   <label for="" id= "overloadPumpGatBun" ></label> <!--overload_8-->
+
+
+   <!--Error Valve-->
+   <div id= "ErrorValve_1" ></div> 
+   <div id= "ErrorValve_2" ></div> 
+   <div id= "ErrorValve_3" ></div> 
+   <div id= "ErrorValve_4" ></div>
+   <div id= "ErrorValve_5" ></div> 
+   <div id= "ErrorValve_6" ></div> 
+
+   
+   <!-- lamp error -->
+   <div id="ErrorPump1_1"></div>
+   <div id="ErrorPump1_2"></div>
+   <div id="ErrorPump2_1"></div>
+   <div id="ErrorPump2_2"></div>
+   <div id="ErrorPump3_1"></div>
+   <div id="ErrorPump3_2"></div>
+   <div id="ErrorPump4_1"></div>
+   <div id="ErrorPump4_2"></div>
+   <div id="ErrorPump5_1"></div>
+   <div id="ErrorPump5_2"></div>
+   <div id="ErrorPumpTH"></div>
+   <div id="ErrorPumpBun"></div>
+   <div id="ErrorPumpGatBun"></div>
+  </div>
+
  </div>
+
 
 <!-- Modal pump 1 -->
 <div class="modal fade" id="modalPump1">

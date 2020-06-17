@@ -1,3 +1,4 @@
+
 //inline_1
 var socket = io.connect();
 var allVariableConfig = {}
@@ -10,24 +11,31 @@ var pump2 = {pump2_1: false , pump2_2: false} ;
 var pump3 = {pump3_1: false , pump3_2: false} ; 
 var pump4 = {pump4_1: false , pump4_2: false} ; 
 var pump5 = {pump5_1: false , pump5_2: false} ; 
-var stateKK = {state: false}
+var stateKK = {state: false} ;
+var stateEmergency = false ; 
+var toggleWarning , toggleOverload1 ,toggleOverload2 , toggleOverload3 
+,toggleOverload4 , toggleOverload5 ,toggleOverloadTH , toggleOverloadMix ,toggleOverloadBun, toggleOverloadGatBun 
+,toggleErrorPump1_1 , toggleErrorPump1_2 ,toggleErrorPump2_1 , toggleErrorPump2_2 ,toggleErrorPump3_1, toggleErrorPump3_2 
+,toggleErrorPump4_1 , toggleErrorPump4_2 ,toggleErrorPump5_1 , toggleErrorPump5_2 ,toggleErrorTH, toggleErrorBun ,
+toggleErrorGatBun ,toggleErrorValve_1  , toggleErrorValve_2, toggleErrorValve_3, toggleErrorValve_4, toggleErrorValve_5 , 
+toggleErrorValve_6  ; 
 
 $(document).ready(function(){
 
     socket.on('changeData' , (data)=>{
-        
-          console
+        var t0 = performance.now() ; 
+        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
             // sensor be chua
-            if(data.name === 'Ack1'){
-                    if(data.data === 'true'){
+            if(allVariableConfig.nameVariable[i].name === 'H6'){
+                    if(data[i].data === 'true'){
                         $("#sensorBeChua").attr("src",'images/symbols/Light/Light_008.png');
                     }else{
                         $("#sensorBeChua").attr("src",'images/symbols/Light/Light_007.png');
                     }   
              }
              //pipe before pump1_1 and pump1_2
-             if(data.name === 'Pump1_1_Run'){
-                if(data.data === 'true'){
+             if(allVariableConfig.nameVariable[i].name === 'Pump1_1_Run'){
+                if(data[i].data === 'true'){
                     pump1.pump1_1 = true
                     $("#pipe_7").attr("src",'images/symbols/Pipes/Pipes_013.png');
                     $('#pump1_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
@@ -41,8 +49,8 @@ $(document).ready(function(){
                     $("#pipe_10").attr("src",'images/symbols/Pipes/Pipes_017.png');
                 }
              }
-             if(data.name === 'Pump1_2_Run'){
-                if(data.data === 'true'){
+             if(allVariableConfig.nameVariable[i].name === 'Pump1_2_Run'){
+                if(data[i].data === 'true'){
                     pump1.pump1_2 = true
                     $("#pipe_6").attr("src",'images/symbols/Pipes/Pipes_003.png');
                     $('#pump1_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
@@ -73,22 +81,22 @@ $(document).ready(function(){
             }
     
             // sensor be can bang
-            if(data.name === 'H1'){
-                if(data.data === 'true'){
+            if(allVariableConfig.nameVariable[i].name === 'H1'){
+                if(data[i].data === 'true'){
                     $("#sensorHightBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
                     
                 }else{
                     $("#sensorHightBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
                 }}
-            if(data.name === 'H1_Thres'){
-                if(data.data === 'true'){
+            if(allVariableConfig.nameVariable[i].name === 'H1_Thres'){
+                if(data[i].data === 'true'){
                      $("#sensorThresBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
                         
                 }else{
                     $("#sensorThresBeCanBang").attr("src",'images/symbols/Light/Light_007.png');
                     } }  
-            if(data.name === 'L1'){
-                if(data.data === 'true'){
+            if(allVariableConfig.nameVariable[i].name === 'L1'){
+                if(data[i].data === 'true'){
                     $("#sensorlowBeCanBang").attr("src",'images/symbols/Light/Light_008.png');
                             
                 }else{
@@ -96,13 +104,13 @@ $(document).ready(function(){
                     }
            }
            // nhiet do T1
-           if(data.name === 'random'){
-              $('#valueNhietDoT1').html('T1 : ' + data.data + ' ℃') ;
+           if(allVariableConfig.nameVariable[i].name === 'T1'){
+              $('#valueNhietDoT1').html('T1 : ' + data[i].data + ' ℃') ;
             }
           //pipe before pump2_1 and pump2_2
     
-          if(data.name === 'Pump2_1_Run'){
-            if(data.data === 'true'){
+          if(allVariableConfig.nameVariable[i].name === 'Pump2_1_Run'){
+            if(data[i].data === 'true'){
                 pump2.pump2_1 = true
                 $("#pipe_17").attr("src",'images/symbols/Pipes/Pipes_013.png');
                 $("#pipe_18").attr("src",'images/symbols/Pipes/Pipes_053.png');
@@ -118,8 +126,8 @@ $(document).ready(function(){
     
             }
          }
-         if(data.name === 'Pump2_2_Run'){
-            if(data.data === 'true'){
+         if(allVariableConfig.nameVariable[i].name === 'Pump2_2_Run'){
+            if(data[i].data === 'true'){
                 pump2.pump2_2 = true
                 $("#pipe_16").attr("src",'images/symbols/Pipes/Pipes_003.png');
                 $("#pipe_19").attr("src",'images/symbols/Pipes/Pipes_053.png');
@@ -156,45 +164,45 @@ $(document).ready(function(){
     
         }
         // sensor be trung hoa
-        if(data.name === 'H2'){
-            if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'H2'){
+            if(data[i].data === 'true'){
                 $("#sensorHightBeTrungHoa").attr("src",'images/symbols/Light/Light_008.png');
                 
             }else{
                 $("#sensorHightBeTrungHoa").attr("src",'images/symbols/Light/Light_007.png');
             }}
-        if(data.name === 'L2'){
-            if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'L2'){
+            if(data[i].data === 'true'){
                  $("#sensorLowBeTrungHoa").attr("src",'images/symbols/Light/Light_008.png');
                     
             }else{
                 $("#sensorLowBeTrungHoa").attr("src",'images/symbols/Light/Light_007.png');
                 } }  
         //sensor naoh and hcl
-        if(data.name === 'L6'){
-            if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'L6'){
+            if(data[i].data === 'true'){
                 $("#sensorNAOH").attr("src",'images/symbols/Light/Light_008.png');
                 
             }else{
                 $("#sensorNAOH").attr("src",'images/symbols/Light/Light_007.png');
             }}
-        if(data.name === 'L7'){
-            if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'L7'){
+            if(data[i].data === 'true'){
                  $("#sensorHCL").attr("src",'images/symbols/Light/Light_008.png');
                     
             }else{
                 $("#sensorHCL").attr("src",'images/symbols/Light/Light_007.png');
                 } }  
          // chieu cao naoh va hcl
-         if(data.name === 'h_NaOH'){
-            $('#HighNaoh').html('h_NaOH : ' + data.data + ' m') ;
+         if(allVariableConfig.nameVariable[i].name === 'h_NaOH'){
+            $('#HighNaoh').html('h_NaOH : ' + data[i].data + ' m') ;
           }
-        if(data.name === 'h_HCL'){
-            $('#HighHcl').html('h_HCL : ' + data.data + ' m') ;
+        if(allVariableConfig.nameVariable[i].name === 'h_HCL'){
+            $('#HighHcl').html('h_HCL : ' + data[i].data + ' m') ;
           }
           // Valve naoh va Val Hcl
-          if(data.name === 'Val1_FB'){
-            if(data.data === 'true'){
+          if(allVariableConfig.nameVariable[i].name === 'Val1_FB'){
+            if(data[i].data === 'true'){
                 $("#valveNAOH").attr("src",'images/symbols/Valve/Valve_036.png');
                 $("#pipe_naoh1").attr("src",'images/symbols/Pipes/Pipes_003.png');
                 $("#pipe_naoh2").attr("src",'images/symbols/Pipes/Pipes_053.png');
@@ -206,8 +214,8 @@ $(document).ready(function(){
                 $("#pipe_naoh2").attr("src",'images/symbols/Pipes/Pipes_052.png');
                 $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_122.png');
             }}
-        if(data.name === 'Val2_FB'){
-            if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'Val2_FB'){
+            if(data[i].data === 'true'){
                 $("#valveHCL").attr("src",'images/symbols/Valve/Valve_036.png');
                 $("#pipe_hcl1").attr("src",'images/symbols/Pipes/Pipes_008.png');
                 $("#pipe_hcl2").attr("src",'images/symbols/Pipes/Pipes_053.png');
@@ -220,30 +228,30 @@ $(document).ready(function(){
                 $("#pipe_pump_naoh_hcl").attr("src",'images/symbols/Pipes/Pipes_122.png');
             }}
            // pump naoh and hcl
-           if(data.name === 'Pump7_Run'){
-            if(data.data === 'true'){
+           if(allVariableConfig.nameVariable[i].name === 'Pump7_Run'){
+            if(data[i].data === 'true'){
             $('#pumpNAOHHCL').attr("src",'images/symbols/Pump/Pump_028.png') ;
             }else{
             $('#pumpNAOHHCL').attr("src",'images/symbols/Pump/Pump_027.png') ;   
             }
           } 
           // Mix Run
-          if(data.name === 'Mix_Run'){
-            if(data.data === 'true'){
+          if(allVariableConfig.nameVariable[i].name === 'MIX_Run'){
+            if(data[i].data === 'true'){
             $('#mixer_1').attr("src",'images/symbols/Mixer/Mixer_013.png') ;
             }else{
             $('#mixer_2').attr("src",'images/symbols/Mixer/Mixer_012.png') ;   
             }
           }
           // PH 
-          if(data.name === 'Flow'){
-            $('#valuePH').html('PH : ' + data.data ) ;
+          if(allVariableConfig.nameVariable[i].name === 'Flow'){
+            $('#valuePH').html('PH : ' + data[i].data ) ;
           } 
          
           //pipe before pump3_1 and pump3_2
     
-          if(data.name === 'Pump3_1_Run'){
-            if(data.data === 'true'){
+          if(allVariableConfig.nameVariable[i].name === 'Pump3_1_Run'){
+            if(data[i].data === 'true'){
                 pump3.pump3_1 = true ;
                 $("#pipe_33").attr("src",'images/symbols/Pipes/Pipes_013.png');
                 $('#pump3_1').attr("src",'images/symbols/Pump/Pump_013.png') ;
@@ -259,8 +267,8 @@ $(document).ready(function(){
                 $("#pipe_36").attr("src",'images/symbols/Pipes/Pipes_017.png');
             }
          }
-         if(data.name === 'Pump3_2_Run'){
-            if(data.data === 'true'){
+         if(allVariableConfig.nameVariable[i].name === 'Pump3_2_Run'){
+            if(data[i].data === 'true'){
                 pump3.pump3_2 = true ;
                 $("#pipe_32").attr("src",'images/symbols/Pipes/Pipes_003.png');
                 $('#pump3_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
@@ -287,8 +295,8 @@ $(document).ready(function(){
             $("#symbols_4").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
         }
         // Val3_Fb
-        if(data.name === 'Val3_FB'){
-            if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'Val3_FB'){
+            if(data[i].data === 'true'){
                 $('#valve_3').attr("src",'images/symbols/Valve/Valve_036.png') ;
                 $("#pipe_40").attr("src",'images/symbols/Pipes/Pipes_098.png');
                 $("#pipe_41").attr("src",'images/symbols/Pipes/Pipes_013.png');
@@ -301,20 +309,20 @@ $(document).ready(function(){
             }
         }
         // Flow1
-        if(data.name === 'Flow1'){
-            $('#valueFlow1').html('Flow1 : ' + data.data ) ;
+        if(allVariableConfig.nameVariable[i].name === 'Flow'){
+            $('#valueFlow1').html('Flow1 : ' + data[i].data ) ;
           }
           // High Ki Khi
-        if(data.name === 'h_KK'){
-            $('#HighKK').html('h_KK : ' + data.data ) ;
+        if(allVariableConfig.nameVariable[i].name === 'h_KK'){
+            $('#HighKK').html('h_KK : ' + data[i].data ) ;
           }
        // nhiet do T1
-       if(data.name === 'T2'){
-        $('#valueNhietDoKiKhi').html('T2 : ' + data.data + ' ℃') ;
+       if(allVariableConfig.nameVariable[i].name === 'T2'){
+        $('#valueNhietDoKiKhi').html('T2 : ' + data[i].data + ' ℃') ;
         }
        //sensor ki khi 
-       if(data.name === 'H4'){
-        if(data.data === 'true'){
+       if(allVariableConfig.nameVariable[i].name === 'H4'){
+        if(data[i].data === 'true'){
             stateKK.state = true ; 
             $("#sensorKiKhi").attr("src",'images/symbols/Light/Light_008.png');
             
@@ -329,22 +337,22 @@ $(document).ready(function(){
             $("#pipe_43").attr("src",'images/symbols/Pipes/Pipes_052.png');
         }
        //sensor be tam 
-       if(data.name === 'H3'){
-        if(data.data === 'true'){
+       if(allVariableConfig.nameVariable[i].name === 'H3'){
+        if(data[i].data === 'true'){
             $("#sensorHightBeTam").attr("src",'images/symbols/Light/Light_008.png');
             
         }else{
             $("#sensorHightBeTam").attr("src",'images/symbols/Light/Light_007.png');
         }}
-        if(data.name === 'H3_Thres'){
-        if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'H3_Thres'){
+        if(data[i].data === 'true'){
             $("#sensorThresBeTam").attr("src",'images/symbols/Light/Light_008.png');
                 
         }else{
             $("#sensorThresBeTam").attr("src",'images/symbols/Light/Light_007.png');
         }}
-        if(data.name === 'L3'){
-        if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'L3'){
+        if(data[i].data === 'true'){
             $("#sensorLowBeTam").attr("src",'images/symbols/Light/Light_008.png');
                     
         }else{
@@ -352,8 +360,8 @@ $(document).ready(function(){
         }}
         //pipe before pump4_1 and pump4_2
         
-        if(data.name === 'Pump4_1_Run'){
-            if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'Pump4_1_Run'){
+            if(data[i].data === 'true'){
                 pump4.pump4_1 = true ;
                 
                 $("#pipe_47").attr("src",'images/symbols/Pipes/Pipes_013.png');
@@ -372,8 +380,8 @@ $(document).ready(function(){
                 
             }
          }
-         if(data.name === 'Pump4_2_Run'){
-            if(data.data === 'true'){
+         if(allVariableConfig.nameVariable[i].name === 'Pump4_2_Run'){
+            if(data[i].data === 'true'){
                 pump4.pump4_2 = true ;
                 $("#pipe_46").attr("src",'images/symbols/Pipes/Pipes_003.png');
                 $('#pump4_2').attr("src",'images/symbols/Pump/Pump_013.png') ;
@@ -409,13 +417,13 @@ $(document).ready(function(){
         }
     
         // Flow 2 
-        if(data.name === 'Flow2'){
-            $('#valueFlow2').html('Flow2 : ' + data.data ) ;
+        if(allVariableConfig.nameVariable[i].name === 'flow2'){
+            $('#valueFlow2').html('Flow2 : ' + data[i].data ) ;
           }
        //pipe before pump4_1 and pump4_2
         
-       if(data.name === 'Pump5_1_Run'){
-        if(data.data === 'true'){
+       if(allVariableConfig.nameVariable[i].name === 'Pump5_1_Run'){
+        if(data[i].data === 'true'){
             pump5.pump5_1 = true ;
             $("#pipe_68").attr("src",'images/symbols/Pipes/Pipes_053.png');
             $('#pump5_1').attr("src",'images/symbols/Pump/Pump_048.png') ;
@@ -427,8 +435,8 @@ $(document).ready(function(){
             $("#pipe_70").attr("src",'images/symbols/Pipes/Pipes_017.png');   
         }
      }
-     if(data.name === 'Pump5_2_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'Pump5_2_Run'){
+        if(data[i].data === 'true'){
             pump5.pump5_2 = true ;
             $("#pipe_69").attr("src",'images/symbols/Pipes/Pipes_053.png');
             $('#pump5_2').attr("src",'images/symbols/Pump/Pump_048.png') ;
@@ -451,16 +459,16 @@ $(document).ready(function(){
       }
       
       // T3 
-      if(data.name === 'T3'){
-        $('#valueNhietDoHieuKhi').html('T3 : ' + data.data + ' ℃') ;
+      if(allVariableConfig.nameVariable[i].name === 'T3'){
+        $('#valueNhietDoHieuKhi').html('T3 : ' + data[i].data + ' ℃') ;
         }
      // DO
-     if(data.name === 'DO'){
-        $('#valueNongDoOxi').html('DO : ' + data.data ) ;
+     if(allVariableConfig.nameVariable[i].name === 'DO'){
+        $('#valueNongDoOxi').html('DO : ' + data[i].data ) ;
         }
      // Motor run
-     if(data.name === 'Motor_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'Motor_Run'){
+        if(data[i].data === 'true'){
             $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_053.png');
             $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_018.png');
             $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_008.png') ;
@@ -473,34 +481,34 @@ $(document).ready(function(){
         }
      }
       // High Be Lang
-      if(data.name === 'h_Lang'){
-        $('#HighBL').html('h_Lang : ' + data.data ) ;
+      if(allVariableConfig.nameVariable[i].name === 'h_Lang'){
+        $('#HighBL').html('h_Lang : ' + data[i].data ) ;
       }
      // sensor be lang
-     if(data.name === 'H5'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'H5'){
+        if(data[i].data === 'true'){
             $("#sensorHightBeLang").attr("src",'images/symbols/Light/Light_008.png');
             
         }else{
             $("#sensorHightBeLang").attr("src",'images/symbols/Light/Light_007.png');
         }}
-        if(data.name === 'H5_Thres'){
-        if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'H5_Thres'){
+        if(data[i].data === 'true'){
             $("#sensorThresBeLang").attr("src",'images/symbols/Light/Light_008.png');
                 
         }else{
             $("#sensorThresBeLang").attr("src",'images/symbols/Light/Light_007.png');
         }}
-        if(data.name === 'L5'){
-        if(data.data === 'true'){
+        if(allVariableConfig.nameVariable[i].name === 'L5'){
+        if(data[i].data === 'true'){
             $("#sensorLowBeLang").attr("src",'images/symbols/Light/Light_008.png');
                     
         }else{
             $("#sensorLowBeLang").attr("src",'images/symbols/Light/Light_007.png');
         }}
       // pump6 run
-      if(data.name === 'Pump6_Run'){
-        if(data.data === 'true'){
+      if(allVariableConfig.nameVariable[i].name === 'Pump6_Run'){
+        if(data[i].data === 'true'){
             $("#pipe_63").attr("src",'images/symbols/Pipes/Pipes_053.png');
             $("#pipe_64").attr("src",'images/symbols/Pipes/Pipes_008.png');
             $("#pipe_65").attr("src",'images/symbols/Pipes/Pipes_098.png');
@@ -523,8 +531,8 @@ $(document).ready(function(){
         }
      }
         // valve 5 fb
-       if(data.name === 'Val5_FB'){
-        if(data.data === 'true'){
+       if(allVariableConfig.nameVariable[i].name === 'Val5_FB'){
+        if(data[i].data === 'true'){
         $("#pipe_57").attr("src",'images/symbols/Pipes/Pipes_098.png');
         $("#pipe_58").attr("src",'images/symbols/Pipes/Pipes_013.png');
         $("#valve_5").attr("src",'images/symbols/Valve/Valve_036.png');
@@ -536,8 +544,8 @@ $(document).ready(function(){
         $("#symbols_6").attr("src",'images/symbols/International_Symbols/International_Symbols_014.png');
        }}
         // valve 6 fb
-       if(data.name === 'Val6_FB'){
-        if(data.data === 'true'){
+       if(allVariableConfig.nameVariable[i].name === 'Val6_FB'){
+        if(data[i].data === 'true'){
         $("#valve_6").attr("src",'images/symbols/Valve/Valve_036.png');
         $("#symbols_7").attr("src",'images/symbols/International_Symbols/International_Symbols_020.png');
        }else{
@@ -546,29 +554,29 @@ $(document).ready(function(){
       }}
      
       // den bao giai doan
-      if(data.name === 'TH_Done'){
-        if(data.data === 'true'){
+      if(allVariableConfig.nameVariable[i].name === 'TH_Done'){
+        if(data[i].data === 'true'){
             $("#TH_Done").attr("src",'images/symbols/Light/Light_014.png');
         }else{
             $("#TH_Done").attr("src",'images/symbols/Light/Light_013.png');
         }
         }
-     if(data.name === 'KK_Done'){
-          if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'KK_Done'){
+          if(data[i].data === 'true'){
                 $("#KK_Done").attr("src",'images/symbols/Light/Light_014.png');
           }else{
                 $("#KK_Done").attr("src",'images/symbols/Light/Light_013.png');
           }  
             }
-     if(data.name === 'HK_Done'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'HK_Done'){
+        if(data[i].data === 'true'){
             $("#HK_Done").attr("src",'images/symbols/Light/Light_014.png');
         }else{
              $("#HK_Done").attr("src",'images/symbols/Light/Light_013.png');
                 }
         }
-     if(data.name === 'BL_Done'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'BL_Done'){
+        if(data[i].data === 'true'){
             $("#BL_Done").attr("src",'images/symbols/Light/Light_014.png');
         }else{
             $("#BL_Done").attr("src",'images/symbols/Light/Light_013.png');
@@ -578,205 +586,205 @@ $(document).ready(function(){
     
      // display time and speed pump 1,2,3,4, sut khi
      // pump1_1
-     if(data.name === 'Pump1_1_RPM'){ 
-        $('#RPM-Pump1_1').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump1_1_RPM'){ 
+        $('#RPM-Pump1_1').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump1_1_h'){ 
-        $('#Time-Pump1_1_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_1_h'){ 
+        $('#Time-Pump1_1_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump1_1_m'){ 
-        $('#Time-Pump1_1_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_1_m'){ 
+        $('#Time-Pump1_1_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump1_1_s'){ 
-        $('#Time-Pump1_1_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_1_s'){ 
+        $('#Time-Pump1_1_s').html(data[i].data + ' s')
      }
      // pump1_2
-     if(data.name === 'Pump1_2_RPM'){ 
-        $('#RPM-Pump1_2').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump1_2_RPM'){ 
+        $('#RPM-Pump1_2').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump1_2_h'){ 
-        $('#Time-Pump1_2_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_2_h'){ 
+        $('#Time-Pump1_2_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump1_2_m'){ 
-        $('#Time-Pump1_2_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_2_m'){ 
+        $('#Time-Pump1_2_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump1_2_s'){ 
-        $('#Time-Pump1_2_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump1_2_s'){ 
+        $('#Time-Pump1_2_s').html(data[i].data + ' s')
      }
      // pump2_1
-     if(data.name === 'Pump2_1_RPM'){ 
-        $('#RPM-Pump2_1').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump2_1_RPM'){ 
+        $('#RPM-Pump2_1').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump2_1_h'){ 
-        $('#Time-Pump2_1_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_1_h'){ 
+        $('#Time-Pump2_1_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump2_1_m'){ 
-        $('#Time-Pump2_1_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_1_m'){ 
+        $('#Time-Pump2_1_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump2_1_s'){ 
-        $('#Time-Pump2_1_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_1_s'){ 
+        $('#Time-Pump2_1_s').html(data[i].data + ' s')
      }
      // pump2_2
-     if(data.name === 'Pump2_2_RPM'){ 
-        $('#RPM-Pump2_2').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump2_2_RPM'){ 
+        $('#RPM-Pump2_2').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump2_2_h'){ 
-        $('#Time-Pump2_2_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_2_h'){ 
+        $('#Time-Pump2_2_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump2_2_m'){ 
-        $('#Time-Pump2_2_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_2_m'){ 
+        $('#Time-Pump2_2_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump2_2_s'){ 
-        $('#Time-Pump2_2_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump2_2_s'){ 
+        $('#Time-Pump2_2_s').html(data[i].data + ' s')
      }
      // pump3_1
-     if(data.name === 'Pump3_1_RPM'){ 
-        $('#RPM-Pump3_1').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump3_1_RPM'){ 
+        $('#RPM-Pump3_1').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump3_1_h'){ 
-        $('#Time-Pump3_1_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_1_h'){ 
+        $('#Time-Pump3_1_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump3_1_m'){ 
-        $('#Time-Pump3_1_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_1_m'){ 
+        $('#Time-Pump3_1_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump3_1_s'){ 
-        $('#Time-Pump3_1_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_1_s'){ 
+        $('#Time-Pump3_1_s').html(data[i].data + ' s')
      }
      // pump3_2
-     if(data.name === 'Pump3_2_RPM'){ 
-        $('#RPM-Pump3_2').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump3_2_RPM'){ 
+        $('#RPM-Pump3_2').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump3_2_h'){ 
-        $('#Time-Pump3_2_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_2_h'){ 
+        $('#Time-Pump3_2_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump3_2_m'){ 
-        $('#Time-Pump3_2_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_2_m'){ 
+        $('#Time-Pump3_2_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump3_2_s'){ 
-        $('#Time-Pump3_2_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump3_2_s'){ 
+        $('#Time-Pump3_2_s').html(data[i].data + ' s')
      }
      // pump4_1
-     if(data.name === 'Pump4_1_RPM'){ 
-        $('#RPM-Pump4_1').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump4_1_RPM'){ 
+        $('#RPM-Pump4_1').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump4_1_h'){ 
-        $('#Time-Pump4_1_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_1_h'){ 
+        $('#Time-Pump4_1_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump4_1_m'){ 
-        $('#Time-Pump4_1_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_1_m'){ 
+        $('#Time-Pump4_1_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump4_1_s'){ 
-        $('#Time-Pump4_1_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_1_s'){ 
+        $('#Time-Pump4_1_s').html(data[i].data + ' s')
      }
      // pump4_2
-     if(data.name === 'Pump4_2_RPM'){ 
-        $('#RPM-Pump4_2').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump4_2_RPM'){ 
+        $('#RPM-Pump4_2').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump4_2_h'){ 
-        $('#Time-Pump4_2_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_2_h'){ 
+        $('#Time-Pump4_2_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump4_2_m'){ 
-        $('#Time-Pump4_2_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_2_m'){ 
+        $('#Time-Pump4_2_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump4_2_s'){ 
-        $('#Time-Pump4_2_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump4_2_s'){ 
+        $('#Time-Pump4_2_s').html(data[i].data + ' s')
      }
       // pump5_1
-      if(data.name === 'Pump5_1_RPM'){ 
-        $('#RPM-Pump5_1').html(data.data )
+      if(allVariableConfig.nameVariable[i].name === 'Pump5_1_RPM'){ 
+        $('#RPM-Pump5_1').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump5_1_h'){ 
-        $('#Time-Pump5_1_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_1_h'){ 
+        $('#Time-Pump5_1_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump5_1_m'){ 
-        $('#Time-Pump5_1_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_1_m'){ 
+        $('#Time-Pump5_1_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump5_1_s'){ 
-        $('#Time-Pump5_1_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_1_s'){ 
+        $('#Time-Pump5_1_s').html(data[i].data + ' s')
      }
      // pump5_2
-     if(data.name === 'Pump5_2_RPM'){ 
-        $('#RPM-Pump5_2').html(data.data )
+     if(allVariableConfig.nameVariable[i].name === 'Pump5_2_RPM'){ 
+        $('#RPM-Pump5_2').html(data[i].data )
      }
-     if(data.name === 'Time_Count_Pump5_2_h'){ 
-        $('#Time-Pump5_2_h').html(data.data + ' h')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_2_h'){ 
+        $('#Time-Pump5_2_h').html(data[i].data + ' h')
      }
-     if(data.name === 'Time_Count_Pump5_2_m'){ 
-        $('#Time-Pump5_2_m').html(data.data + ' m')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_2_m'){ 
+        $('#Time-Pump5_2_m').html(data[i].data + ' m')
      }
-     if(data.name === 'Time_Count_Pump5_2_s'){ 
-        $('#Time-Pump5_2_s').html(data.data + ' s')
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_Pump5_2_s'){ 
+        $('#Time-Pump5_2_s').html(data[i].data + ' s')
      }
     
      // time count and time set kk , hk , l
      // KK
     
-    //  if(data.name === 'Time_Set_KK_h'){
-    //     $('#set-hour-KK').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_h'){
+    //     $('#set-hour-KK').val(data[i].data) 
     //  }
-    //  if(data.name === 'Time_Set_KK_m'){
-    //     $('#set-minute-KK').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_m'){
+    //     $('#set-minute-KK').val(data[i].data) 
     //  }
-    //  if(data.name === 'Time_Set_KK_s'){
-    //     $('#set-second-KK').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_KK_s'){
+    //     $('#set-second-KK').val(data[i].data) 
     //  }
     
-     if(data.name === 'Time_Count_KK_h'){
-        $('#count-hour-KK').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_KK_h'){
+        $('#count-hour-KK').val(data[i].data) 
      }
-     if(data.name === 'Time_Count_KK_m'){
-        $('#count-minute-KK').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_KK_m'){
+        $('#count-minute-KK').val(data[i].data) 
      }
-     if(data.name === 'Time_Count_KK_s'){
-        $('#count-second-KK').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_KK_s'){
+        $('#count-second-KK').val(data[i].data) 
      }
     
      // HK
      
-    //  if(data.name === 'Time_Set_HK_h'){
-    //     $('#set-hour-HK').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_h'){
+    //     $('#set-hour-HK').val(data[i].data) 
     //  }
-    //  if(data.name === 'Time_Set_HK_m'){
-    //     $('#set-minute-HK').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_m'){
+    //     $('#set-minute-HK').val(data[i].data) 
     //  }
-    //  if(data.name === 'Time_Set_HK_s'){
-    //     $('#set-second-HK').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_HK_s'){
+    //     $('#set-second-HK').val(data[i].data) 
     //  }
     
-     if(data.name === 'Time_Count_HK_h'){
-        $('#count-hour-HK').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_HK_h'){
+        $('#count-hour-HK').val(data[i].data) 
      }
-     if(data.name === 'Time_Count_HK_m'){
-        $('#count-minute-HK').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_HK_m'){
+        $('#count-minute-HK').val(data[i].data) 
      }
-     if(data.name === 'Time_Count_HK_s'){
-        $('#count-second-HK').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_HK_s'){
+        $('#count-second-HK').val(data[i].data) 
      }
      // BL
     
-    //  if(data.name === 'Time_Set_BL_h'){
-    //     $('#set-hour-BL').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_h'){
+    //     $('#set-hour-BL').val(data[i].data) 
     //  }
-    //  if(data.name === 'Time_Set_BL_m'){
-    //     $('#set-minute-BL').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_m'){
+    //     $('#set-minute-BL').val(data[i].data) 
     //  }
-    //  if(data.name === 'Time_Set_BL_s'){
-    //     $('#set-second-BL').val(data.data) 
+    //  if(allVariableConfig.nameVariable[i].name === 'Time_Set_BL_s'){
+    //     $('#set-second-BL').val(data[i].data) 
     //  }
     
-     if(data.name === 'Time_Count_BL_h'){
-        $('#count-hour-BL').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_h'){
+        $('#count-hour-BL').val(data[i].data) 
      }
-     if(data.name === 'Time_Count_BL_m'){
-        $('#count-minute-BL').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_m'){
+        $('#count-minute-BL').val(data[i].data) 
      }
-     if(data.name === 'Time_Count_BL_s'){
-        $('#count-second-BL').val(data.data) 
+     if(allVariableConfig.nameVariable[i].name === 'Time_Count_BL_s'){
+        $('#count-second-BL').val(data[i].data) 
      }
     
      // execute control system
-     if(data.name === 'Run_System_PLC1'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'Run_System_PLC1'){
+        if(data[i].data === 'true'){
              $('#start-in-system').removeClass('btn btn-primary') ;
              $('#start-in-system').addClass('btn btn-danger') ;
              $('#stop-in-system').removeClass('btn btn-danger') ;
@@ -788,8 +796,8 @@ $(document).ready(function(){
             $('#stop-in-system').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'Auto-Man_System_PLC1'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'Auto-Man_System_PLC1'){
+        if(data[i].data === 'true'){
              $('#auto-in-system').removeClass('btn btn-primary') ;
              $('#auto-in-system').addClass('btn btn-danger') ;
              $('#man-in-system').removeClass('btn btn-danger') ;
@@ -804,8 +812,8 @@ $(document).ready(function(){
     
      // execute each pump 
      // pump 1
-     if(data.name === 'pmp1_Auto-Man'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp1_Auto-Man'){
+        if(data[i].data === 'true'){
              $('#pump1-auto-in').removeClass('btn btn-primary') ;
              $('#pump1-auto-in').addClass('btn btn-danger') ;
              $('#pump1-man-in').removeClass('btn btn-danger') ;
@@ -817,8 +825,8 @@ $(document).ready(function(){
             $('#pump1-man-in').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp1_Motor1_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
+        if(data[i].data === 'true'){
              $('#pump1-start-motor1').removeClass('btn btn-primary') ;
              $('#pump1-start-motor1').addClass('btn btn-danger') ;
              $('#pump1-stop-motor1').removeClass('btn btn-danger') ;
@@ -830,8 +838,8 @@ $(document).ready(function(){
             $('#pump1-stop-motor1').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp1_Motor2_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor2_Run'){
+        if(data[i].data === 'true'){
              $('#pump1-start-motor2').removeClass('btn btn-primary') ;
              $('#pump1-start-motor2').addClass('btn btn-danger') ;
              $('#pump1-stop-motor2').removeClass('btn btn-danger') ;
@@ -844,8 +852,8 @@ $(document).ready(function(){
         }
      }
      // pump 2
-     if(data.name === 'pmp2_Auto-Man'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp2_Auto-Man'){
+        if(data[i].data === 'true'){
              $('#pump2-auto-in').removeClass('btn btn-primary') ;
              $('#pump2-auto-in').addClass('btn btn-danger') ;
              $('#pump2-man-in').removeClass('btn btn-danger') ;
@@ -857,8 +865,8 @@ $(document).ready(function(){
             $('#pump2-man-in').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp2_Motor1_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor1_Run'){
+        if(data[i].data === 'true'){
              $('#pump2-start-motor1').removeClass('btn btn-primary') ;
              $('#pump2-start-motor1').addClass('btn btn-danger') ;
              $('#pump2-stop-motor1').removeClass('btn btn-danger') ;
@@ -870,8 +878,8 @@ $(document).ready(function(){
             $('#pump2-stop-motor1').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp2_Motor2_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor2_Run'){
+        if(data[i].data === 'true'){
              $('#pump2-start-motor2').removeClass('btn btn-primary') ;
              $('#pump2-start-motor2').addClass('btn btn-danger') ;
              $('#pump2-stop-motor2').removeClass('btn btn-danger') ;
@@ -884,8 +892,8 @@ $(document).ready(function(){
         }
      }
      //pump 3
-     if(data.name === 'pmp3_Auto-Man'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp3_Auto-Man'){
+        if(data[i].data === 'true'){
              $('#pump3-auto-in').removeClass('btn btn-primary') ;
              $('#pump3-auto-in').addClass('btn btn-danger') ;
              $('#pump3-man-in').removeClass('btn btn-danger') ;
@@ -897,8 +905,8 @@ $(document).ready(function(){
             $('#pump3-man-in').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp3_Motor1_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor1_Run'){
+        if(data[i].data === 'true'){
              $('#pump3-start-motor1').removeClass('btn btn-primary') ;
              $('#pump3-start-motor1').addClass('btn btn-danger') ;
              $('#pump3-stop-motor1').removeClass('btn btn-danger') ;
@@ -910,8 +918,8 @@ $(document).ready(function(){
             $('#pump3-stop-motor1').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp3_Motor2_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor2_Run'){
+        if(data[i].data === 'true'){
              $('#pump3-start-motor2').removeClass('btn btn-primary') ;
              $('#pump3-start-motor2').addClass('btn btn-danger') ;
              $('#pump3-stop-motor2').removeClass('btn btn-danger') ;
@@ -924,8 +932,8 @@ $(document).ready(function(){
         }
      }
      //pump4
-     if(data.name === 'pmp4_Auto-Man'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp4_Auto-Man'){
+        if(data[i].data === 'true'){
              $('#pump4-auto-in').removeClass('btn btn-primary') ;
              $('#pump4-auto-in').addClass('btn btn-danger') ;
              $('#pump4-man-in').removeClass('btn btn-danger') ;
@@ -937,8 +945,8 @@ $(document).ready(function(){
             $('#pump4-man-in').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp4_Motor1_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor1_Run'){
+        if(data[i].data === 'true'){
              $('#pump4-start-motor1').removeClass('btn btn-primary') ;
              $('#pump4-start-motor1').addClass('btn btn-danger') ;
              $('#pump4-stop-motor1').removeClass('btn btn-danger') ;
@@ -950,8 +958,8 @@ $(document).ready(function(){
             $('#pump4-stop-motor1').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp4_Motor2_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor2_Run'){
+        if(data[i].data === 'true'){
              $('#pump4-start-motor2').removeClass('btn btn-primary') ;
              $('#pump4-start-motor2').addClass('btn btn-danger') ;
              $('#pump4-stop-motor2').removeClass('btn btn-danger') ;
@@ -964,8 +972,8 @@ $(document).ready(function(){
         }
      }
      //pump5
-     if(data.name === 'pmp5_Auto-Man'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp5_Auto-Man'){
+        if(data[i].data === 'true'){
              $('#pump5-auto-in').removeClass('btn btn-primary') ;
              $('#pump5-auto-in').addClass('btn btn-danger') ;
              $('#pump5-man-in').removeClass('btn btn-danger') ;
@@ -977,8 +985,8 @@ $(document).ready(function(){
             $('#pump5-man-in').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp1_Motor1_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
+        if(data[i].data === 'true'){
              $('#pump5-start-motor1').removeClass('btn btn-primary') ;
              $('#pump5-start-motor1').addClass('btn btn-danger') ;
              $('#pump5-stop-motor1').removeClass('btn btn-danger') ;
@@ -990,8 +998,8 @@ $(document).ready(function(){
             $('#pump5-stop-motor1').addClass('btn btn-danger') ;
         }
      }
-     if(data.name === 'pmp5_Motor2_Run'){
-        if(data.data === 'true'){
+     if(allVariableConfig.nameVariable[i].name === 'pmp5_Motor2_Run'){
+        if(data[i].data === 'true'){
              $('#pump5-start-motor2').removeClass('btn btn-primary') ;
              $('#pump5-start-motor2').addClass('btn btn-danger') ;
              $('#pump5-stop-motor2').removeClass('btn btn-danger') ;
@@ -1006,30 +1014,785 @@ $(document).ready(function(){
       
      // display chieu cao be kk , bl hcl , naoh
      // kk
-     if(data.name === 'random'){
-       var progressBarVal= data.data;   
-       var html="<div class='progress-bar progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+     if(allVariableConfig.nameVariable[i].name === 'h_KK'){
+       var progressBarVal= data[i].data;   
+       var html="<div class='progress-bar progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='4' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" </div>";    
        $("#h_Ki_Khi").html(html);   
      }
      // bl
-     if(data.name === 'random'){
-        var progressBarVal= data.data;   
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+     if(allVariableConfig.nameVariable[i].name === 'h_Lang'){
+        var progressBarVal= data[i].data;   
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='4' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" </div>";    
         $("#h_Be_Lang").html(html);   
       }
       // hcl
-      if(data.name === 'random'){
-        var progressBarVal= data.data;   
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+      if(allVariableConfig.nameVariable[i].name === 'h_HCL'){
+        var progressBarVal= data[i].data;   
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='5' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" </div>";    
         $("#h_Hcl").html(html);   
       }
       //naoh
-      if(data.name === 'random'){
-        var progressBarVal= data.data;   
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" m</div>";    
+      if(allVariableConfig.nameVariable[i].name === 'h_NaOH'){
+        var progressBarVal= data[i].data;   
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='5' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+"</div>";    
         $("#h_Naoh").html(html);   
       }
-    
+      // emg
+      if(allVariableConfig.nameVariable[i].name === 'Emg_Scada1'){
+          if(data[i].data === 'true'){
+            stateEmergency = true ; 
+          }else{
+            stateEmergency = false ; 
+          }
+      }
+
+      // lamp run error and waring
+      if(allVariableConfig.nameVariable[i].name === 'Lamp_Run'){
+        if(data[i].data === 'true'){
+          $('#lampRun').css('background-color','green')
+        }else{
+         $('#lampRun').css('background-color','aliceblue')
+        }
+      }
+      if(allVariableConfig.nameVariable[i].name === 'Lamp_Stop'){
+        if(data[i].data === 'true'){
+            $('#lampStop').css('background-color','red')
+          }else{
+           $('#lampStop').css('background-color','aliceblue')
+          }
+      }
+      if(allVariableConfig.nameVariable[i].name === 'Lamp_Warr'){
+        if(data[i].data === 'true'){
+            if(toggleWarning === undefined){
+                var state = false ; 
+                toggleWarning = setInterval(() => {
+                    if(state){
+                        $('#lampWarning').css('background-color','yellow')
+                        state = false
+                    }else{
+                        $('#lampWarning').css('background-color','aliceblue') ;
+                        state = true
+                    }
+                }, 500);
+            }
+        }else{
+            if(toggleWarning !== undefined){
+                $('#lampWarning').css('background-color','aliceblue') ;
+                clearInterval(toggleWarning)
+                toggleWarning = undefined ; 
+            } ;
+        }
+       }
+
+       // overload and error all of pump 
+       // pump1 
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_1'){
+        if(data[i].data === 'true'){
+            if(toggleOverload1 === undefined){
+                var state = false ; 
+                toggleOverload1 = setInterval(() => {
+                    if(state){
+                        $('#pump1_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        $('#pump1_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump1_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        $('#pump1_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadPump1').html('Overload Pump1') ; 
+            }
+        }else{
+            if(toggleOverload1 !== undefined){
+                $('#pump1_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#pump1_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#overloadPump1').html('') ; 
+                clearInterval(toggleOverload1)
+                toggleOverload1 = undefined ; 
+            } ;
+        }
+       }
+
+       if(allVariableConfig.nameVariable[i].name === 'Pump1_1_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump1_1 === undefined){
+                var state = false ; 
+                toggleErrorPump1_1 = setInterval(() => {
+                    if(state){
+                        $('#pump1_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump1_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump1_1').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump1_1 !== undefined){
+                $('#pump1_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump1_1').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump1_1)
+                toggleErrorPump1_1 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump1_2_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump1_2 === undefined){
+                var state = false ; 
+                toggleErrorPump1_2 = setInterval(() => {
+                    if(state){
+                        $('#pump1_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump1_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump1_2').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump1_2 !== undefined){
+                $('#pump1_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump1_2').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump1_2)
+                toggleErrorPump1_2 = undefined ; 
+            } ;
+        }
+       }
+       // pump 2
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_2'){
+        if(data[i].data === 'true'){
+            if(toggleOverload2 === undefined){
+                var state = false ; 
+                toggleOverload2 = setInterval(() => {
+                    if(state){
+                        $('#pump2_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        $('#pump2_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump2_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        $('#pump2_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadPump2').html('Overload Pump2') ; 
+            }
+        }else{
+            if(toggleOverload2 !== undefined){
+                $('#pump2_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#pump2_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#overloadPump2').html('') ; 
+                clearInterval(toggleOverload2)
+                toggleOverload2 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump2_1_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump2_1 === undefined){
+                var state = false ; 
+                toggleErrorPump2_1 = setInterval(() => {
+                    if(state){
+                        $('#pump2_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump2_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump2_1').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump2_1 !== undefined){
+                $('#pump2_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump2_1').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump2_1)
+                toggleErrorPump2_1 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump2_2_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump2_2 === undefined){
+                var state = false ; 
+                toggleErrorPump2_2 = setInterval(() => {
+                    if(state){
+                        $('#pump2_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump2_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump2_2').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump2_2 !== undefined){
+                $('#pump2_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump2_2').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump2_2)
+                toggleErrorPump2_2 = undefined ; 
+            } ;
+        }
+       }
+       // pump 3 
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_3'){
+        if(data[i].data === 'true'){
+            if(toggleOverload3 === undefined){
+                var state = false ; 
+                toggleOverload3 = setInterval(() => {
+                    if(state){
+                        $('#pump3_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        $('#pump3_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump3_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        $('#pump3_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadPump3').html('Overload Pump3') ; 
+            }
+        }else{
+            if(toggleOverload3 !== undefined){
+                $('#pump3_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#pump3_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#overloadPump3').html('') ; 
+                clearInterval(toggleOverload3)
+                toggleOverload3 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump3_1_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump3_1 === undefined){
+                var state = false ; 
+                toggleErrorPump3_1 = setInterval(() => {
+                    if(state){
+                        $('#pump3_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump3_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump3_1').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump3_1 !== undefined){
+                $('#pump3_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump3_1').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump3_1)
+                toggleErrorPump3_1 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump3_2_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump3_2 === undefined){
+                var state = false ; 
+                toggleErrorPump3_2 = setInterval(() => {
+                    if(state){
+                        $('#pump3_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump3_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump3_2').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump3_2 !== undefined){
+                $('#pump3_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump3_2').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump3_2)
+                toggleErrorPump3_2 = undefined ; 
+            } ;
+        }
+       }
+       // pump 4 
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_4'){
+        if(data[i].data === 'true'){
+            if(toggleOverload4 === undefined){
+                var state = false ; 
+                toggleOverload4 = setInterval(() => {
+                    if(state){
+                        $('#pump4_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        $('#pump4_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump4_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        $('#pump4_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadPump4').html('Overload Pump4') ; 
+            }
+        }else{
+            if(toggleOverload1 !== undefined){
+                $('#pump4_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#pump4_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#overloadPump4').html('') ; 
+                clearInterval(toggleOverload4)
+                toggleOverload4 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump4_1_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump4_1 === undefined){
+                var state = false ; 
+                toggleErrorPump4_1 = setInterval(() => {
+                    if(state){
+                        $('#pump4_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump4_1').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump4_1').css('background-color','red') ;  
+            }
+        }else{
+            if(toggleErrorPump4_1 !== undefined){
+                $('#pump4_1').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump4_1').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump4_1)
+                toggleErrorPump4_1 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump4_2_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump4_2 === undefined){
+                var state = false ; 
+                toggleErrorPump4_2 = setInterval(() => {
+                    if(state){
+                        $('#pump4_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                        state = false
+                    }else{
+                        $('#pump4_2').attr('src','images/symbols/Pump/Pump_014.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump4_2').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump4_2 !== undefined){
+                $('#pump4_2').attr('src','images/symbols/Pump/Pump_012.png') ;
+                $('#ErrorPump4_2').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump4_2)
+                toggleErrorPump4_2 = undefined ; 
+            } ;
+        }
+       }
+       // pump 5
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_5'){
+        if(data[i].data === 'true'){
+            if(toggleOverload5 === undefined){
+                var state = false ; 
+                toggleOverload5 = setInterval(() => {
+                    if(state){
+                        $('#pump5_1').attr('src','images/symbols/Pump/Pump_049.png') ;
+                        $('#pump5_2').attr('src','images/symbols/Pump/Pump_049.png') ;
+                        state = false
+                    }else{
+                        $('#pump5_1').attr('src','images/symbols/Pump/Pump_047.png') ;
+                        $('#pump5_2').attr('src','images/symbols/Pump/Pump_047.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadPump5').html('Overload Pump5') ; 
+            }
+        }else{
+            if(toggleOverload5 !== undefined){
+                $('#pump5_1').attr('src','images/symbols/Pump/Pump_047.png') ;
+                $('#pump5_2').attr('src','images/symbols/Pump/Pump_047.png') ;
+                $('#overloadPump5').html('') ; 
+                clearInterval(toggleOverload5)
+                toggleOverload5 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump5_1_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump5_1 === undefined){
+                var state = false ; 
+                toggleErrorPump5_1 = setInterval(() => {
+                    if(state){
+                        $('#pump5_1').attr('src','images/symbols/Pump/Pump_049.png') ;
+                        state = false
+                    }else{
+                        $('#pump5_1').attr('src','images/symbols/Pump/Pump_047.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump5_1').css('background-color','red') ;  
+            }
+        }else{
+            if(toggleErrorPump5_1 !== undefined){
+                $('#pump5_1').attr('src','images/symbols/Pump/Pump_047.png') ;
+                $('#ErrorPump5_1').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump5_1)
+                toggleErrorPump5_1 = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump5_2_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorPump5_2 === undefined){
+                var state = false ; 
+                toggleErrorPump5_2 = setInterval(() => {
+                    if(state){
+                        $('#pump5_2').attr('src','images/symbols/Pump/Pump_049.png') ;
+                        state = false
+                    }else{
+                        $('#pump5_2').attr('src','images/symbols/Pump/Pump_047.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPump5_2').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorPump5_2 !== undefined){
+                $('#pump5_2').attr('src','images/symbols/Pump/Pump_047.png') ;
+                $('#ErrorPump5_2').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorPump5_2)
+                toggleErrorPump5_2 = undefined ; 
+            } ;
+        }
+       }
+       // pump trung hoa 7
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_7'){
+        if(data[i].data === 'true'){
+            if(toggleOverloadTH === undefined){
+                var state = false ; 
+                toggleOverloadTH = setInterval(() => {
+                    if(state){
+                        $('#pumpNAOHHCL').attr('src','images/symbols/Pump/Pump_029.png') ;
+                        state = false
+                    }else{
+                        $('#pumpNAOHHCL').attr('src','images/symbols/Pump/Pump_027.png') ;
+                        state = true
+                    }
+                },900);
+                $('#overloadTH').html('Overload Trung Hoa') ; 
+            }
+        }else{
+            if(toggleOverloadTH !== undefined){
+                $('#pumpNAOHHCL').attr('src','images/symbols/Pump/Pump_027.png') ;
+                $('#overloadTH').html('') ; 
+                clearInterval(toggleOverloadTH)
+                toggleOverloadTH = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump7_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorTH === undefined){
+                var state = false ; 
+                toggleErrorTH = setInterval(() => {
+                    if(state){
+                        $('#pumpNAOHHCL').attr('src','images/symbols/Pump/Pump_029.png') ;
+                        state = false
+                    }else{
+                        $('#pumpNAOHHCL').attr('src','images/symbols/Pump/Pump_027.png') ;
+                        state = true
+                    }
+                },900);
+                $('#ErrorPumpTH').css('background-color','red') ;  
+            }
+        }else{
+            if(toggleErrorTH !== undefined){
+                $('#pumpNAOHHCL').attr('src','images/symbols/Pump/Pump_027.png') ;
+                $('#ErrorPumpTH').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorTH)
+                toggleErrorTH = undefined ; 
+            } ;
+        }
+       }
+       // pump Mix 9
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_9'){
+        if(data[i].data === 'true'){
+            if(toggleOverloadMix === undefined){
+                var state = false ; 
+                toggleOverloadMix = setInterval(() => {
+                    if(state){
+                        $('#mixer_1').attr('src','images/symbols/Mixer/Mixer_014.png') ;
+                        state = false
+                    }else{
+                        $('#mixer_1').attr('src','images/symbols/Mixer/Mixer_012.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadMix').html('Overload Mixer') ; 
+            }
+        }else{
+            if(toggleOverloadMix !== undefined){
+                $('#mixer_1').attr('src','images/symbols/Mixer/Mixer_012.png') ;
+                $('#overloadMix').html('') ; 
+                clearInterval(toggleOverloadMix)
+                toggleOverloadMix = undefined ; 
+            } ;
+        }
+       }
+       //pump Bun 6
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_6'){
+        if(data[i].data === 'true'){
+            if(toggleOverloadBun === undefined){
+                var state = false ; 
+                toggleOverloadBun= setInterval(() => {
+                    if(state){
+                        $('#pump6').attr('src','images/symbols/Pump/Pump_019.png') ;
+                        state = false
+                    }else{
+                        $('#pump6').attr('src','images/symbols/Pump/Pump_017.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadPumpBun').html('Overload Pump Bun') ; 
+            }
+        }else{
+            if(toggleOverloadBun !== undefined){
+                $('#pump6').attr('src','images/symbols/Pump/Pump_017.png') ;
+                $('#overloadPumpBun').html('') ; 
+                clearInterval(toggleOverloadBun)
+                toggleOverloadBun = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Pump6_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorBun === undefined){
+                var state = false ; 
+                toggleErrorBun= setInterval(() => {
+                    if(state){
+                        $('#pump6').attr('src','images/symbols/Pump/Pump_019.png') ;
+                        state = false
+                    }else{
+                        $('#pump6').attr('src','images/symbols/Pump/Pump_017.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPumpBun').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorBun !== undefined){
+                $('#pump6').attr('src','images/symbols/Pump/Pump_017.png') ;
+                $('#ErrorPumpBun').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorBun)
+                toggleErrorBun = undefined ; 
+            } ;
+        }
+       }
+       //pump gat bun 8
+       if(allVariableConfig.nameVariable[i].name === 'OverLoad_7'){
+        if(data[i].data === 'true'){
+            if(toggleOverloadGatBun === undefined){
+                var state = false ; 
+                toggleOverloadGatBun = setInterval(() => {
+                    if(state){
+                        $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_009.png') ;
+                        state = false
+                    }else{
+                        $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_007.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#overloadPumpGatBun').html('Overload Pump Gat Bun') ; 
+            }
+        }else{
+            if(toggleOverloadGatBun !== undefined){
+                $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_007.png') ;
+                $('#overloadPumpGatBun').html('') ; 
+                clearInterval(toggleOverloadGatBun)
+                toggleOverloadGatBun = undefined ; 
+            } ;
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'Motor_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorGatBun === undefined){
+                var state = false ; 
+                toggleErrorGatBun = setInterval(() => {
+                    if(state){
+                        $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_009.png') ;
+                        state = false
+                    }else{
+                        $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_007.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorPumpGatBun').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorGatBun !== undefined){
+                $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_007.png') ;
+                $('#ErrorPumpGatBun').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorGatBun)
+                toggleErrorGatBun = undefined ; 
+            } ;
+        }
+       }
+       //  error Valve 
+       // valve 1
+       if(allVariableConfig.nameVariable[i].name === 'Val_1_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorValve_1 === undefined){
+                var state = false ; 
+                toggleErrorValve_1 = setInterval(() => {
+                    if(state){
+                        $('#valveNAOH').attr('src','images/symbols/Valve/Valve_037.png') ;
+                        state = false
+                    }else{
+                        $('#valveNAOH').attr('src','images/symbols/Valve/Valve_035.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorValve_1').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorValve_1 !== undefined){
+                $('#valveNAOH').attr('src','images/symbols/Valve/Valve_035.png') ;
+                $('#ErrorValve_1').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorValve_1)
+                toggleErrorValve_1 = undefined ; 
+            } ;
+        }
+       }
+       // valve 2
+       if(allVariableConfig.nameVariable[i].name === 'Val_2_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorValve_2 === undefined){
+                var state = false ; 
+                toggleErrorValve_2 = setInterval(() => {
+                    if(state){
+                        $('#valveHCL').attr('src','images/symbols/Valve/Valve_037.png') ;
+                        state = false
+                    }else{
+                        $('#valveHCL').attr('src','images/symbols/Valve/Valve_035.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorValve_2').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorValve_2 !== undefined){
+                $('#valveHCL').attr('src','images/symbols/Valve/Valve_035.png') ;
+                $('#ErrorValve_2').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorValve_2)
+                toggleErrorValve_2 = undefined ; 
+            } ;
+        }
+       }
+       // valve 3
+       if(allVariableConfig.nameVariable[i].name === 'Val_3_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorValve_3 === undefined){
+                var state = false ; 
+                toggleErrorValve_3 = setInterval(() => {
+                    if(state){
+                        $('#valve_3').attr('src','images/symbols/Valve/Valve_037.png') ;
+                        state = false
+                    }else{
+                        $('#valve_3').attr('src','images/symbols/Valve/Valve_035.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorValve_3').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorValve_3 !== undefined){
+                $('#valve_3').attr('src','images/symbols/Valve/Valve_035.png') ;
+                $('#ErrorValve_3').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorValve_3)
+                toggleErrorValve_3 = undefined ; 
+            } ;
+        }
+       }
+       // valve 5
+       if(allVariableConfig.nameVariable[i].name === 'Val_5_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorValve_5 === undefined){
+                var state = false ; 
+                toggleErrorValve_5 = setInterval(() => {
+                    if(state){
+                        $('#valve_5').attr('src','images/symbols/Valve/Valve_037.png') ;
+                        state = false
+                    }else{
+                        $('#valve_5').attr('src','images/symbols/Valve/Valve_035.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorValve_5').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorValve_5 !== undefined){
+                $('#valve_5').attr('src','images/symbols/Valve/Valve_035.png') ;
+                $('#ErrorValve_5').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorValve_5)
+                toggleErrorValve_5 = undefined ; 
+            } ;
+        }
+       }
+       // valve 6
+       if(allVariableConfig.nameVariable[i].name === 'Val_6_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorValve_6 === undefined){
+                var state = false ; 
+                toggleErrorValve_6 = setInterval(() => {
+                    if(state){
+                        $('#valve_6').attr('src','images/symbols/Valve/Valve_037.png') ;
+                        state = false
+                    }else{
+                        $('#valve_6').attr('src','images/symbols/Valve/Valve_035.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorValve_6').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorValve_6 !== undefined){
+                $('#valve_6').attr('src','images/symbols/Valve/Valve_035.png') ;
+                $('#ErrorValve_6').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorValve_6)
+                toggleErrorValve_6 = undefined ; 
+            } ;
+        }
+       }
+       // valve 4
+       if(allVariableConfig.nameVariable[i].name === 'Val_4_Err'){
+        if(data[i].data === 'true'){
+            if(toggleErrorValve_4 === undefined){
+                var state = false ; 
+                toggleErrorValve_4 = setInterval(() => {
+                    if(state){
+                        $('#valve4_fb').attr('src','images/symbols/Valve/Valve_052.png') ;
+                        state = false
+                    }else{
+                        $('#valve4_fb').attr('src','images/symbols/Valve/Valve_050.png') ;
+                        state = true
+                    }
+                }, 500);
+                $('#ErrorValve_4').css('background-color','red') ; 
+            }
+        }else{
+            if(toggleErrorValve_4 !== undefined){
+                $('#valve4_fb').attr('src','images/symbols/Valve/Valve_050.png') ;
+                $('#ErrorValve_4').css('background-color','#cdcdcd') ; 
+                clearInterval(toggleErrorValve_4)
+                toggleErrorValve_4 = undefined ; 
+            } ;
+        }
+       }
+    }
+    var t1 = performance.now() ; 
+      // over load 
+      
     })
 
 
@@ -1048,7 +1811,7 @@ FusionCharts.ready(function () {
                 "caption": "Bể Chứa",
                 //"subcaption": "at my Home",
                 "lowerLimit": "0",
-                "upperLimit": "100",
+                "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
                 "numberSuffix": " lit",
@@ -1066,14 +1829,16 @@ FusionCharts.ready(function () {
                 "minorTMThickness": "1",
                 "tickmarkDistance": "5"
             },
-            "value": "10"
+            "value": "0"
         },
         "events": {
             "rendered": function (evtObj, argObj) {
                     socket.on('changeData', function(data){
-                            if(data.name === 'random'){
-                                evtObj.sender.feedData("&value=" + data.data);	
+                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                            if(allVariableConfig.nameVariable[i].name === 'h_HoChua'){
+                                evtObj.sender.feedData("&value=" + data[i].data);	
                              }
+                            }
                     })
             }
         }
@@ -1097,7 +1862,7 @@ FusionCharts.ready(function () {
                 "caption": "Bể Cân Bằng",
                 //"subcaption": "at my Home",
                 "lowerLimit": "0",
-                "upperLimit": "100",
+                "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
                 "numberSuffix": " lit",
@@ -1115,15 +1880,16 @@ FusionCharts.ready(function () {
                 "minorTMThickness": "1",
                 "tickmarkDistance": "5"
             },
-            "value": "10"
+            "value": "0"
         },
         "events": {
             "rendered": function (evtObj, argObj) {
                     socket.on('changeData', function(data){
-                        
-                            if(data.name === 'h_CB'){
-                                evtObj.sender.feedData("&value=" + data.data);	
+                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                            if(allVariableConfig.nameVariable[i].name === 'h_CB'){
+                                evtObj.sender.feedData("&value=" + data[i].data);	
                              }
+                            }
                             
                           } )  
             }
@@ -1147,7 +1913,7 @@ FusionCharts.ready(function () {
                 "caption": "Bể Trung Hòa",
                 //"subcaption": "at my Home",
                 "lowerLimit": "0",
-                "upperLimit": "100",
+                "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
                 "numberSuffix": " lit",
@@ -1165,16 +1931,16 @@ FusionCharts.ready(function () {
                 "minorTMThickness": "1",
                 "tickmarkDistance": "5"
             },
-            "value": "10"
+            "value": "0"
         },
         "events": {
             "rendered": function (evtObj, argObj) {
                     socket.on('changeData', function(data){
-                        
-                            if(data.name === 'h_TH'){
-                                evtObj.sender.feedData("&value=" + data.data);	
+                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                            if(allVariableConfig.nameVariable[i].name === 'h_TH'){
+                                evtObj.sender.feedData("&value=" + data[i].data);	
                              }
-                            
+                        }
                           } ) 
             }
         }
@@ -1198,7 +1964,7 @@ FusionCharts.ready(function () {
                 "caption": "Bể Tạm",
                 //"subcaption": "at my Home",
                 "lowerLimit": "0",
-                "upperLimit": "100",
+                "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
                 "numberSuffix": " lit",
@@ -1216,16 +1982,16 @@ FusionCharts.ready(function () {
                 "minorTMThickness": "1",
                 "tickmarkDistance": "5"
             },
-            "value": "10"
+            "value": "0"
         },
         "events": {
             "rendered": function (evtObj, argObj) {
                     socket.on('changeData', function(data){
-                        
-                            if(data.name === 'h_Temp'){
-                                evtObj.sender.feedData("&value=" + data.data);	
+                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                            if(allVariableConfig.nameVariable[i].name === 'h_Temp'){
+                                evtObj.sender.feedData("&value=" + data[i].data);	
                              }
-                            
+                        }
                           } )
             }
         }
@@ -1249,7 +2015,7 @@ FusionCharts.ready(function () {
                 "caption": "Bể Hiếu Khí",
                 //"subcaption": "at my Home",
                 "lowerLimit": "0",
-                "upperLimit": "100",
+                "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
                 "numberSuffix": " lit",
@@ -1267,24 +2033,22 @@ FusionCharts.ready(function () {
                 "minorTMThickness": "1",
                 "tickmarkDistance": "5"
             },
-            "value": "10"
+            "value": "0"
         },
         "events": {
             "rendered": function (evtObj, argObj) {
                     socket.on('changeData', function(data){
-                        
-                            if(data.name === 'h_HK'){
-                                evtObj.sender.feedData("&value=" + data.data);	
+                        for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                            if(allVariableConfig.nameVariable[i].name === 'h_HK'){
+                                evtObj.sender.feedData("&value=" + data[i].data);	
                              }
-                            
+                        }
                           } )  
             }
         }
     });
     fusioncharts5.render();
 }) ; 
-
-
 
 // Dash board tab
     var mychartsT1 = document.getElementById("ChartT1");
@@ -1321,7 +2085,6 @@ FusionCharts.ready(function () {
     function renderChartT1() {
       var xVal = new Date();
       yVal = 100 + Math.round(5 + Math.random() * (-5 - 5));
-      console.log(yVal)
       pointT1.push({
         x: xVal,
         y: yVal
@@ -1372,9 +2135,11 @@ FusionCharts.ready(function () {
    "events": {
     "rendered": function (evtObj, argObj) {
         socket.on('changeData', function(data){
-                if(data.name === 'random'){
-                    evtObj.sender.feedData("&value=" + data.data);	
-                 }  
+            for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                if(allVariableConfig.nameVariable[i].name === 'T1'){
+                    evtObj.sender.feedData("&value=" + data[i].data);	
+                 } 
+                } 
               } )  
     }
    }
@@ -1420,7 +2185,6 @@ var chartT2 = new CanvasJS.Chart(mychartsT2, {
 function renderChartT2() {
   var xVal = new Date();
   yVal = 100 + Math.round(5 + Math.random() * (-5 - 5));
-  console.log(yVal)
   pointT2.push({
     x: xVal,
     y: yVal
@@ -1470,9 +2234,11 @@ dataSource: {
 "events": {
     "rendered": function (evtObj, argObj) {
         socket.on('changeData', function(data){
-                if(data.name === 'random'){
-                    evtObj.sender.feedData("&value=" + data.data);	
-                 }  
+            for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                if(allVariableConfig.nameVariable[i].name === 'T2'){
+                    evtObj.sender.feedData("&value=" + data[i].data);	
+                 } 
+                } 
               } )  
     }
    }
@@ -1598,9 +2364,11 @@ dataSource: {
 "events": {
     "rendered": function (evtObj, argObj) {
         socket.on('changeData', function(data){
-                if(data.name === 'random'){
-                    evtObj.sender.feedData("&value=" + data.data);	
+            for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                if(allVariableConfig.nameVariable[i].name === 'T3'){
+                    evtObj.sender.feedData("&value=" + data[i].data);	
                  }  
+                }
               } )  
     }
    }
@@ -1678,9 +2446,11 @@ FusionCharts.ready(function() {
       events: {
         "rendered": function (evtObj, argObj) {
                 socket.on('changeData', function(data){  
-                        if(data.name === 'random'){
-                            evtObj.sender.feedData("&value=" + data.data);
+                    for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
+                        if(allVariableConfig.nameVariable[i].name === 'DO'){
+                            evtObj.sender.feedData("&value=" + data[i].data);
                          }
+                        }
                       } )
         }
      }
@@ -1762,7 +2532,11 @@ gauge.setTextField(document.getElementById("preview-textfield"));
 gauge.maxValue = 3000;
 gauge.setMinValue(0); 
 socket.on('changeData',(data)=>{
-    gauge.set(data.data * 30);
+    for(let i =0 ; i < allVariableConfig.nameVariable.length ; i++){
+        if(allVariableConfig.nameVariable[i].name === 'pH'){
+            gauge.set(data[i].data * 30);
+        }
+    }
 })
 gauge.animationSpeed = 32
 
@@ -1803,7 +2577,7 @@ function drawChart() {
 
 
 var previousData = {} ; 
-socket.on('changeData',(data)=>{
+socket.on('historyChange',(data)=>{
     var nextData = data ; 
     if(Object.keys(previousData).length === 0 || previousData.name !== nextData.name || previousData.data !== nextData.data){
         myFunction(data) ; 
@@ -1833,7 +2607,6 @@ function productDelete(ctl) {
       .parents("tr")
       .remove();
   }
-
 
 
 })
@@ -2010,12 +2783,20 @@ $('#pump1-confirm-in').on("click",function(){
         name: 'pmp1_Confirm2',
         value: true 
     })
+    socket.emit(`setpmp1_Confirm1`,{
+        name: 'pmp1_Confirm1',
+        value: true 
+    })
     setTimeout(() => {
         socket.emit(`setpmp1_Confirm2`,{
             name: 'pmp1_Confirm2',
             value: false 
         })
-    }, 100);
+        socket.emit(`setpmp1_Confirm1`,{
+            name: 'pmp1_Confirm1',
+            value: false 
+        })
+    }, 500);
 })
 $('#pump1-start-motor1').on("click", function(){
     socket.emit(`setpmp1_Start-Stop_Motor1`,{
@@ -2115,12 +2896,20 @@ $('#pump2-confirm-in').on("click",function(){
         name: 'pmp2_Confirm2',
         value: true 
     })
+    socket.emit(`setpmp2_Confirm1`,{
+        name: 'pmp2_Confirm1',
+        value: true 
+    })
     setTimeout(() => {
         socket.emit(`setpmp2_Confirm2`,{
             name: 'pmp2_Confirm2',
             value: false 
         })
-    }, 100);
+        socket.emit(`setpmp2_Confirm1`,{
+            name: 'pmp2_Confirm1',
+            value: false 
+        })
+    }, 500);
 })
 $('#pump2-start-motor1').on("click", function(){
     socket.emit(`setpmp2_Start-Stop_Motor1`,{
@@ -2220,12 +3009,20 @@ $('#pump3-confirm-in').on("click",function(){
         name: 'pmp3_Confirm2',
         value: true 
     })
+    socket.emit(`setpmp3_Confirm1`,{
+        name: 'pmp3_Confirm1',
+        value: true 
+    })
     setTimeout(() => {
         socket.emit(`setpmp3_Confirm2`,{
             name: 'pmp3_Confirm2',
             value: false 
         })
-    }, 100);
+        socket.emit(`setpmp3_Confirm1`,{
+            name: 'pmp3_Confirm1',
+            value: false 
+        })
+    }, 500);
 })
 $('#pump3-start-motor1').on("click", function(){
     socket.emit(`setpmp3_Start-Stop_Motor1`,{
@@ -2325,12 +3122,20 @@ $('#pump4-confirm-in').on("click",function(){
         name: 'pmp4_Confirm2',
         value: true 
     })
+    socket.emit(`setpmp4_Confirm1`,{
+        name: 'pmp4_Confirm1',
+        value: true 
+    })
     setTimeout(() => {
         socket.emit(`setpmp4_Confirm2`,{
             name: 'pmp4_Confirm2',
             value: false 
         })
-    }, 100);
+        socket.emit(`setpmp4_Confirm1`,{
+            name: 'pmp4_Confirm1',
+            value: false 
+        })
+    }, 500);
 })
 $('#pump4-start-motor1').on("click", function(){
     socket.emit(`setpmp4_Start-Stop_Motor1`,{
@@ -2430,12 +3235,20 @@ $('#pump5-confirm-in').on("click",function(){
         name: 'pmp5_Confirm2',
         value: true 
     })
+    socket.emit(`setpmp5_Confirm1`,{
+        name: 'pmp5_Confirm1',
+        value: true 
+    })
     setTimeout(() => {
         socket.emit(`setpmp5_Confirm2`,{
             name: 'pmp5_Confirm2',
             value: false 
         })
-    }, 100);
+        socket.emit(`setpmp5_Confirm1`,{
+            name: 'pmp5_Confirm1',
+            value: false 
+        })
+    }, 500);
 })
 $('#pump5-start-motor1').on("click", function(){
     socket.emit(`setpmp5_Start-Stop_Motor1`,{
@@ -2517,6 +3330,43 @@ $('#RPM-pump5_2').keypress(function(event){
         })
     }
 });
+
+var interval ; 
+// emerrgency 
+$('#btnEmergency').on('click', function () { 
+         if(stateEmergency === true){
+            socket.emit(`setEmg_Scada1`,{
+                name: 'Emg_Scada1',
+                value: false
+            })
+            socket.emit(`setEmg_Scada2`,{
+                name: 'Emg_Scada2',
+                value: false
+            })
+            clearInterval(interval) ;
+            $('#emergencyCircle').css({"background-color":""});
+         }else{
+            socket.emit(`setEmg_Scada2`,{
+                name: 'Emg_Scada2',
+                value: true 
+            })
+            socket.emit(`setEmg_Scada1`,{
+                name: 'Emg_Scada1',
+                value: true 
+            }) ;
+            var state = false ; 
+            interval =  setInterval(() => {
+                if(state){
+                    $('#emergencyCircle').css({"background-color":"red"});
+                    state = false ; 
+                }else{
+                    $('#emergencyCircle').css({"background-color":"blue"});
+                    state = true
+                }   
+            }, 700);
+         }
+})
+
 
 
 

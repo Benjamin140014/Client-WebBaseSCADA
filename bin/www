@@ -146,17 +146,7 @@ io.on('connection', function (socket){
         .on("terminated", function() {
           console.log("terminated");
         });
-
-        const itemsToMonitor = [
-          // {
-          //   attributeId: opcua.AttributeIds.Value,
-          //   nodeId: 'ns=1;s=free_memory',
-          // },
-          // {
-          //   attributeId: opcua.AttributeIds.Value,
-          //   nodeId: 'ns=1;s=simulation.random',
-          // }
-        ];
+        var itemsToMonitor = [];
         allVariableConfig.nameVariable = [] ;
       // install monitored item group
        for (let i =0 ; i < variableConfig.Data.length ; i ++ ){
@@ -208,7 +198,6 @@ io.on('connection', function (socket){
             stateChange = true ; 
          } 
         } 
-       
       });
     
       setTimeout(()=>{
@@ -289,16 +278,13 @@ socket.on('optionsOPC' , (data)=>{
     // send all variable and value 
        socket.emit('loadAllDataConfig', allVariableConfig ) ;
 
-      //  setInterval(() => {
-      //    if(stateChange === true){
-      //     socket.emit('Read', dataChangeSend) ;  
-      //     stateChange = false
-      //    }
-      //  },100);
+       setInterval(() => {
+          socket.emit('historyChange', dataChangeSend) ;  
+       },100);
       
        setInterval(() => {
-           socket.emit('changeData', dataChangeSend ) ;  
-       },100);
+           socket.emit('changeData', moduleData.data ) ;  
+       },600);
 
         // receive data from form find Data
        socket.on("findData", function(data) {

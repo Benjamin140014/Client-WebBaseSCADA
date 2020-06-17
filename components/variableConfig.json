@@ -109,6 +109,12 @@
                     "value": 0
                 },
                 {
+                    "name": "Emg_Scada1",
+                    "dataType": "Bool",
+                    "writable": true,
+                    "value": false
+                },
+                {
                     "name": "Pump2_1_RPM",
                     "dataType": "Int",
                     "writable": true,
@@ -308,30 +314,6 @@
                 },
                 {
                     "name": "Ack1",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Emg_Scada_CB",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Emg_Scada_TH",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Emg_Scada_KK",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Emg_Scada1",
                     "dataType": "Bool",
                     "writable": true,
                     "value": false
@@ -805,90 +787,6 @@
                     "value": false
                 },
                 {
-                    "name": "th_W",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 40
-                },
-                {
-                    "name": "th_pH_SP",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 7
-                },
-                {
-                    "name": "th_V_NaOH_TT",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_V_HCl_TT",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_Count",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_V_NaOH",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_V_HCl",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_V_HCl2",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_V_HCl_Pre",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_V_NaOH_Pre",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "th_Done_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "MIX_Auto-Man_In",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "MiX_Auto-Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "MIX_Start-Stop_In ",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
                     "name": "MIX_Run",
                     "dataType": "Bool",
                     "writable": true,
@@ -1039,86 +937,7 @@
                     "dataType": "UInt",
                     "writable": true,
                     "value": 0
-                },
-                {
-                    "name": "KK_Count",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "KK_Flow_SP",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 1
-                },
-                {
-                    "name": "KK_Reset_Time_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "KK_Start_Time_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "KK_Val3",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Val_NaOH_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Val_HCl_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "TH_Pump7_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "MIX_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "MIX_Start-Stop_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Val_In_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "KK_Start_Time_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "KK_Reset_Time_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                }
-                
+                } 
             ]
         },
         {
@@ -1329,35 +1148,18 @@
                     "value": false
                 },
 
-
                 {
                     "name": "Ack2",
                     "dataType": "Bool",
                     "writable": true,
                     "value": false
                 },
-
-
                 {
                     "name": "Emg_Scada2",
                     "dataType": "Bool",
                     "writable": true,
                     "value": false
                 },
-                {
-                    "name": "Emg_Scada_HK",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Emg_Scada_BL",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-
-
                 {
                     "name": "Pump4_1_Err",
                     "dataType": "Bool",
@@ -1408,42 +1210,6 @@
                 },
                 {
                     "name": "Val_6_Err",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Val_4_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Val_5_Man",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "Val_6_Man",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "Pump4_Reset",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Pump5_Reset",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "BL_Reset",
                     "dataType": "Bool",
                     "writable": true,
                     "value": false
@@ -1687,162 +1453,7 @@
                     "writable": true,
                     "value": 1
                 },
-
-
-                {
-                    "name": "HK_Count",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "HK_DO_SP",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 2
-                },
-                {
-                    "name": "HK_Reset_Time_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "HK_Start_Time_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "HK_Reset_Time_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "HK_Start_Time_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "HK_Vpump",
-                    "dataType": "Real",
-                    "writable": true,
-                    "value": 0.25
-                },
-
-
-                {
-                    "name": "bl_Start-Stop_In",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "pbl_Run",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Auto-Man_In",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Auto-Man2",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Auto-Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Confirm1",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Start-Stop_Pump6",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_W",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 80
-                },
-                {
-                    "name": "bl_Val4_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Start-Stop_Motor",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Start_Time_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Reset_Time_Man",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Start_Time_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Reset_Time_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "bl_Count",
-                    "dataType": "Int",
-                    "writable": true,
-                    "value": 0
-                },
-                {
-                    "name": "Pump6_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Motor_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-                {
-                    "name": "Val4_Man_CF",
-                    "dataType": "Bool",
-                    "writable": true,
-                    "value": false
-                },
-
-
+               
                 {
                     "name": "Time_Count_Pump4_1_h",
                     "dataType": "UInt",
