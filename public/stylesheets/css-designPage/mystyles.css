@@ -652,8 +652,8 @@
 }
 #HighNaoh{
     position: absolute;
-    top:190px  ; left: 710px;
-    width: 100px;
+    top:190px  ; left: 690px;
+    width: 120px;
     height: 30px;
     background-color: cornflowerblue;
     border-radius: 10%;
@@ -661,7 +661,7 @@
 #HighHcl{
     position: absolute;
     top:190px  ; left: 980px;
-    width: 100px;
+    width: 120px;
     height: 30px;
     background-color: cornflowerblue;
     border-radius: 10%;
@@ -842,8 +842,8 @@
 }
 #valueFlow1{
     position: absolute;
-    top:260px  ; left: 1260px;
-    width: 90px;
+    top:260px  ; left: 1250px;
+    width: 100px;
     height: 30px;
     background-color: cornflowerblue;
     border-radius: 5%;

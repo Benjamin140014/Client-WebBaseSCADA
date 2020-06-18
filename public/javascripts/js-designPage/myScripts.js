@@ -12,7 +12,8 @@ var pump3 = {pump3_1: false , pump3_2: false} ;
 var pump4 = {pump4_1: false , pump4_2: false} ; 
 var pump5 = {pump5_1: false , pump5_2: false} ; 
 var stateKK = {state: false} ;
-var stateEmergency = false ; 
+var stateEmergency1 = false ; 
+var stateEmergency2 = false ; 
 var toggleWarning , toggleOverload1 ,toggleOverload2 , toggleOverload3 
 ,toggleOverload4 , toggleOverload5 ,toggleOverloadTH , toggleOverloadMix ,toggleOverloadBun, toggleOverloadGatBun 
 ,toggleErrorPump1_1 , toggleErrorPump1_2 ,toggleErrorPump2_1 , toggleErrorPump2_2 ,toggleErrorPump3_1, toggleErrorPump3_2 
@@ -22,7 +23,7 @@ toggleErrorValve_6  ;
 var sttRowAlarm = 0 ; 
 var arrayAlarm = [] ; 
 var stateAlarm = {H1: false ,L1: false , H2: false , L2: false , H3: false , L3: false , H5: false , L5: false} ;
-
+var emerScada  ; 
 
 function ObjectAlarm(Source ,Value , Message , State ){
     this.Date = getTime(new Date()).date ;
@@ -147,7 +148,8 @@ $(document).ready(function(){
            }
            // nhiet do T1
            if(allVariableConfig.nameVariable[i].name === 'T1'){
-              $('#valueNhietDoT1').html('T1 : ' + data[i].data + ' ℃') ;
+               var value = parseFloat(data[i].data ).toFixed(2);
+              $('#valueNhietDoT1').html('T1 : ' + value + ' ℃') ;
             }
           //pipe before pump2_1 and pump2_2
     
@@ -287,7 +289,8 @@ $(document).ready(function(){
           }
           // PH 
           if(allVariableConfig.nameVariable[i].name === 'pH'){
-            $('#valuePH').html('PH : ' + data[i].data ) ;
+            var value =  parseFloat(data[i].data).toFixed(2);
+            $('#valuePH').html('PH : ' + value  ) ;
           } 
          
           //pipe before pump3_1 and pump3_2
@@ -352,15 +355,18 @@ $(document).ready(function(){
         }
         // Flow1
         if(allVariableConfig.nameVariable[i].name === 'Flow'){
-            $('#valueFlow1').html('Flow1 : ' + data[i].data ) ;
+             var value = parseFloat( data[i].data).toFixed(2);
+            $('#valueFlow1').html('Flow1 : ' + value ) ;
           }
           // High Ki Khi
         if(allVariableConfig.nameVariable[i].name === 'h_KK'){
-            $('#HighKK').html('h_KK : ' + data[i].data ) ;
+            var value = parseFloat( data[i].data).toFixed(2);
+            $('#HighKK').html('h_KK : ' + value ) ;
           }
        // nhiet do T1
        if(allVariableConfig.nameVariable[i].name === 'T2'){
-        $('#valueNhietDoKiKhi').html('T2 : ' + data[i].data + ' ℃') ;
+        var value = parseFloat( data[i].data).toFixed(2);
+        $('#valueNhietDoKiKhi').html('T2 : ' + value + ' ℃') ;
         }
        //sensor ki khi 
        if(allVariableConfig.nameVariable[i].name === 'H4'){
@@ -460,7 +466,8 @@ $(document).ready(function(){
     
         // Flow 2 
         if(allVariableConfig.nameVariable[i].name === 'flow2'){
-            $('#valueFlow2').html('Flow2 : ' + data[i].data ) ;
+            var value =  parseFloat(data[i].data).toFixed(2);
+            $('#valueFlow2').html('Flow2 : ' + value) ;
           }
        //pipe before pump4_1 and pump4_2
         
@@ -502,11 +509,13 @@ $(document).ready(function(){
       
       // T3 
       if(allVariableConfig.nameVariable[i].name === 'T3'){
-        $('#valueNhietDoHieuKhi').html('T3 : ' + data[i].data + ' ℃') ;
+        var value =  parseFloat(data[i].data).toFixed(2);
+        $('#valueNhietDoHieuKhi').html('T3 : ' + value + ' ℃') ;
         }
      // DO
      if(allVariableConfig.nameVariable[i].name === 'DO'){
-        $('#valueNongDoOxi').html('DO : ' + data[i].data ) ;
+        var value =  parseFloat(data[i].data).toFixed(2);
+        $('#valueNongDoOxi').html('DO : ' + value ) ;
         }
      // Motor run
      if(allVariableConfig.nameVariable[i].name === 'Motor_Run'){
@@ -524,7 +533,8 @@ $(document).ready(function(){
      }
       // High Be Lang
       if(allVariableConfig.nameVariable[i].name === 'h_Lang'){
-        $('#HighBL').html('h_Lang : ' + data[i].data ) ;
+        var value =  parseFloat(data[i].data).toFixed(2);
+        $('#HighBL').html('h_Lang : ' + value) ;
       }
      // sensor be lang
      if(allVariableConfig.nameVariable[i].name === 'H5'){
@@ -827,28 +837,28 @@ $(document).ready(function(){
      // execute control system
      if(allVariableConfig.nameVariable[i].name === 'Run_System_PLC1'){
         if(data[i].data === 'true'){
-             $('#start-in-system').removeClass('btn btn-primary') ;
-             $('#start-in-system').addClass('btn btn-danger') ;
-             $('#stop-in-system').removeClass('btn btn-danger') ;
-             $('#stop-in-system').addClass('btn btn-primary') ;
+             $('#start-in-system').removeClass('btn btn-secondary') ;
+             $('#start-in-system').addClass('btn btn-primary') ;
+             $('#stop-in-system').removeClass('btn btn-primary') ;
+             $('#stop-in-system').addClass('btn btn-secondary') ;
         }else{
-            $('#start-in-system').removeClass('btn btn-danger') ;
-            $('#start-in-system').addClass('btn btn-primary') ;
-            $('#stop-in-system').removeClass('btn btn-primary') ;
-            $('#stop-in-system').addClass('btn btn-danger') ;
+            $('#start-in-system').removeClass('btn btn-primary') ;
+            $('#start-in-system').addClass('btn btn-secondary') ;
+            $('#stop-in-system').removeClass('btn btn-secondary') ;
+            $('#stop-in-system').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'Auto-Man_System_PLC1'){
         if(data[i].data === 'true'){
-             $('#auto-in-system').removeClass('btn btn-primary') ;
-             $('#auto-in-system').addClass('btn btn-danger') ;
-             $('#man-in-system').removeClass('btn btn-danger') ;
-             $('#man-in-system').addClass('btn btn-primary') ;
+             $('#auto-in-system').removeClass('btn btn-secondary') ;
+             $('#auto-in-system').addClass('btn btn-primary') ;
+             $('#man-in-system').removeClass('btn btn-primary') ;
+             $('#man-in-system').addClass('btn btn-secondary') ;
         }else{
-            $('#auto-in-system').removeClass('btn btn-danger') ;
-            $('#auto-in-system').addClass('btn btn-primary') ;
-            $('#man-in-system').removeClass('btn btn-primary') ;
-            $('#man-in-system').addClass('btn btn-danger') ;
+            $('#auto-in-system').removeClass('btn btn-primary') ;
+            $('#auto-in-system').addClass('btn btn-secondary') ;
+            $('#man-in-system').removeClass('btn btn-secondary') ;
+            $('#man-in-system').addClass('btn btn-primary') ;
         }
      }
     
@@ -856,237 +866,234 @@ $(document).ready(function(){
      // pump 1
      if(allVariableConfig.nameVariable[i].name === 'pmp1_Auto-Man'){
         if(data[i].data === 'true'){
-             $('#pump1-auto-in').removeClass('btn btn-primary') ;
-             $('#pump1-auto-in').addClass('btn btn-danger') ;
-             $('#pump1-man-in').removeClass('btn btn-danger') ;
-             $('#pump1-man-in').addClass('btn btn-primary') ;
+             $('#pump1-auto-in').removeClass('btn btn-warning') ;
+             $('#pump1-auto-in').addClass('btn btn-primary') ;
+             $('#pump1-man-in').removeClass('btn btn-primary') ;
+             $('#pump1-man-in').addClass('btn btn-warning') ;
         }else{
-            $('#pump1-auto-in').removeClass('btn btn-danger') ;
-            $('#pump1-auto-in').addClass('btn btn-primary') ;
-            $('#pump1-man-in').removeClass('btn btn-primary') ;
-            $('#pump1-man-in').addClass('btn btn-danger') ;
+            $('#pump1-auto-in').removeClass('btn btn-primary') ;
+            $('#pump1-auto-in').addClass('btn btn-warning') ;
+            $('#pump1-man-in').removeClass('btn btn-warning') ;
+            $('#pump1-man-in').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
         if(data[i].data === 'true'){
-             $('#pump1-start-motor1').removeClass('btn btn-primary') ;
-             $('#pump1-start-motor1').addClass('btn btn-danger') ;
-             $('#pump1-stop-motor1').removeClass('btn btn-danger') ;
-             $('#pump1-stop-motor1').addClass('btn btn-primary') ;
+             $('#pump1-start-motor1').removeClass('btn btn-warning') ;
+             $('#pump1-start-motor1').addClass('btn btn-primary') ;
+             $('#pump1-stop-motor1').removeClass('btn btn-primary') ;
+             $('#pump1-stop-motor1').addClass('btn btn-warning') ;
         }else{
-            $('#pump1-start-motor1').removeClass('btn btn-danger') ;
-            $('#pump1-start-motor1').addClass('btn btn-primary') ;
-            $('#pump1-stop-motor1').removeClass('btn btn-primary') ;
-            $('#pump1-stop-motor1').addClass('btn btn-danger') ;
+            $('#pump1-start-motor1').removeClass('btn btn-primary') ;
+            $('#pump1-start-motor1').addClass('btn btn-warning') ;
+            $('#pump1-stop-motor1').removeClass('btn btn-warning') ;
+            $('#pump1-stop-motor1').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor2_Run'){
         if(data[i].data === 'true'){
-             $('#pump1-start-motor2').removeClass('btn btn-primary') ;
-             $('#pump1-start-motor2').addClass('btn btn-danger') ;
-             $('#pump1-stop-motor2').removeClass('btn btn-danger') ;
-             $('#pump1-stop-motor2').addClass('btn btn-primary') ;
+             $('#pump1-start-motor2').removeClass('btn btn-warning') ;
+             $('#pump1-start-motor2').addClass('btn btn-primary') ;
+             $('#pump1-stop-motor2').removeClass('btn btn-primary') ;
+             $('#pump1-stop-motor2').addClass('btn btn-warning') ;
         }else{
-            $('#pump1-start-motor2').removeClass('btn btn-danger') ;
-            $('#pump1-start-motor2').addClass('btn btn-primary') ;
-            $('#pump1-stop-motor2').removeClass('btn btn-primary') ;
-            $('#pump1-stop-motor2').addClass('btn btn-danger') ;
+            $('#pump1-start-motor2').removeClass('btn btn-primary') ;
+            $('#pump1-start-motor2').addClass('btn btn-warning') ;
+            $('#pump1-stop-motor2').removeClass('btn btn-warning') ;
+            $('#pump1-stop-motor2').addClass('btn btn-primary') ;
         }
      }
      // pump 2
      if(allVariableConfig.nameVariable[i].name === 'pmp2_Auto-Man'){
         if(data[i].data === 'true'){
-             $('#pump2-auto-in').removeClass('btn btn-primary') ;
-             $('#pump2-auto-in').addClass('btn btn-danger') ;
-             $('#pump2-man-in').removeClass('btn btn-danger') ;
-             $('#pump2-man-in').addClass('btn btn-primary') ;
+             $('#pump2-auto-in').removeClass('btn btn-warning') ;
+             $('#pump2-auto-in').addClass('btn btn-primary') ;
+             $('#pump2-man-in').removeClass('btn btn-primary') ;
+             $('#pump2-man-in').addClass('btn btn-warning') ;
         }else{
-            $('#pump2-auto-in').removeClass('btn btn-danger') ;
-            $('#pump2-auto-in').addClass('btn btn-primary') ;
-            $('#pump2-man-in').removeClass('btn btn-primary') ;
-            $('#pump2-man-in').addClass('btn btn-danger') ;
+            $('#pump2-auto-in').removeClass('btn btn-primary') ;
+            $('#pump2-auto-in').addClass('btn btn-warning') ;
+            $('#pump2-man-in').removeClass('btn btn-warning') ;
+            $('#pump2-man-in').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor1_Run'){
         if(data[i].data === 'true'){
-             $('#pump2-start-motor1').removeClass('btn btn-primary') ;
-             $('#pump2-start-motor1').addClass('btn btn-danger') ;
-             $('#pump2-stop-motor1').removeClass('btn btn-danger') ;
-             $('#pump2-stop-motor1').addClass('btn btn-primary') ;
+             $('#pump2-start-motor1').removeClass('btn btn-warning') ;
+             $('#pump2-start-motor1').addClass('btn btn-primary') ;
+             $('#pump2-stop-motor1').removeClass('btn btn-primary') ;
+             $('#pump2-stop-motor1').addClass('btn btn-warning') ;
         }else{
-            $('#pump2-start-motor1').removeClass('btn btn-danger') ;
-            $('#pump2-start-motor1').addClass('btn btn-primary') ;
-            $('#pump2-stop-motor1').removeClass('btn btn-primary') ;
-            $('#pump2-stop-motor1').addClass('btn btn-danger') ;
+            $('#pump2-start-motor1').removeClass('btn btn-primary') ;
+            $('#pump2-start-motor1').addClass('btn btn-warning') ;
+            $('#pump2-stop-motor1').removeClass('btn btn-warning') ;
+            $('#pump2-stop-motor1').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp2_Motor2_Run'){
         if(data[i].data === 'true'){
-             $('#pump2-start-motor2').removeClass('btn btn-primary') ;
-             $('#pump2-start-motor2').addClass('btn btn-danger') ;
-             $('#pump2-stop-motor2').removeClass('btn btn-danger') ;
-             $('#pump2-stop-motor2').addClass('btn btn-primary') ;
+             $('#pump2-start-motor2').removeClass('btn btn-warning') ;
+             $('#pump2-start-motor2').addClass('btn btn-primary') ;
+             $('#pump2-stop-motor2').removeClass('btn btn-primary') ;
+             $('#pump2-stop-motor2').addClass('btn btn-warning') ;
         }else{
-            $('#pump2-start-motor2').removeClass('btn btn-danger') ;
-            $('#pump2-start-motor2').addClass('btn btn-primary') ;
-            $('#pump2-stop-motor2').removeClass('btn btn-primary') ;
-            $('#pump2-stop-motor2').addClass('btn btn-danger') ;
+            $('#pump2-start-motor2').removeClass('btn btn-primary') ;
+            $('#pump2-start-motor2').addClass('btn btn-warning') ;
+            $('#pump2-stop-motor2').removeClass('btn btn-warning') ;
+            $('#pump2-stop-motor2').addClass('btn btn-primary') ;
         }
      }
      //pump 3
      if(allVariableConfig.nameVariable[i].name === 'pmp3_Auto-Man'){
         if(data[i].data === 'true'){
-             $('#pump3-auto-in').removeClass('btn btn-primary') ;
-             $('#pump3-auto-in').addClass('btn btn-danger') ;
-             $('#pump3-man-in').removeClass('btn btn-danger') ;
-             $('#pump3-man-in').addClass('btn btn-primary') ;
+             $('#pump3-auto-in').removeClass('btn btn-warning') ;
+             $('#pump3-auto-in').addClass('btn btn-primary') ;
+             $('#pump3-man-in').removeClass('btn btn-primary') ;
+             $('#pump3-man-in').addClass('btn btn-warning') ;
         }else{
-            $('#pump3-auto-in').removeClass('btn btn-danger') ;
-            $('#pump3-auto-in').addClass('btn btn-primary') ;
-            $('#pump3-man-in').removeClass('btn btn-primary') ;
-            $('#pump3-man-in').addClass('btn btn-danger') ;
+            $('#pump3-auto-in').removeClass('btn btn-primary') ;
+            $('#pump3-auto-in').addClass('btn btn-warning') ;
+            $('#pump3-man-in').removeClass('btn btn-warning') ;
+            $('#pump3-man-in').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor1_Run'){
         if(data[i].data === 'true'){
-             $('#pump3-start-motor1').removeClass('btn btn-primary') ;
-             $('#pump3-start-motor1').addClass('btn btn-danger') ;
-             $('#pump3-stop-motor1').removeClass('btn btn-danger') ;
-             $('#pump3-stop-motor1').addClass('btn btn-primary') ;
+             $('#pump3-start-motor1').removeClass('btn btn-warning') ;
+             $('#pump3-start-motor1').addClass('btn btn-primary') ;
+             $('#pump3-stop-motor1').removeClass('btn btn-primary') ;
+             $('#pump3-stop-motor1').addClass('btn btn-warning') ;
         }else{
-            $('#pump3-start-motor1').removeClass('btn btn-danger') ;
-            $('#pump3-start-motor1').addClass('btn btn-primary') ;
-            $('#pump3-stop-motor1').removeClass('btn btn-primary') ;
-            $('#pump3-stop-motor1').addClass('btn btn-danger') ;
+            $('#pump3-start-motor1').removeClass('btn btn-primary') ;
+            $('#pump3-start-motor1').addClass('btn btn-warning') ;
+            $('#pump3-stop-motor1').removeClass('btn btn-warning') ;
+            $('#pump3-stop-motor1').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp3_Motor2_Run'){
         if(data[i].data === 'true'){
-             $('#pump3-start-motor2').removeClass('btn btn-primary') ;
-             $('#pump3-start-motor2').addClass('btn btn-danger') ;
-             $('#pump3-stop-motor2').removeClass('btn btn-danger') ;
-             $('#pump3-stop-motor2').addClass('btn btn-primary') ;
+             $('#pump3-start-motor2').removeClass('btn btn-warning') ;
+             $('#pump3-start-motor2').addClass('btn btn-primary') ;
+             $('#pump3-stop-motor2').removeClass('btn btn-primary') ;
+             $('#pump3-stop-motor2').addClass('btn btn-warning') ;
         }else{
-            $('#pump3-start-motor2').removeClass('btn btn-danger') ;
-            $('#pump3-start-motor2').addClass('btn btn-primary') ;
-            $('#pump3-stop-motor2').removeClass('btn btn-primary') ;
-            $('#pump3-stop-motor2').addClass('btn btn-danger') ;
+            $('#pump3-start-motor2').removeClass('btn btn-primary') ;
+            $('#pump3-start-motor2').addClass('btn btn-warning') ;
+            $('#pump3-stop-motor2').removeClass('btn btn-warning') ;
+            $('#pump3-stop-motor2').addClass('btn btn-primary') ;
         }
      }
      //pump4
      if(allVariableConfig.nameVariable[i].name === 'pmp4_Auto-Man'){
         if(data[i].data === 'true'){
-             $('#pump4-auto-in').removeClass('btn btn-primary') ;
-             $('#pump4-auto-in').addClass('btn btn-danger') ;
-             $('#pump4-man-in').removeClass('btn btn-danger') ;
-             $('#pump4-man-in').addClass('btn btn-primary') ;
+             $('#pump4-auto-in').removeClass('btn btn-warning') ;
+             $('#pump4-auto-in').addClass('btn btn-primary') ;
+             $('#pump4-man-in').removeClass('btn btn-primary') ;
+             $('#pump4-man-in').addClass('btn btn-warning') ;
         }else{
-            $('#pump4-auto-in').removeClass('btn btn-danger') ;
-            $('#pump4-auto-in').addClass('btn btn-primary') ;
-            $('#pump4-man-in').removeClass('btn btn-primary') ;
-            $('#pump4-man-in').addClass('btn btn-danger') ;
+            $('#pump4-auto-in').removeClass('btn btn-primary') ;
+            $('#pump4-auto-in').addClass('btn btn-warning') ;
+            $('#pump4-man-in').removeClass('btn btn-warning') ;
+            $('#pump4-man-in').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor1_Run'){
         if(data[i].data === 'true'){
-             $('#pump4-start-motor1').removeClass('btn btn-primary') ;
-             $('#pump4-start-motor1').addClass('btn btn-danger') ;
-             $('#pump4-stop-motor1').removeClass('btn btn-danger') ;
-             $('#pump4-stop-motor1').addClass('btn btn-primary') ;
+             $('#pump4-start-motor1').removeClass('btn btn-warning') ;
+             $('#pump4-start-motor1').addClass('btn btn-primary') ;
+             $('#pump4-stop-motor1').removeClass('btn btn-primary') ;
+             $('#pump4-stop-motor1').addClass('btn btn-warning') ;
         }else{
-            $('#pump4-start-motor1').removeClass('btn btn-danger') ;
-            $('#pump4-start-motor1').addClass('btn btn-primary') ;
-            $('#pump4-stop-motor1').removeClass('btn btn-primary') ;
-            $('#pump4-stop-motor1').addClass('btn btn-danger') ;
+            $('#pump4-start-motor1').removeClass('btn btn-primary') ;
+            $('#pump4-start-motor1').addClass('btn btn-warning') ;
+            $('#pump4-stop-motor1').removeClass('btn btn-warning') ;
+            $('#pump4-stop-motor1').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp4_Motor2_Run'){
         if(data[i].data === 'true'){
-             $('#pump4-start-motor2').removeClass('btn btn-primary') ;
-             $('#pump4-start-motor2').addClass('btn btn-danger') ;
-             $('#pump4-stop-motor2').removeClass('btn btn-danger') ;
-             $('#pump4-stop-motor2').addClass('btn btn-primary') ;
+             $('#pump4-start-motor2').removeClass('btn btn-warning') ;
+             $('#pump4-start-motor2').addClass('btn btn-primary') ;
+             $('#pump4-stop-motor2').removeClass('btn btn-primary') ;
+             $('#pump4-stop-motor2').addClass('btn btn-warning') ;
         }else{
-            $('#pump4-start-motor2').removeClass('btn btn-danger') ;
-            $('#pump4-start-motor2').addClass('btn btn-primary') ;
-            $('#pump4-stop-motor2').removeClass('btn btn-primary') ;
-            $('#pump4-stop-motor2').addClass('btn btn-danger') ;
+            $('#pump4-start-motor2').removeClass('btn btn-primary') ;
+            $('#pump4-start-motor2').addClass('btn btn-warning') ;
+            $('#pump4-stop-motor2').removeClass('btn btn-warning') ;
+            $('#pump4-stop-motor2').addClass('btn btn-primary') ;
         }
      }
      //pump5
      if(allVariableConfig.nameVariable[i].name === 'pmp5_Auto-Man'){
         if(data[i].data === 'true'){
-             $('#pump5-auto-in').removeClass('btn btn-primary') ;
-             $('#pump5-auto-in').addClass('btn btn-danger') ;
-             $('#pump5-man-in').removeClass('btn btn-danger') ;
-             $('#pump5-man-in').addClass('btn btn-primary') ;
+             $('#pump5-auto-in').removeClass('btn btn-warning') ;
+             $('#pump5-auto-in').addClass('btn btn-primary') ;
+             $('#pump5-man-in').removeClass('btn btn-primary') ;
+             $('#pump5-man-in').addClass('btn btn-warning') ;
         }else{
-            $('#pump5-auto-in').removeClass('btn btn-danger') ;
-            $('#pump5-auto-in').addClass('btn btn-primary') ;
-            $('#pump5-man-in').removeClass('btn btn-primary') ;
-            $('#pump5-man-in').addClass('btn btn-danger') ;
+            $('#pump5-auto-in').removeClass('btn btn-primary') ;
+            $('#pump5-auto-in').addClass('btn btn-warning') ;
+            $('#pump5-man-in').removeClass('btn btn-warning') ;
+            $('#pump5-man-in').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp1_Motor1_Run'){
         if(data[i].data === 'true'){
-             $('#pump5-start-motor1').removeClass('btn btn-primary') ;
-             $('#pump5-start-motor1').addClass('btn btn-danger') ;
-             $('#pump5-stop-motor1').removeClass('btn btn-danger') ;
-             $('#pump5-stop-motor1').addClass('btn btn-primary') ;
+             $('#pump5-start-motor1').removeClass('btn btn-warning') ;
+             $('#pump5-start-motor1').addClass('btn btn-primary') ;
+             $('#pump5-stop-motor1').removeClass('btn btn-primary') ;
+             $('#pump5-stop-motor1').addClass('btn btn-warning') ;
         }else{
-            $('#pump5-start-motor1').removeClass('btn btn-danger') ;
-            $('#pump5-start-motor1').addClass('btn btn-primary') ;
-            $('#pump5-stop-motor1').removeClass('btn btn-primary') ;
-            $('#pump5-stop-motor1').addClass('btn btn-danger') ;
+            $('#pump5-start-motor1').removeClass('btn btn-primary') ;
+            $('#pump5-start-motor1').addClass('btn btn-warning') ;
+            $('#pump5-stop-motor1').removeClass('btn btn-warning') ;
+            $('#pump5-stop-motor1').addClass('btn btn-primary') ;
         }
      }
      if(allVariableConfig.nameVariable[i].name === 'pmp5_Motor2_Run'){
         if(data[i].data === 'true'){
-             $('#pump5-start-motor2').removeClass('btn btn-primary') ;
-             $('#pump5-start-motor2').addClass('btn btn-danger') ;
-             $('#pump5-stop-motor2').removeClass('btn btn-danger') ;
-             $('#pump5-stop-motor2').addClass('btn btn-primary') ;
+             $('#pump5-start-motor2').removeClass('btn btn-warning') ;
+             $('#pump5-start-motor2').addClass('btn btn-primary') ;
+             $('#pump5-stop-motor2').removeClass('btn btn-primary') ;
+             $('#pump5-stop-motor2').addClass('btn btn-warning') ;
         }else{
-            $('#pump5-start-motor2').removeClass('btn btn-danger') ;
-            $('#pump5-start-motor2').addClass('btn btn-primary') ;
-            $('#pump5-stop-motor2').removeClass('btn btn-primary') ;
-            $('#pump5-stop-motor2').addClass('btn btn-danger') ;
+            $('#pump5-start-motor2').removeClass('btn btn-primary') ;
+            $('#pump5-start-motor2').addClass('btn btn-warning') ;
+            $('#pump5-stop-motor2').removeClass('btn btn-warning') ;
+            $('#pump5-stop-motor2').addClass('btn btn-primary') ;
         }
      }
       
      // display chieu cao be kk , bl hcl , naoh
      // kk
      if(allVariableConfig.nameVariable[i].name === 'h_KK'){
-       var progressBarVal= data[i].data;   
-       var html="<div class='progress-bar progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='4' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" </div>";    
+       var progressBarVal= data[i].data;  
+       var value =  parseFloat(progressBarVal).toFixed(2); 
+       var html="<div class='progress-bar progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='4' style='height:"+value*25+"% ; width: 100%'>"+value+" </div>";    
        $("#h_Ki_Khi").html(html);   
      }
      // bl
      if(allVariableConfig.nameVariable[i].name === 'h_Lang'){
-        var progressBarVal= data[i].data;   
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='4' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" </div>";    
+        var progressBarVal= data[i].data;  
+        var value =  parseFloat(progressBarVal).toFixed(2);  
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='4' style='height:"+value*25+"% ; width: 100%'>"+value+" </div>";    
         $("#h_Be_Lang").html(html);   
       }
       // hcl
       if(allVariableConfig.nameVariable[i].name === 'h_HCL'){
         var progressBarVal= data[i].data;   
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='5' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+" </div>";    
+        var value =  parseFloat(progressBarVal).toFixed(2); 
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='5' style='height:"+value*20+"% ; width: 100%'>"+value+" </div>";    
         $("#h_Hcl").html(html);   
       }
       //naoh
       if(allVariableConfig.nameVariable[i].name === 'h_NaOH'){
         var progressBarVal= data[i].data;   
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='5' style='height:"+progressBarVal+"% ; width: 100%'>"+progressBarVal+"</div>";    
+        var value =  parseFloat(progressBarVal).toFixed(2); 
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='5' style='height:"+value*20+"% ; width: 100%'>"+value+"</div>";    
         $("#h_Naoh").html(html);   
       }
-      // emg
-      if(allVariableConfig.nameVariable[i].name === 'Emg_Scada1'){
-          if(data[i].data === 'true'){
-            stateEmergency = true ; 
-          }else{
-            stateEmergency = false ; 
-          }
-      }
+      
 
       // lamp run error and waring
       if(allVariableConfig.nameVariable[i].name === 'Lamp_Run'){
@@ -1115,7 +1122,7 @@ $(document).ready(function(){
                         $('#lampWarning').css('background-color','aliceblue') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
             }
         }else{
             if(toggleWarning !== undefined){
@@ -1142,7 +1149,7 @@ $(document).ready(function(){
                         $('#pump1_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadPump1').html('Overload Pump1') ; 
             }
         }else{
@@ -1168,7 +1175,7 @@ $(document).ready(function(){
                         $('#pump1_1').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump1_1').css('background-color','red') ; 
             }
         }else{
@@ -1192,7 +1199,7 @@ $(document).ready(function(){
                         $('#pump1_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump1_2').css('background-color','red') ; 
             }
         }else{
@@ -1219,7 +1226,7 @@ $(document).ready(function(){
                         $('#pump2_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadPump2').html('Overload Pump2') ; 
             }
         }else{
@@ -1244,7 +1251,7 @@ $(document).ready(function(){
                         $('#pump2_1').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump2_1').css('background-color','red') ; 
             }
         }else{
@@ -1268,7 +1275,7 @@ $(document).ready(function(){
                         $('#pump2_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump2_2').css('background-color','red') ; 
             }
         }else{
@@ -1295,7 +1302,7 @@ $(document).ready(function(){
                         $('#pump3_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadPump3').html('Overload Pump3') ; 
             }
         }else{
@@ -1320,7 +1327,7 @@ $(document).ready(function(){
                         $('#pump3_1').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump3_1').css('background-color','red') ; 
             }
         }else{
@@ -1344,7 +1351,7 @@ $(document).ready(function(){
                         $('#pump3_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump3_2').css('background-color','red') ; 
             }
         }else{
@@ -1371,7 +1378,7 @@ $(document).ready(function(){
                         $('#pump4_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadPump4').html('Overload Pump4') ; 
             }
         }else{
@@ -1396,7 +1403,7 @@ $(document).ready(function(){
                         $('#pump4_1').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump4_1').css('background-color','red') ;  
             }
         }else{
@@ -1420,7 +1427,7 @@ $(document).ready(function(){
                         $('#pump4_2').attr('src','images/symbols/Pump/Pump_014.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump4_2').css('background-color','red') ; 
             }
         }else{
@@ -1447,7 +1454,7 @@ $(document).ready(function(){
                         $('#pump5_2').attr('src','images/symbols/Pump/Pump_047.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadPump5').html('Overload Pump5') ; 
             }
         }else{
@@ -1472,7 +1479,7 @@ $(document).ready(function(){
                         $('#pump5_1').attr('src','images/symbols/Pump/Pump_047.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump5_1').css('background-color','red') ;  
             }
         }else{
@@ -1496,7 +1503,7 @@ $(document).ready(function(){
                         $('#pump5_2').attr('src','images/symbols/Pump/Pump_047.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPump5_2').css('background-color','red') ; 
             }
         }else{
@@ -1570,7 +1577,7 @@ $(document).ready(function(){
                         $('#mixer_1').attr('src','images/symbols/Mixer/Mixer_012.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadMix').html('Overload Mixer') ; 
             }
         }else{
@@ -1595,7 +1602,7 @@ $(document).ready(function(){
                         $('#pump6').attr('src','images/symbols/Pump/Pump_017.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadPumpBun').html('Overload Pump Bun') ; 
             }
         }else{
@@ -1619,7 +1626,7 @@ $(document).ready(function(){
                         $('#pump6').attr('src','images/symbols/Pump/Pump_017.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPumpBun').css('background-color','red') ; 
             }
         }else{
@@ -1644,7 +1651,7 @@ $(document).ready(function(){
                         $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_007.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#overloadPumpGatBun').html('Overload Pump Gat Bun') ; 
             }
         }else{
@@ -1668,7 +1675,7 @@ $(document).ready(function(){
                         $('#pumpBeLang').attr('src','images/symbols/Pump/Pump_007.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorPumpGatBun').css('background-color','red') ; 
             }
         }else{
@@ -1694,7 +1701,7 @@ $(document).ready(function(){
                         $('#valveNAOH').attr('src','images/symbols/Valve/Valve_035.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorValve_1').css('background-color','red') ; 
             }
         }else{
@@ -1719,7 +1726,7 @@ $(document).ready(function(){
                         $('#valveHCL').attr('src','images/symbols/Valve/Valve_035.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorValve_2').css('background-color','red') ; 
             }
         }else{
@@ -1744,7 +1751,7 @@ $(document).ready(function(){
                         $('#valve_3').attr('src','images/symbols/Valve/Valve_035.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorValve_3').css('background-color','red') ; 
             }
         }else{
@@ -1769,7 +1776,7 @@ $(document).ready(function(){
                         $('#valve_5').attr('src','images/symbols/Valve/Valve_035.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorValve_5').css('background-color','red') ; 
             }
         }else{
@@ -1794,7 +1801,7 @@ $(document).ready(function(){
                         $('#valve_6').attr('src','images/symbols/Valve/Valve_035.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorValve_6').css('background-color','red') ; 
             }
         }else{
@@ -1819,7 +1826,7 @@ $(document).ready(function(){
                         $('#valve4_fb').attr('src','images/symbols/Valve/Valve_050.png') ;
                         state = true
                     }
-                }, 500);
+                }, 1500);
                 $('#ErrorValve_4').css('background-color','red') ; 
             }
         }else{
@@ -2042,10 +2049,48 @@ $(document).ready(function(){
             stateAlarm.L5 = false ; 
         }
        }
-    
+    // get emergency
+
+       if(allVariableConfig.nameVariable[i].name === 'Emg_Scada1'){
+        if(data[i].data === 'true'){
+              stateEmergency1 = true
+        }else{
+            stateEmergency1 = false
+            }
+        }
+        if(allVariableConfig.nameVariable[i].name === 'Emg_Scada2'){
+        if(data[i].data === 'true'){
+                stateEmergency2 = true
+          }else{
+              stateEmergency2 = false
+         }
+        }
+        if(stateEmergency1 === true || stateEmergency2 === true){ 
+            console.log(stateEmergency1 , stateEmergency2)
+            if(emerScada === undefined){
+                var state = false ;
+                emerScada =  setInterval(() => {
+                    if(state){
+                        $('#emergencyCircle').css({"background-color":"red"});
+                        state = false ; 
+                    }else{
+                        $('#emergencyCircle').css({"background-color":"yellow"});
+                        state = true
+                    }   
+                }, 800);
+            }
+        }else{
+            if(emerScada !== undefined){
+                clearInterval(emerScada) ;
+                emerScada = undefined ; 
+                $('#emergencyCircle').css({"background-color":""});
+               }
+        }
     } 
-    // display alarm run time 
+    
+
     var t1 = performance.now() ; 
+    console.log(t1- t0)
 }) ; 
 
 
@@ -2067,7 +2112,7 @@ FusionCharts.ready(function () {
                 "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
-                "numberSuffix": " lit",
+                "numberSuffix": " m",
                 "showValue": "10",
                 "chartBottomMargin": "25",
                 "bgColor": "#0000" ,
@@ -2118,7 +2163,7 @@ FusionCharts.ready(function () {
                 "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
-                "numberSuffix": " lit",
+                "numberSuffix": " m",
                 "showValue": "10",
                 "chartBottomMargin": "25",
                 "bgColor": "#0000",
@@ -2169,7 +2214,7 @@ FusionCharts.ready(function () {
                 "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
-                "numberSuffix": " lit",
+                "numberSuffix": " m",
                 "showValue": "10",
                 "chartBottomMargin": "25",
                 "bgColor": "#0000" ,
@@ -2220,7 +2265,7 @@ FusionCharts.ready(function () {
                 "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
-                "numberSuffix": " lit",
+                "numberSuffix": " m",
                 "showValue": "10",
                 "chartBottomMargin": "25",
                 "bgColor": "#0000",
@@ -2271,7 +2316,7 @@ FusionCharts.ready(function () {
                 "upperLimit": "3",
                 "lowerLimitDisplay": "Empty",
                 "upperLimitDisplay": "Full",
-                "numberSuffix": " lit",
+                "numberSuffix": " m",
                 "showValue": "10",
                 "chartBottomMargin": "25" ,
                 "bgColor": "#0000" ,
@@ -3621,39 +3666,26 @@ $('#RPM-pump5_2').keypress(function(event){
     }
 });
 
-var interval ; 
 // emerrgency 
 $('#btnEmergency').on('click', function () { 
-         if(stateEmergency === true){
+         if(stateEmergency1 === false || stateEmergency2 === false ){
             socket.emit(`setEmg_Scada1`,{
                 name: 'Emg_Scada1',
-                value: false
+                value: true
             })
             socket.emit(`setEmg_Scada2`,{
                 name: 'Emg_Scada2',
-                value: false
+                value: true
             })
-            clearInterval(interval) ;
-            $('#emergencyCircle').css({"background-color":""});
          }else{
             socket.emit(`setEmg_Scada2`,{
                 name: 'Emg_Scada2',
-                value: true 
+                value: false 
             })
             socket.emit(`setEmg_Scada1`,{
                 name: 'Emg_Scada1',
-                value: true 
+                value: false 
             }) ;
-            var state = false ; 
-            interval =  setInterval(() => {
-                if(state){
-                    $('#emergencyCircle').css({"background-color":"red"});
-                    state = false ; 
-                }else{
-                    $('#emergencyCircle').css({"background-color":"yellow"});
-                    state = true
-                }   
-            }, 700);
          }
 })
 
