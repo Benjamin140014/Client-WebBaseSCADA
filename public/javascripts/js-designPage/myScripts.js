@@ -19,9 +19,51 @@ var toggleWarning , toggleOverload1 ,toggleOverload2 , toggleOverload3
 ,toggleErrorPump4_1 , toggleErrorPump4_2 ,toggleErrorPump5_1 , toggleErrorPump5_2 ,toggleErrorTH, toggleErrorBun ,
 toggleErrorGatBun ,toggleErrorValve_1  , toggleErrorValve_2, toggleErrorValve_3, toggleErrorValve_4, toggleErrorValve_5 , 
 toggleErrorValve_6  ; 
+var sttRowAlarm = 0 ; 
+var arrayAlarm = [] ; 
+var stateAlarm = {H1: false ,L1: false , H2: false , L2: false , H3: false , L3: false , H5: false , L5: false} ;
+
+
+function ObjectAlarm(Source ,Value , Message , State ){
+    this.Date = getTime(new Date()).date ;
+    this.Time = getTime(new Date()).time ; 
+    this.Source = Source ; 
+    this.Type = "Analog"
+    this.Message = Message ;
+    this.Value = Value ; 
+    this.State = State ;
+}
 
 $(document).ready(function(){
+    socket.on('loadAlarmAck',(data)=>{
+        sttRowAlarm = data.length ; 
+        for(let i =0 ; i < data.length ; i++){
+        var table = document.getElementById("tableAlarm");
+        var row = table.insertRow(0);
+        row.style.color = 'aliceblue' ; 
+        var cellstt = row.insertCell(0);
+        cellstt.id = `circle-State${i}`; 
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        var cell3 = row.insertCell(3);
+        var cell4 = row.insertCell(4);
+        var cell5 = row.insertCell(5);
+        var cell6 = row.insertCell(6);
+        var cell7 = row.insertCell(7);
+        cell7.id = `stateAck${i}`; 
+        cell1.innerHTML = data[i].Date ;
+        cell2.innerHTML = data[i].Time ;
+        cell3.innerHTML = data[i].Source;
+        cell4.innerHTML = data[i].Value ;
+        cell5.innerHTML = data[i].Message ;
+        cell6.innerHTML = data[i].Type;
+        cell7.innerHTML = data[i].State ;
+        $(`#circle-State${i}`).html(`<div class = "status-circle" style = "width: 20px ; height: 20px ; border-radius: 50%;
+        background-color: green;">  </div>`) ;
+       }
 
+    })
+    
     socket.on('changeData' , (data)=>{
         var t0 = performance.now() ; 
         for(let i = 0 ; i < allVariableConfig.nameVariable.length ; i ++){
@@ -244,7 +286,7 @@ $(document).ready(function(){
             }
           }
           // PH 
-          if(allVariableConfig.nameVariable[i].name === 'Flow'){
+          if(allVariableConfig.nameVariable[i].name === 'pH'){
             $('#valuePH').html('PH : ' + data[i].data ) ;
           } 
          
@@ -1789,11 +1831,222 @@ $(document).ready(function(){
             } ;
         }
        }
-    }
+    // get alarm 
+       if(allVariableConfig.nameVariable[i].name === 'H1'){
+        if(data[i].data === 'true'){
+           stateAlarm.H1 = true ; 
+           if(arrayAlarm.length ===0 ){
+            var object = new ObjectAlarm("Bể Cân Bằng", "High", "Cảnh báo mực nước ở mức High" , "NACK") ; 
+            blinkAlarm(false) ; 
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0],0)
+           }else{
+               for(let i =0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Cân Bằng" && arrayAlarm[i].Value === "High" ){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length - 1 === i ){
+                            var object = new ObjectAlarm("Bể Cân Bằng", "High", "Cảnh báo mực nước ở mức High" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                           addRowAlarm(arrayAlarm[i+1], i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.H1 = false ; 
+        }
+       }
+        if(allVariableConfig.nameVariable[i].name === 'L1'){
+        if(data[i].data === 'true'){
+           stateAlarm.L1 = true ; 
+           if(arrayAlarm.length ===0 ){
+            var object = new ObjectAlarm("Bể Cân Bằng", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+            blinkAlarm(false)
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0], 0)
+           }else{
+               for(let i =0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Cân Bằng" && arrayAlarm[i].Value === "Low" ){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length -1 === i ){
+                            var object = new ObjectAlarm("Bể Cân Bằng", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                            addRowAlarm(arrayAlarm[i+1], i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.L1 = false ; 
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'H2'){
+        if(data[i].data === 'true'){
+            
+           stateAlarm.H2 = true ; 
+           if(arrayAlarm.length ===0 ){
+            var object = new ObjectAlarm("Bể Trung Hòa", "High", "Cảnh báo mực nước ở mức High" , "NACK")
+            blinkAlarm(false)
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0], 0)
+           }else{
+               for(let i =0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Trung Hòa" && arrayAlarm[i].Value === "High" ){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length - 1 === i ){
+                            var object = new ObjectAlarm("Bể Trung Hòa", "High", "Cảnh báo mực nước ở mức High" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                            addRowAlarm(arrayAlarm[i+1], i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.H2 = false ; 
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'L2'){
+        if(data[i].data === 'true'){
+           stateAlarm.L2 = true ; 
+           if(arrayAlarm.length === 0 ){
+            var object = new ObjectAlarm("Bể Trung Hòa", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+            blinkAlarm(false)
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0], 0)
+           }else{
+               for(let i = 0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Trung Hòa" && arrayAlarm[i].Value === "Low" ){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length -1 === i ){
+                            
+                            var object = new ObjectAlarm("Bể Trung Hòa", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                            addRowAlarm(arrayAlarm[i+1], i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.L2 = false ; 
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'H3'){
+        if(data[i].data === 'true'){
+           stateAlarm.H3 = true ; 
+           if(arrayAlarm.length ===0 ){
+            var object = new ObjectAlarm("Bể Tạm", "High", "Cảnh báo mực nước ở mức High" , "NACK")
+            blinkAlarm(false)
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0], 0)
+           }else{
+               for(let i =0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Tạm" && arrayAlarm[i].Value === "High" ){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length -1 === i ){
+                            var object = new ObjectAlarm("Bể Tạm", "High", "Cảnh báo mực nước ở mức High" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                            addRowAlarm(arrayAlarm[i+1], i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.H3 = false ; 
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'L3'){
+        if(data[i].data === 'true'){
+           stateAlarm.L3 = true ; 
+           if(arrayAlarm.length ===0 ){
+            var object = new ObjectAlarm("Bể Tạm", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+            blinkAlarm(false)
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0], 0)
+           }else{
+               for(let i =0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Tạm" && arrayAlarm[i].Value === "Low"){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length -1 === i ){
+                            var object = new ObjectAlarm("Bể Tạm", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                            addRowAlarm(arrayAlarm[i+1], i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.L3 = false ; 
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'H5'){
+        if(data[i].data === 'true'){
+           stateAlarm.H5 = true ; 
+           if(arrayAlarm.length ===0 ){
+            var object = new ObjectAlarm("Bể Lắng", "High", "Cảnh báo mực nước ở mức High" , "NACK")
+            blinkAlarm(false)
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0], 0)
+           }else{
+               for(let i =0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Lắng" && arrayAlarm[i].Value === "High" ){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length -1 === i ){
+                            var object = new ObjectAlarm("Bể Lắng", "High", "Cảnh báo mực nước ở mức High" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                            addRowAlarm(arrayAlarm[i+1], i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.H5 = false ; 
+        }
+       }
+       if(allVariableConfig.nameVariable[i].name === 'L5'){
+        if(data[i].data === 'true'){
+           stateAlarm.L5 = true ; 
+           if(arrayAlarm.length ===0 ){
+            var object = new ObjectAlarm("Bể Lắng", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+            blinkAlarm(false)
+            arrayAlarm.push(object) ; 
+            addRowAlarm(arrayAlarm[0], 0)
+           }else{
+               for(let i =0 ; i < arrayAlarm.length ; i++){
+                   if( arrayAlarm[i].Source === "Bể Lắng" && arrayAlarm[i].Value === "Low" ){
+                     break ; 
+                    }else{
+                        if(arrayAlarm.length -1 === i ){
+                            var object = new ObjectAlarm("Bể Lắng", "Low", "Cảnh báo mực nước ở mức Low" , "NACK")
+                            blinkAlarm(false)
+                            arrayAlarm.push(object) ; 
+                            addRowAlarm(arrayAlarm[i+1],i+1)
+                        }
+                    }
+               }
+           }
+        }else{
+            stateAlarm.L5 = false ; 
+        }
+       }
+    
+    } 
+    // display alarm run time 
     var t1 = performance.now() ; 
-      // over load 
-      
-    })
+}) ; 
 
 
 // all function chart 
@@ -2249,6 +2502,7 @@ dataSource: {
 
 
 // fusion chart nhiet do T3
+
 var mychartsT3 = document.getElementById("ChartT3");
  var dps1 = [];
  var dps2 = [];
@@ -2479,17 +2733,17 @@ FusionCharts.ready(function() {
     // static labels
     staticLabels: {
       font: "10px sans-serif",
-      labels: [200, 500, 2100, 2800],
+      labels: [0.7, 1.7, 7, 9.3],
       fractionDigits: 0
     },
 
     // static zones
     staticZones: [
-      {strokeStyle: "#F03E3E", min: 0, max: 200},
-      {strokeStyle: "#FFDD00", min: 200, max: 500},
-      {strokeStyle: "#30B32D", min: 500, max: 2100},
-      {strokeStyle: "#FFDD00", min: 2100, max: 2800},
-      {strokeStyle: "#F03E3E", min: 2800, max: 3000}
+      {strokeStyle: "#F03E3E", min: 0, max: 0.7},
+      {strokeStyle: "#FFDD00", min: 0.7, max: 1.7},
+      {strokeStyle: "#30B32D", min: 1.7, max: 7},
+      {strokeStyle: "#FFDD00", min: 7, max: 9.3},
+      {strokeStyle: "#F03E3E", min: 9.3, max: 10}
     ],
 
     // render ticks
@@ -2529,12 +2783,12 @@ var target = document.getElementById('Container-PH');
 var gauge = new Gauge(target).setOptions(opts);
 document.getElementById("preview-textfield").className = "preview-textfield";
 gauge.setTextField(document.getElementById("preview-textfield"));
-gauge.maxValue = 3000;
+gauge.maxValue = 10;
 gauge.setMinValue(0); 
 socket.on('changeData',(data)=>{
     for(let i =0 ; i < allVariableConfig.nameVariable.length ; i++){
         if(allVariableConfig.nameVariable[i].name === 'pH'){
-            gauge.set(data[i].data * 30);
+            gauge.set(data[i].data);
         }
     }
 })
@@ -2545,12 +2799,12 @@ google.charts.load('current', {'packages':['gauge']});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
           
-  var Trefresh = 3000; //ms
+  var Trefresh = 100; //ms
   
   var data = google.visualization.arrayToDataTable([
     ['Label', 'Value'],
-    ['Flow1', 80],
-    ['Flow2', 55]
+    ['Flow1', 0],
+    ['Flow2', 0]
   ]);
 
   var options = {
@@ -2563,19 +2817,33 @@ function drawChart() {
   var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 
   chart.draw(data, options);
-
+  var getValueFlow1 = 0 
+  var getValueFlow2 = 0 
   setInterval(function() {
-    data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+    socket.on('changeData',(data)=>{
+        for(let i =0 ; i < allVariableConfig.nameVariable.length ; i++){
+            if(allVariableConfig.nameVariable[i].name === 'Flow'){
+                getValueFlow1 = data[i].data ; 
+            }
+        }
+    })
+    data.setValue(0,1,getValueFlow1);
     chart.draw(data, options);
   }, Trefresh);
   setInterval(function() {
-    data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+    socket.on('changeData',(data)=>{
+        for(let i =0 ; i < allVariableConfig.nameVariable.length ; i++){
+            if(allVariableConfig.nameVariable[i].name === 'flow2'){
+                getValueFlow2 = data[i].data
+            }
+        }
+    })
+    data.setValue(1, 1,getValueFlow2);
     chart.draw(data, options);
   }, Trefresh);
 }
 
-
-
+// data history 
 var previousData = {} ; 
 socket.on('historyChange',(data)=>{
     var nextData = data ; 
@@ -2596,7 +2864,7 @@ function myFunction(data_change) {
       cell1.innerHTML = data_change.name;
       cell2.innerHTML = data_change.dataType;
       cell3.innerHTML = data_change.data;
-      cell4.innerHTML = getTime(new Date(data_change.date)) ; 
+      cell4.innerHTML = getTime(new Date(data_change.date)).dateTime ; 
       if (table.rows.length > 10) {
         table.deleteRow(table.rows.length - 1);
       }
@@ -2607,11 +2875,33 @@ function productDelete(ctl) {
       .parents("tr")
       .remove();
   }
-
-
 })
 
-
+// add row alarm funtion
+function addRowAlarm(data,index){
+        var table = document.getElementById("tableAlarm");
+        var row = table.insertRow(0);
+        row.style.color = 'red'
+        var cellstt = row.insertCell(0);
+        cellstt.id = `circle-State${index + sttRowAlarm}`; 
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        var cell3 = row.insertCell(3);
+        var cell4 = row.insertCell(4);
+        var cell5 = row.insertCell(5);
+        var cell6 = row.insertCell(6);
+        var cell7 = row.insertCell(7);
+        cell7.id = `stateAck${index + sttRowAlarm}`; 
+        cell1.innerHTML = data.Date ;
+        cell2.innerHTML = data.Time ;
+        cell3.innerHTML = data.Source;
+        cell4.innerHTML = data.Value ;
+        cell5.innerHTML = data.Message ;
+        cell6.innerHTML = data.Type;
+        cell7.innerHTML = data.State ;
+        $(`#circle-State${index + sttRowAlarm}`).html(`<div class = "status-circle" style = "width: 20px ; height: 20px ; border-radius: 50%;
+        background-color: red;">  </div>`) ;
+}
 
 
 // Write value
@@ -3360,7 +3650,7 @@ $('#btnEmergency').on('click', function () {
                     $('#emergencyCircle').css({"background-color":"red"});
                     state = false ; 
                 }else{
-                    $('#emergencyCircle').css({"background-color":"blue"});
+                    $('#emergencyCircle').css({"background-color":"yellow"});
                     state = true
                 }   
             }, 700);
@@ -3368,9 +3658,6 @@ $('#btnEmergency').on('click', function () {
 })
 
 
-
-
-  
 function findData() {
     $("#tableFindData").empty();
     var start = new Date($("#starttime").val());
@@ -3397,25 +3684,75 @@ socket.on("resultFindData", function(data) {
       cell1.innerHTML = data[i].name;
       cell2.innerHTML = data[i].dataType;
       cell3.innerHTML = data[i].data;
-      cell4.innerHTML = getTime(new Date(data[i].date));
+      cell4.innerHTML = getTime(new Date(data[i].date)).dateTime;
       $('#stt').html(data.length - i) ; 
     }
   });
 
+// reload Alarm 
 
 
+ // Alarm 
+$('#Acknowledge').on("click", function(){
+    socket.emit(`setAck1`,{
+        name: 'Ack1',
+        value: true 
+    });
+    socket.emit(`setAck2`,{
+        name: 'Ack2',
+        value: true 
+    }) ;
+    setTimeout(() => {
+        socket.emit(`setAck1`,{
+            name: 'Ack1',
+            value: false 
+        });
+        socket.emit(`setAck2`,{
+            name: 'Ack2',
+            value: false 
+        }) ; 
+    }, 500);
+   for(let i =0 ; i < arrayAlarm.length ; i++){
+    $(`#stateAck${i + sttRowAlarm}`).html('ACK') ; 
+    $(`#circle-State${i +sttRowAlarm}`).html(`<div class = "status-circle" style = "width: 20px ; height: 20px ; border-radius: 50%;
+        background-color: green;">  </div>`) ;
+        arrayAlarm[i].State = 'ACK'
+   }
+    $('#tableAlarm').css('color','aliceblue') ; 
+    socket.emit('tableAck',arrayAlarm) ; 
+    blinkAlarm(true) ; 
+})
 
-
-
-
+// funtion blink Alarm
+var arrayAllAlarm = [] ; 
+function blinkAlarm(state){
+    var stateLamp = false ;
+    var intervalAlarm = setInterval(() => {
+        if(stateLamp){
+            $('#nav-alarm-tab').css('background-color', 'yellow') ;
+            stateLamp = false ; 
+        }else{
+            $('#nav-alarm-tab').css('background-color', 'blue') ;
+            stateLamp = true ; 
+        }
+    }, 1000); 
+    arrayAllAlarm.push(intervalAlarm) ; 
+    if(state === true ){
+        for(let i= 0 ; i < arrayAllAlarm.length ; i++){
+            clearInterval(arrayAllAlarm[i]); 
+        } 
+        $('#nav-alarm-tab').css('background-color', '') ;
+    }
+}
 
 // get time and color 
 function getTime(data){
     let today = data;
     let date = today.getFullYear() + "-" +  (today.getMonth() + 1) + "-" + today.getDate();
     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    return dateTime = date + " " + time;
+    return {dateTime: date + " " + time , date: date , time: time};
   }
+
   function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -3424,6 +3761,8 @@ function getTime(data){
     }
     return color;
   }
+
+
 // clock 
 /**
  * Get the current time
