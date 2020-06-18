@@ -14,6 +14,7 @@ var pump5 = {pump5_1: false , pump5_2: false} ;
 var stateKK = {state: false} ;
 var stateEmergency1 = false ; 
 var stateEmergency2 = false ; 
+var objectNhietDo ={T1: 0 , T2: 0 , T3: 0 } ; 
 var toggleWarning , toggleOverload1 ,toggleOverload2 , toggleOverload3 
 ,toggleOverload4 , toggleOverload5 ,toggleOverloadTH , toggleOverloadMix ,toggleOverloadBun, toggleOverloadGatBun 
 ,toggleErrorPump1_1 , toggleErrorPump1_2 ,toggleErrorPump2_1 , toggleErrorPump2_2 ,toggleErrorPump3_1, toggleErrorPump3_2 
@@ -41,6 +42,7 @@ $(document).ready(function(){
         for(let i =0 ; i < data.length ; i++){
         var table = document.getElementById("tableAlarm");
         var row = table.insertRow(0);
+        row.id = `rowStt${i}`;
         row.style.color = 'aliceblue' ; 
         var cellstt = row.insertCell(0);
         cellstt.id = `circle-State${i}`; 
@@ -150,6 +152,7 @@ $(document).ready(function(){
            if(allVariableConfig.nameVariable[i].name === 'T1'){
                var value = parseFloat(data[i].data ).toFixed(2);
               $('#valueNhietDoT1').html('T1 : ' + value + ' ℃') ;
+              objectNhietDo.T1 = value ; 
             }
           //pipe before pump2_1 and pump2_2
     
@@ -367,6 +370,7 @@ $(document).ready(function(){
        if(allVariableConfig.nameVariable[i].name === 'T2'){
         var value = parseFloat( data[i].data).toFixed(2);
         $('#valueNhietDoKiKhi').html('T2 : ' + value + ' ℃') ;
+        objectNhietDo.T2 = value ; 
         }
        //sensor ki khi 
        if(allVariableConfig.nameVariable[i].name === 'H4'){
@@ -511,6 +515,7 @@ $(document).ready(function(){
       if(allVariableConfig.nameVariable[i].name === 'T3'){
         var value =  parseFloat(data[i].data).toFixed(2);
         $('#valueNhietDoHieuKhi').html('T3 : ' + value + ' ℃') ;
+        objectNhietDo.T3 =  value; 
         }
      // DO
      if(allVariableConfig.nameVariable[i].name === 'DO'){
@@ -2050,7 +2055,6 @@ $(document).ready(function(){
         }
        }
     // get emergency
-
        if(allVariableConfig.nameVariable[i].name === 'Emg_Scada1'){
         if(data[i].data === 'true'){
               stateEmergency1 = true
@@ -2066,7 +2070,6 @@ $(document).ready(function(){
          }
         }
         if(stateEmergency1 === true || stateEmergency2 === true){ 
-            console.log(stateEmergency1 , stateEmergency2)
             if(emerScada === undefined){
                 var state = false ;
                 emerScada =  setInterval(() => {
@@ -2077,7 +2080,7 @@ $(document).ready(function(){
                         $('#emergencyCircle').css({"background-color":"yellow"});
                         state = true
                     }   
-                }, 800);
+                }, 700);
             }
         }else{
             if(emerScada !== undefined){
@@ -2087,10 +2090,7 @@ $(document).ready(function(){
                }
         }
     } 
-    
-
     var t1 = performance.now() ; 
-    console.log(t1- t0)
 }) ; 
 
 
@@ -2359,8 +2359,10 @@ FusionCharts.ready(function () {
       },
       axisY: {
         includeZero: false,
-        suffix: "℃"
-      },
+        suffix: "℃" ,
+        labelFormatter: function (e) {
+            return "$" + CanvasJS.formatNumber(e.value, "#,#0")
+      }},
       toolTip: {
         shared: "true"
       },
@@ -2382,21 +2384,21 @@ FusionCharts.ready(function () {
     });
     function renderChartT1() {
       var xVal = new Date();
-      yVal = 100 + Math.round(5 + Math.random() * (-5 - 5));
+      yVal = objectNhietDo.T1*100 
       pointT1.push({
         x: xVal,
         y: yVal
       });
-      if (pointT1.length > 10) {
+      if (pointT1.length > 20) {
         pointT1.shift();
       }
-      chartT1.options.data[0].legendText = " Value T1 : " + yVal;
+      chartT1.options.data[0].legendText = " Nhiệt Độ T1 : " + objectNhietDo.T1 + "℃";
       chartT1.render();
     };
     setInterval(function() {
     renderChartT1();
     }, 1000);
-  
+    
    // End chart container
    
    // fusion chart thermometer
@@ -2428,7 +2430,6 @@ FusionCharts.ready(function () {
        "theme": "fusion"
    },
    "value": "0",
-   
    },
    "events": {
     "rendered": function (evtObj, argObj) {
@@ -2459,7 +2460,9 @@ var chartT2 = new CanvasJS.Chart(mychartsT2, {
   },
   axisY: {
     includeZero: false,
-    suffix: "℃"
+    suffix: "℃", labelFormatter: function (e) {
+        return "$" + CanvasJS.formatNumber(e.value, "#,#0")
+  }
   },
   toolTip: {
     shared: "true"
@@ -2482,15 +2485,15 @@ var chartT2 = new CanvasJS.Chart(mychartsT2, {
 });
 function renderChartT2() {
   var xVal = new Date();
-  yVal = 100 + Math.round(5 + Math.random() * (-5 - 5));
+  yVal = objectNhietDo.T2*100
   pointT2.push({
     x: xVal,
     y: yVal
   });
-  if (pointT2.length > 10) {
+  if (pointT2.length > 20) {
     pointT2.shift();
   }
-  chartT2.options.data[0].legendText = " Value T2 : " + yVal;
+  chartT2.options.data[0].legendText = " Nhiệt Độ T2 : " + objectNhietDo.T2 + "℃";
   chartT2.render();
 };
 setInterval(function() {
@@ -2549,84 +2552,55 @@ dataSource: {
 // fusion chart nhiet do T3
 
 var mychartsT3 = document.getElementById("ChartT3");
- var dps1 = [];
- var dps2 = [];
- var chartT3 = new CanvasJS.Chart(mychartsT3, {
-   zoomEnabled: true,
-   theme: 'dark1' ,
-   title: {
-     text: "T3"
-   },
-   axisY: {
-    includeZero: false,
-    suffix: "℃"
+var pointT3 = [];
+var chartT3= new CanvasJS.Chart(mychartsT3, {
+  zoomEnabled: true,
+  theme: 'dark1' ,
+  title: {
+    text: "T3"
   },
-   toolTip: {
-     shared: "true"
-   },
-   legend: {
-     cursor: "pointer",
-     verticalAlign: "top",
-     fontSize: 22,
-     fontColor: "dimGrey",
-     itemclick: toggleDataSeries
-   },
-   data: [
-     {
-       type: "spline",
-       showInLegend: true,
-       name: "Line 1",
-       markerSize: 0,
-       dataPoints: dps1
-     },
-     {
-       type: "spline",
-       showInLegend: true,
-       name: "Line 2",
-       markerSize: 0,
-       dataPoints: dps2
-     }
-   ]
- });
- var yVal = 100;
- var updateInterval = 1000;
- var dataLength = 10; // number of dataPoints visible at any point
- var updateChart = function() {
-   var xVal = new Date();
-   yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
-   dps1.push({
-     x: xVal,
-     y: yVal
-   });
-   var xVal1 = xVal + 1;
-   var yVal1 = yVal - 1;
-   dps2.push({
-     x: xVal,
-     y: yVal1
-   });
-
-   if (dps1.length > dataLength) {
-     dps1.shift();
-   }
-   if (dps2.length > dataLength) {
-     dps2.shift();
-   }
-   chartT3.options.data[0].legendText = " Line 1 Value : " + yVal;
-   chartT3.options.data[1].legendText = " Line 2 Value :  " + yVal1;
-   chartT3.render();
- };
- updateChart(dataLength);
- setInterval(function() {
-   updateChart();
- }, updateInterval);
-function toggleDataSeries(e) {
-    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
-      e.dataSeries.visible = false;
-    } else {
-      e.dataSeries.visible = true;
+  axisY: {
+    includeZero: false,
+    suffix: "℃",
+    labelFormatter: function (e) {
+        return "$" + CanvasJS.formatNumber(e.value, "#,#0")
+  }
+  },
+  toolTip: {
+    shared: "true"
+  },
+  legend: {
+    cursor: "pointer",
+    verticalAlign: "top",
+    fontSize: 22,
+    fontColor: "dimGrey"
+  },
+  data: [
+    {
+      type: "spline",
+      showInLegend: true,
+      name: "Line 1",
+      markerSize: 0,
+      dataPoints: pointT3
     }
-    chartT3.render();
-}
+  ]
+});
+function renderChartT3() {
+  var xVal = new Date();
+  yVal = objectNhietDo.T3*100 ;  
+  pointT3.push({
+    x: xVal,
+    y: yVal
+  });
+  if (pointT3.length > 20) {
+    pointT3.shift();
+  }
+  chartT3.options.data[0].legendText = " Nhiệt Độ T3 : " + objectNhietDo.T3 + "℃";
+  chartT3.render();
+};
+setInterval(function() {
+renderChartT3();
+}, 1000);
 // End chart container
 
 // fusion chart thermometer
@@ -2778,17 +2752,17 @@ FusionCharts.ready(function() {
     // static labels
     staticLabels: {
       font: "10px sans-serif",
-      labels: [0.7, 1.7, 7, 9.3],
+      labels: [2, 6, 8, 12],
       fractionDigits: 0
     },
 
     // static zones
     staticZones: [
-      {strokeStyle: "#F03E3E", min: 0, max: 0.7},
-      {strokeStyle: "#FFDD00", min: 0.7, max: 1.7},
-      {strokeStyle: "#30B32D", min: 1.7, max: 7},
-      {strokeStyle: "#FFDD00", min: 7, max: 9.3},
-      {strokeStyle: "#F03E3E", min: 9.3, max: 10}
+      {strokeStyle: "#F03E3E", min: 0, max: 2},
+      {strokeStyle: "#FFDD00", min: 2, max: 6},
+      {strokeStyle: "#30B32D", min: 6, max: 8},
+      {strokeStyle: "#FFDD00", min: 8, max: 12},
+      {strokeStyle: "#F03E3E", min: 12, max: 14}
     ],
 
     // render ticks
@@ -2828,7 +2802,7 @@ var target = document.getElementById('Container-PH');
 var gauge = new Gauge(target).setOptions(opts);
 document.getElementById("preview-textfield").className = "preview-textfield";
 gauge.setTextField(document.getElementById("preview-textfield"));
-gauge.maxValue = 10;
+gauge.maxValue = 14;
 gauge.setMinValue(0); 
 socket.on('changeData',(data)=>{
     for(let i =0 ; i < allVariableConfig.nameVariable.length ; i++){
@@ -2910,7 +2884,7 @@ function myFunction(data_change) {
       cell2.innerHTML = data_change.dataType;
       cell3.innerHTML = data_change.data;
       cell4.innerHTML = getTime(new Date(data_change.date)).dateTime ; 
-      if (table.rows.length > 10) {
+      if (table.rows.length > 25) {
         table.deleteRow(table.rows.length - 1);
       }
     }
@@ -3755,6 +3729,14 @@ $('#Acknowledge').on("click", function(){
     blinkAlarm(true) ; 
 })
 
+// ClearTable
+$('#ClearTable').on('click', function(){
+    var count = $('#tableAlarm tr').length - arrayAlarm.length;
+    for(let i = 0 ; i < count ; i ++ ){
+        $(`#rowStt${i}`).remove() ; 
+    } ;
+    socket.emit('ClearAlarm', 'ok') ; 
+})
 // funtion blink Alarm
 var arrayAllAlarm = [] ; 
 function blinkAlarm(state){

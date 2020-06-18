@@ -194,13 +194,13 @@
       
         <div style="position: absolute;width: 49%; top: 50px; left: 5px;" >
           <div class="card border-light" >
-            <div class="card-header" style="text-align: center ; display: flex;">
-              <h4 style="font-weight: bold;margin-left: 38%;">Find Data</h4>
-              <button type="button" class="btn btn-primary" style="margin-left: 35%;" >Export</button>
+            <div class="card-header" style="text-align: center ; display: flex; height: 55px;">
+              <h4 style="font-weight: bold;margin-left: 38%;  width: 150px;">Find Data</h4>
+              <button type="button" class="btn btn-primary" style="margin-left: 35%; width: 100px; height: 40px;" >Export</button>
             </div>
             <div class="card-body">
-              <div class="row" style="margin: 10px">
-                <div class="col" style="width: 150px; margin-left: 30px;">
+              <div class="row">
+                <div class="col" style="width: 150px; margin-left: 30px;margin-top: 0px;">
                   <h5>Variable Name : </h5>
                 </div>
                 <div class="col" >
@@ -238,9 +238,9 @@
           </div>
         </div>
 
-        <div  style="position: absolute;width: 50%; top: 50px; right: 5px;">
+        <div  style="position: absolute;width: 50%; top: 50px; right: 5px; ">
           <div class="card border-light">
-            <div class="card-header" style="text-align: center;">
+            <div class="card-header" style="text-align: center; height: 55px;">
               
               <h4 style="font-weight: bold;"> Data Change</h4>
             </div>
@@ -275,12 +275,18 @@
         aria-labelledby="nav-alarm-tab"
       >
       
-        <div class="headerAlarm" style="position: absolute; top:60px ; left:89%;" >
-          <button type="button" class="btn btn-primary" style="float: right ;margin-right: 50px; padding: 10px; margin-bottom: 10px;"
-         id="Acknowledge"
-          > Acknowledge</button>
+        <div class="headerAlarm" style="position: absolute; top:46px ; left:80%;" >
+          <div class="card text-center bg-secondary" style="float: right ;margin-right: 50px; padding: 10px; margin-bottom: 10px;">
+            <div class="card-header">
+              Options
+            </div>
+            <div class="card-body">
+              <button type="button" class="btn btn-primary" id="Acknowledge"> Acknowledge</button>
+              <button type="button" class="btn btn-dark" id="ClearTable" > Clear </button>
+            </div>
+          </div>
         </div>
-        <table class="table" style="position: absolute; top:120px ; left:0px;" >
+        <table class="table" style="position: absolute; top:200px ; left:0px;" >
           <thead class="thead-dark">
             <tr>
               <th scope="col">#</th>
@@ -599,7 +605,7 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <button type="button" class="btn btn-secondary col lg-6" id="start-in-system" onclick="StartControlPanel()" >START</button>
+        <button type="button" class="btn btn-primary col lg-6" id="start-in-system" onclick="StartControlPanel()" >START</button>
         <button type="button" class="btn btn-primary col lg-6" id="stop-in-system" onclick="StopControlPanel()" >STOP</button>
       </div>
       <div class="row">

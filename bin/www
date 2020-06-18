@@ -365,7 +365,10 @@ socket.on('optionsOPC' , (data)=>{
           arrayAlarmAck.push(data[i]) ; 
         }
       }) ; 
-      socket.emit('loadAlarmAck', arrayAlarmAck) ;       
+      socket.emit('loadAlarmAck', arrayAlarmAck) ; 
+      socket.on('ClearAlarm', (data)=>{
+        arrayAlarmAck = [] ; 
+      }) 
   }
 
 }) ;
