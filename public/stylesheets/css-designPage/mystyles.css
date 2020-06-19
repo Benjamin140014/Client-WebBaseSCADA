@@ -8,6 +8,42 @@
     height: 50px ;
     border-radius: 50%;
 }
+/* label valve */
+#labelValve1{
+    position: absolute;
+    top:205px  ; left: 860px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+}
+#labelValve2{
+    position: absolute;
+    top:205px  ; left: 911px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+}
+#labelValve3{
+    position: absolute;
+    top:410px  ; left: 1318px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+}
+#labelValve5{
+    position: absolute;
+    top:549px  ; left: 2079px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+}
+#labelValve6{
+    position: absolute;
+    top:716px  ; left: 2079px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+}
 #lampRun{
     position: absolute;
     top:70px ; left: 500px;
@@ -91,7 +127,7 @@
 }
 #overloadPumpGatBun{
     position: absolute;
-    top:300px ; left: 2690px;
+    top:490px ; left: 2690px;
     font-weight: bold;
     color: red;
     text-align: center;
@@ -227,7 +263,7 @@
 }
 #ErrorValve_4{
     position: absolute;
-    top:442px  ; left: 2730px;
+    top:478px  ; left: 2730px;
     width: 10px;
     height: 10px;
     background-color: #cdcdcd;
@@ -311,8 +347,8 @@
 }
 #labelValve4_FB{
     position: absolute;
-    top:460px  ; left: 2680px;
-    width: 100px;
+    top:420px  ; left: 2688px;
+    width: 50px;
     height:50px;
     font-weight: bold;
 }
@@ -850,8 +886,8 @@
 }
 #HighKK{
     position: absolute;
-    top:460px  ; left: 1300px;
-    width: 90px;
+    top:460px  ; left: 1290px;
+    width: 100px;
     height: 30px;
     background-color: cornflowerblue;
     border-radius: 5%;
@@ -1089,13 +1125,13 @@
 }
 #pipe_before_valve4{
     position: absolute;
-    top:425px  ; left: 2630px;
+    top:460px  ; left: 2630px;
     width: 50px;
     height: 17px; 
 }
 #valve4_fb{
     position: absolute;
-    top:412px  ; left: 2680px;
+    top:448px  ; left: 2680px;
     width: 50px;
     height: 30px; 
 }
@@ -1209,27 +1245,27 @@
 }
 #HighBL{
     position: absolute;
-    top:480px  ; left: 2330px;
-    width: 100px;
+    top:480px  ; left: 2320px;
+    width: 110px;
     height: 30px;
     background-color: cornflowerblue;
     border-radius: 10%;
 }
 #sensorHightBeLang{
     position: absolute;
-    top:400px  ; left: 2635px;
+    top:400px  ; left: 2605px;
     width: 20px;
     height:20px;
 }
 #sensorThresBeLang{
     position: absolute;
-    top:460px  ; left: 2635px;
+    top:460px  ; left: 2605px;
     width: 20px;
     height:20px;
 }
 #sensorLowBeLang{
     position: absolute;
-    top:520px  ; left: 2635px;
+    top:520px  ; left: 2605px;
     width: 20px;
     height:20px;
 }

@@ -242,10 +242,12 @@ $(document).ready(function(){
                 } }  
          // chieu cao naoh va hcl
          if(allVariableConfig.nameVariable[i].name === 'h_NaOH'){
-            $('#HighNaoh').html('h_NaOH : ' + data[i].data + ' m') ;
+            var value = parseFloat(data[i].data).toFixed(2) ; 
+            $('#HighNaoh').html('h_NaOH : ' + value+ ' m') ;
           }
         if(allVariableConfig.nameVariable[i].name === 'h_HCL'){
-            $('#HighHcl').html('h_HCL : ' + data[i].data + ' m') ;
+            var value = parseFloat(data[i].data).toFixed(2) ; 
+            $('#HighHcl').html('h_HCL : ' + value + ' m') ;
           }
           // Valve naoh va Val Hcl
           if(allVariableConfig.nameVariable[i].name === 'Val1_FB'){
@@ -364,7 +366,7 @@ $(document).ready(function(){
           // High Ki Khi
         if(allVariableConfig.nameVariable[i].name === 'h_KK'){
             var value = parseFloat( data[i].data).toFixed(2);
-            $('#HighKK').html('h_KK : ' + value ) ;
+            $('#HighKK').html('h_KK : ' + value + ' m') ;
           }
        // nhiet do T1
        if(allVariableConfig.nameVariable[i].name === 'T2'){
@@ -539,7 +541,7 @@ $(document).ready(function(){
       // High Be Lang
       if(allVariableConfig.nameVariable[i].name === 'h_Lang'){
         var value =  parseFloat(data[i].data).toFixed(2);
-        $('#HighBL').html('h_Lang : ' + value) ;
+        $('#HighBL').html('h_Lang : ' + value + ' m') ;
       }
      // sensor be lang
      if(allVariableConfig.nameVariable[i].name === 'H5'){
@@ -2573,7 +2575,7 @@ var chartT3= new CanvasJS.Chart(mychartsT3, {
     cursor: "pointer",
     verticalAlign: "top",
     fontSize: 22,
-    fontColor: "dimGrey"
+    fontColor: "dimGrey",
   },
   data: [
     {
@@ -2676,7 +2678,7 @@ const dataSource = {
       color: [
         {
           minvalue: "0",
-          maxvalue: "300",
+          maxvalue: "10",
           code: "#F6F6F6"
         }
       ]
@@ -2697,7 +2699,7 @@ const dataSource = {
             {
               type: "text",
               id: "text",
-              text: "mph",
+              text: "mg/l",
               x: "$gaugeCenterX",
               y: "$gaugeCenterY + 40",
               fontsize: "20",
