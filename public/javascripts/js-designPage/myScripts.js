@@ -527,17 +527,38 @@ $(document).ready(function(){
      // Motor run
      if(allVariableConfig.nameVariable[i].name === 'Motor_Run'){
         if(data[i].data === 'true'){
-            $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_053.png');
-            $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_018.png');
             $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_008.png') ;
-            $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
+        }else{
+            $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_007.png') ; 
+        }
+     }
+     // Cma bien H7
+     if(allVariableConfig.nameVariable[i].name === 'H7'){
+        if(data[i].data === 'true'){
+            $('#sensorH7').attr("src",'images/symbols/Light/Light_008.png') ;
+        }else{
+            $('#sensorH7').attr("src",'images/symbols/Light/Light_007.png') ; 
+        }
+     }
+     // tran sang be lang 
+     if(allVariableConfig.nameVariable[i].name === 'H7' ){
+        if(data[i].data === 'true'){
+            if((pump4.pump4_1 === true ||  pump4.pump4_2 === true) ){
+                $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_053.png');
+                $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_018.png');
+                $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_018.png');
+            }else{
+                $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_052.png');
+                $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_017.png');
+                $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
+            }
         }else{
             $("#pipe_66").attr("src",'images/symbols/Pipes/Pipes_052.png');
             $("#pipe_67").attr("src",'images/symbols/Pipes/Pipes_017.png');
-            $('#pumpBeLang').attr("src",'images/symbols/Pump/Pump_007.png') ; 
             $("#symbols_9").attr("src",'images/symbols/International_Symbols/International_Symbols_013.png');
         }
      }
+     
       // High Be Lang
       if(allVariableConfig.nameVariable[i].name === 'h_Lang'){
         var value =  parseFloat(data[i].data).toFixed(2);
