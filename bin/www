@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
@@ -19,14 +17,16 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 const io = require("socket.io")(server);
 const mongoose = require('mongoose') ; 
 const opcua = require('node-opcua-client') ; 
+const nodemailer = require('nodemailer');
+var excel = require('exceljs')  ; 
 var variableConfig = require('../components/variableConfig.json') ; 
 var setAllVariable = [] ; 
 var arrayAlarmAck = [] ; 
-
+var domainDownload = {} ; 
 // DB Config
 const db = require("../config/keys").mongoURI;
 const DataSchema = require("../models/DataSchema");
@@ -78,9 +78,8 @@ var messageStatus = {} ;
 var endpointUrl = "" ; 
 var client ; 
 var moduleData = {} ; 
-moduleData.client = {} ; 
 var allVariableConfig = {} ; 
-var stateChange = false ; 
+var stateFailConnection = false ; 
 var dataChangeSend = {} ; 
 // get all variable writeable
 for(let i=0 ; i < variableConfig.Data.length ; i++){
@@ -95,7 +94,8 @@ for(let i=0 ; i < variableConfig.Data.length ; i++){
 }
 
 io.on('connection', function (socket){
-  console.log('Client is openning ...')  ; 
+  console.log('Client is openning ...')  ;
+  socket.emit('loadInitialize', variableConfig) ; 
     // Create function client
    async function main() {
     try {
@@ -123,7 +123,6 @@ io.on('connection', function (socket){
         console.log(" -> ", reference.browseName.toString());
       } ; 
      
-
       // step 4 : read a variable with readVariableValue
       const simulation= await session.readVariableValue('ns=1;s=simulation.random');
       console.log(" value of Variable simulation = ", simulation.value.toString());
@@ -166,6 +165,7 @@ io.on('connection', function (socket){
         }
       } 
       moduleData.data = [itemsToMonitor.length] ; 
+      
       const optionsGroup = {
         discardOldest: true,
         queueSize: 1,
@@ -184,40 +184,30 @@ io.on('connection', function (socket){
       monitoredItemGroup.on("changed", (monitoredItem, dataValue, index) => {
         for(let i = 0 ; i < itemsToMonitor.length ; i++){
           if (index === i) {
-            var datasave = new DataSchema({
-              _id: new mongoose.Types.ObjectId(),
+            var datasave = {
               name: allVariableConfig.nameVariable[i].name ,
               data: dataValue.value.value ,
               dataType: allVariableConfig.nameVariable[i].dataType 
-            });
-            //save data into database
-
-            // datasave.save(function(err) {
-            //   if (err) throw err;
-            // });
-
+            }
             moduleData.data[i] = datasave; 
             dataChangeSend = datasave ; 
-            stateChange = true ; 
          } 
         } 
       });
-    
-      setTimeout(()=>{
-          socket.emit('statusClient',{message: 'Client has been connected to Server' , color: 'green'} ) ; 
-          messageStatus.message = 'Connected' ; 
-      },1000) ; 
-
+      // Connection has been lost
+      client.on('connection_lost' , ()=>{
+        messageStatus.message  = 'Disconnected' ; 
+        stateFailConnection = true ;  
+      })
+      socket.emit('statusClient',{message: 'Client has been connected to Server' , color: 'green'} ) ; 
+      messageStatus.message = 'Connected' ; 
       async function timeout(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
       await timeout(1000);
-      
     } catch (err) {
       console.log("An error has occured : ",err);
-      setTimeout(() => {
-        socket.emit('statusClient' , {message: "Can't connect to Server" , color: 'red'}) ; 
-      }, 10);
+      socket.emit('statusClient' , {message: "Can't connect to Server" , color: 'red'}) ; 
     }
   } ;
 
@@ -262,36 +252,46 @@ socket.on('optionsOPC' , (data)=>{
     options.endpoint_must_exist = false;
     options.keepSessionAlive = true ;
     options.requestedSessionTimeout = 1200000  ; 
-    console.log(options) ; 
     client = opcua.OPCUAClient.create(options);
     moduleData.client = client ; 
     main() ; 
-  }) ; 
-
+  }); 
   socket.on('disConnectToServer', (data)=>{
-  moduleData.client.disconnect() ; 
-  socket.emit('statusClient',{message: 'Client has been disconnected to Server' , color: 'green'} ) ; 
-  messageStatus.message = 'Disconnected' ; 
-  }) ;
+  if(moduleData.client === undefined){
+    socket.emit('statusClient',{message: 'It seem Client not have connection with Server' , color: 'red'} ) ; 
+  }else{
+    moduleData.client.disconnect() ; 
+    socket.emit('statusClient',{message: 'Client has been disconnected to Server' , color: 'green'} ) ; 
+    messageStatus.message = 'Disconnected' ; 
+  }
+  });
+  
+  var IntervalFailConnection = setInterval(() => {
+    if(stateFailConnection){
+      socket.emit('failConnection', 'ok');
+      stateFailConnection = false ; 
+      clearInterval(IntervalFailConnection) ; 
+    }
+  },500);
   
   // refresh client to Load Data 
   if(messageStatus.message === 'Connected'){
-    // Load all config variable 
+       // Load all config variable 
        socket.emit('loadStatus', {message: 'Connected' , endpoint: endpointUrl}) ;
-    // send all variable and value 
+       // send all variable and value 
        socket.emit('loadAllDataConfig', allVariableConfig ) ;
-
        setInterval(() => {
           socket.emit('historyChange', dataChangeSend) ;  
-       },100);
-      
+       },150);
        setInterval(() => {
            socket.emit('changeData', moduleData.data ) ;  
-       },600);
+       },700);
 
-        // receive data from form find Data
+       //  app.get('/api/get/All', (req ,res)=>{
+       //   res.send(JSON.stringify(moduleData.data)) ; 
+       //   });
+       // receive data from form find Data
        socket.on("findData", function(data) {
-         console.log(data.name)
          var resultData = [] ; 
         DataSchema.find({name: data.name , date: { $gte: data.dataarr[0], $lt: data.dataarr[1]}}, function(
           err,
@@ -300,39 +300,55 @@ socket.on('optionsOPC' , (data)=>{
           if (err) throw err;
           socket.emit("resultFindData", res);
         });
-        
       });
-    // Write value for variable
-    // get all variable to set 
-    
-      // socket.on("Write_msg", function(data) {
-      //     if(data === 0) {
-      //       dataWrite = false
-      //     }else{
-      //       dataWrite = true ; 
-      //     }
-      //     var nodesToWrite = [
-      //       {
-      //         nodeId: "ns=1;s=PLC1.Ack1",
-      //         attributeId: 13,
-      //         indexRange: null,
-      //         value: {
-      //           value: {
-      //             dataType: opcua.DataType.Boolean,
-      //             value: dataWrite,
-      //           },
-      //         },
-      //       },
-      //     ];
-      //     moduleData.session.write(nodesToWrite, function(
-      //       err,
-      //       StatusCode
-      //     ) {
-      //       if (!err) console.log( StatusCode , " Write OK !");
-      //     });
-      //     socket.emit("Read_msg", data);
 
-      // });
+      socket.on('reportData' , async (data)=>{
+        var ObjectArray = [] ; 
+        await DataSchema.find({name: data} , function(err , res){
+          if(err) throw err ;
+            var objectTemp = {}
+            for(let i = 0 ; i < res.length ; i++){
+              objectTemp.Name = res[i].name ; 
+              objectTemp.Value = res[i].data ;
+              objectTemp.DataType = res[i].dataType ; 
+              objectTemp.Date =getTimeForResult(res[i].date).dateTime ; 
+              ObjectArray.push(objectTemp) ; 
+            }
+        }) ; 
+        if(ObjectArray.length > 0 ){
+           var GetDate = new Date()
+           let workbook = new excel.Workbook(); //creating workbook
+           let worksheet = workbook.addWorksheet('Report'); //creating worksheet
+           worksheet.mergeCells('A1:D2');
+           worksheet.getCell('A1').value = `Thống kê số liệu của biến ${data} vào lúc ${getTime(GetDate).date}-${getTime(GetDate).time} `;
+           worksheet.getCell('A1').alignment = { horizontal:'center'} ;
+           worksheet.getCell('A1').font = {size: 20 , bold: true , color: 'blue'}
+           worksheet.getRow(3).values = ['Name', 'Value', 'DataType', 'Date'];
+           worksheet.columns = [
+            {key: 'Name', width: 30 },
+            {key: 'Value', width: 30},
+            {key: 'DataType', width: 30 },
+            {key: 'Date', width: 30} ,
+          ];
+          worksheet.addRows(ObjectArray);
+          worksheet.getRow(3).eachCell((cell) => {
+            cell.font = { bold: true };
+          });
+          worksheet.eachRow((row)=>{
+            row.alignment =  { horizontal:'center'} 
+          }) ; 
+          var nameFile = `ReportVariable${data}${getTime(GetDate).dateTime}.xlsx` ; 
+          workbook.xlsx.writeFile(nameFile)
+          .then(function() {
+           socket.emit('respondReport' , `Variable name is : ${data} has been export excel file !`) ; 
+           domainDownload.nameFile = nameFile ; 
+           socket.emit('isDownload' , domainDownload) ; 
+          })
+          .catch((err)=>{
+            socket.emit('respondReport' , `Can't Export Variable name is : ${data} Because ${err} !`) ; 
+          });
+        }
+      })
 
       for(let i=0 ; i < setAllVariable.length ; i++ ){
         socket.on(`set${setAllVariable[i].name}`, function(data) {
@@ -354,11 +370,14 @@ socket.on('optionsOPC' , (data)=>{
             err,
             StatusCode
           ) {
-            if (!err) console.log("Write OK");
+            if (!err) 
+            {
+              socket.emit('finishWrite', setAllVariable[i].name )
+              console.log("Write OK");
+             }
           });
       });
       }
-      
       // tranfer alarm Ack
       socket.on('tableAck',(data)=>{
         for(let i =0 ; i < data.length ; i ++){
@@ -370,9 +389,56 @@ socket.on('optionsOPC' , (data)=>{
         arrayAlarmAck = [] ; 
       }) 
   }
-
+  socket.on('ackDownload',(data)=>{
+    app.get(`/downloadFile/${data.nameFile}` ,(req,res)=>{
+      const file = data.nameFile;
+      res.download(file); 
+    }) ; 
+    socket.emit('finishDownload', `/downloadFile/${data.nameFile}`)
+  })
+  socket.on('receiveEmail', (data)=>{   
+  var destinationEmail = data.email ; 
+  var subject = 'Response about your opinion or your requirement' ; 
+  var text = "This is message for "+ data.name +  ".We have been receive your email about my system is:  " + data.comments 
+  + ".We will resolve rour problem within 24h . Thank you !" ; 
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'hotrungquan0167@gmail.com',
+      pass: 'Benjamin1997#'
+    }
+  });
+  var mailOptions = {
+    from: 'hotrungquan0167@gmail.com',
+    to: destinationEmail,
+    subject: subject,
+    text: text
+  };
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      socket.emit('alertEmail' , error)
+      console.log(error);
+    } else {
+      socket.emit('alertEmail' , 'Email sent: ' + info.response )
+      console.log('Email sent: ' + info.response);
+    }
+  });
+  })
 }) ;
 
+// get Time
+function getTime(data){
+  let today = data;
+  let date = today.getFullYear() + "." +  (today.getMonth() + 1) + "." + today.getDate();
+  let time = today.getHours() + "." + today.getMinutes() + "." + today.getSeconds();
+  return {dateTime: date + "_" + time , date: date , time: time};
+}
+function getTimeForResult(data){
+  let today = data;
+  let date = today.getFullYear() + "/" +  (today.getMonth() + 1) + "/" + today.getDate();
+  let time = today.getHours() + "/" + today.getMinutes() + "/" + today.getSeconds();
+  return {dateTime: date + "-" + time , date: date , time: time};
+}
 
 /**
  * Listen on provided port, on all network interfaces.

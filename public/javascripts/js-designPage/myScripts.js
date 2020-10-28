@@ -1,10 +1,5 @@
-
-//inline_1
 var socket = io.connect();
-var allVariableConfig = {}
-socket.on('loadAllDataConfig',(data)=>{
-    allVariableConfig = data ; 
-}) ;
+var allVariableConfig = {} ; 
 // read all Data 
 var pump1 = {pump1_1: false , pump1_2: false} ; 
 var pump2 = {pump2_1: false , pump2_2: false} ; 
@@ -25,7 +20,6 @@ var sttRowAlarm = 0 ;
 var arrayAlarm = [] ; 
 var stateAlarm = {H1: false ,L1: false , H2: false , L2: false , H3: false , L3: false , H5: false , L5: false} ;
 var emerScada  ; 
-
 function ObjectAlarm(Source ,Value , Message , State ){
     this.Date = getTime(new Date()).date ;
     this.Time = getTime(new Date()).time ; 
@@ -37,6 +31,27 @@ function ObjectAlarm(Source ,Value , Message , State ){
 }
 
 $(document).ready(function(){
+    $('a#logout').click(function(){
+        if(confirm('Are you sure to logout !')) {
+            return true;
+        }
+        return false;
+      });
+      $('a#backhome').click(function(){
+        if(confirm('Are you sure back home !')) {
+            return true;
+        }
+        return false;
+      });
+    socket.on('loadAllDataConfig',(data)=>{
+        allVariableConfig = data ; 
+    }) ;
+
+     socket.on('finishWrite',(data)=>{
+        Toast('#00b09b' ,'#96c93d' , `You have writed successfully variable ${data}`);
+     })
+
+    $('.selectpicker').selectpicker();
     socket.on('loadAlarmAck',(data)=>{
         sttRowAlarm = data.length ; 
         for(let i =0 ; i < data.length ; i++){
@@ -1111,14 +1126,14 @@ $(document).ready(function(){
       if(allVariableConfig.nameVariable[i].name === 'h_HCL'){
         var progressBarVal= data[i].data;   
         var value =  parseFloat(progressBarVal).toFixed(2); 
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='5' style='height:"+value*20+"% ; width: 100%'>"+value+" </div>";    
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='2' style='height:"+value*50+"% ; width: 100%'>"+value+" </div>";    
         $("#h_Hcl").html(html);   
       }
       //naoh
       if(allVariableConfig.nameVariable[i].name === 'h_NaOH'){
         var progressBarVal= data[i].data;   
         var value =  parseFloat(progressBarVal).toFixed(2); 
-        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='5' style='height:"+value*20+"% ; width: 100%'>"+value+"</div>";    
+        var html="<div class='progress-bar  progress-bar-striped bg-info active' role='progressbar' aria-valuenow="+value+" aria-valuemin='0' aria-valuemax='2' style='height:"+value*50+"% ; width: 100%'>"+value+"</div>";    
         $("#h_Naoh").html(html);   
       }
       
@@ -2707,7 +2722,7 @@ const dataSource = {
     dials: {
       dial: [
         {
-          value: "110",
+          value: "0",
           bgcolor: "#F20F2F",
           basewidth: "8"
         }
@@ -2767,7 +2782,7 @@ FusionCharts.ready(function() {
 
     // customize pointer
     pointer: {
-      length: 0.8,
+      length: 0.6,
       strokeWidth: 0.035,
       iconScale: 1.0
     },
@@ -2827,6 +2842,7 @@ document.getElementById("preview-textfield").className = "preview-textfield";
 gauge.setTextField(document.getElementById("preview-textfield"));
 gauge.maxValue = 14;
 gauge.setMinValue(0); 
+gauge.set(0) ; 
 socket.on('changeData',(data)=>{
     for(let i =0 ; i < allVariableConfig.nameVariable.length ; i++){
         if(allVariableConfig.nameVariable[i].name === 'pH'){
@@ -2839,25 +2855,20 @@ gauge.animationSpeed = 32
 // flow1 va Flow 2
 google.charts.load('current', {'packages':['gauge']});
 google.charts.setOnLoadCallback(drawChart);
-function drawChart() {
-          
+function drawChart() {     
   var Trefresh = 100; //ms
-  
   var data = google.visualization.arrayToDataTable([
     ['Label', 'Value'],
     ['Flow1', 0],
     ['Flow2', 0]
   ]);
-
   var options = {
     width: 700, height: 240,
     redFrom: 80, redTo: 100,
     yellowFrom:55, yellowTo: 90,
     minorTicks: 5
   };
-
   var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
   chart.draw(data, options);
   var getValueFlow1 = 0 
   var getValueFlow2 = 0 
@@ -2917,6 +2928,76 @@ function productDelete(ctl) {
       .parents("tr")
       .remove();
   }
+  var listSimulation =[] ;
+  var listPLC1 = [] ;
+  var listPLC2 = [] ; 
+  socket.on('loadInitialize', (data)=>{
+    for(let i =0 ; i< data.Data.length ; i++ ){
+        if(data.Data[i].deviceName === "simulation"){
+            for(let j =0 ; j < data.Data[i].variablesList.length ; j++ ){
+                listSimulation.push(data.Data[i].variablesList[j].name)
+            }
+        }
+        if(data.Data[i].deviceName === "PLC1"){
+            for(let j =0 ; j < data.Data[i].variablesList.length ; j++ ){
+                listPLC1.push(data.Data[i].variablesList[j].name)
+            }
+        }
+        if(data.Data[i].deviceName === "PLC2"){
+            for(let j =0 ; j < data.Data[i].variablesList.length ; j++ ){
+                listPLC2.push(data.Data[i].variablesList[j].name)
+            }
+        }
+    }
+})
+
+$('#deviceName').on('change', function (e) {
+    var valueSelected = this.value;
+    if(valueSelected === 'simulation'){
+        $('#tagNameFind').html('')
+      for(let i = 0 ; i < listSimulation.length ; i++){
+        $('#tagNameFind').append($('<option>', {
+            value: listSimulation[i],
+            text: listSimulation[i]
+        }));
+      }  
+      $('.selectpicker option').css('font-weight','bold')
+      $('#tagNameFind').selectpicker('refresh');
+    }
+    if(valueSelected === 'PLC1'){
+        $('#tagNameFind').html('')
+        for(let i = 0 ; i < listPLC1.length ; i++){
+            $('#tagNameFind').append($('<option>', {
+                value: listPLC1[i],
+                text: listPLC1[i]
+            }));
+        }
+        $('.selectpicker option').css('font-weight','bold')
+        $('#tagNameFind').selectpicker('refresh');
+      }
+    if(valueSelected === 'PLC2'){
+        $('#tagNameFind').html('')
+        for(let i = 0 ; i < listPLC1.length ; i++){
+            $('#tagNameFind').append($('<option>', {
+                value: listPLC2[i],
+                text: listPLC2[i]
+            }));
+        }
+        $('.selectpicker option').css('font-weight','bold')
+        $('#tagNameFind').selectpicker('refresh');
+      }
+});
+socket.on('respondReport', (data)=>{
+    alert(data)
+})
+socket.on('isDownload', (data)=>{
+    if(confirm(`Do you want download file report with name ${data.nameFile}`)){
+      socket.emit('ackDownload',data)
+    }
+}) ;
+socket.on('finishDownload', (data)=>{
+    window.location.href = `http://${window.location.hostname}:${window.location.port}${data}`;
+})
 })
 
 // add row alarm funtion
@@ -3686,19 +3767,21 @@ $('#btnEmergency').on('click', function () {
          }
 })
 
-
 function findData() {
-    $("#tableFindData").empty();
-    var start = new Date($("#starttime").val());
-    var stop = new Date($("#endtime").val());
-    var dataarr = [start, stop];
-    var name = $('#tagNameFind').val() ; 
-    socket.emit("findData", {dataarr , name});
-    console.log({dataarr , name})
+    if($('#tagNameFind').val() === null || $("#starttime").val() === "" || $("#endtime").val() === "" ){
+        alert('Please fill out all of field !')
+    }else{
+        $("#tableFindData").empty() ; 
+        var start = new Date($("#starttime").val());
+        var stop = new Date($("#endtime").val());
+        var dataarr = [start, stop];
+        var name = $('#tagNameFind').val() ; 
+        socket.emit("findData", {dataarr , name});
+    } 
 }
 socket.on("resultFindData", function(data) {
+    $('#messageFindVariable').html('')
     if(data.length === 0 ){
-        console.log('ok')
         $('#messageFindVariable').html('No Result').css('color','red')
     }
     for (var i = 0; i < data.length; i++) {  
@@ -3740,7 +3823,7 @@ $('#Acknowledge').on("click", function(){
             name: 'Ack2',
             value: false 
         }) ; 
-    }, 500);
+    },500);
    for(let i =0 ; i < arrayAlarm.length ; i++){
     $(`#stateAck${i + sttRowAlarm}`).html('ACK') ; 
     $(`#circle-State${i +sttRowAlarm}`).html(`<div class = "status-circle" style = "width: 20px ; height: 20px ; border-radius: 50%;
@@ -3759,6 +3842,7 @@ $('#ClearTable').on('click', function(){
         $(`#rowStt${i}`).remove() ; 
     } ;
     socket.emit('ClearAlarm', 'ok') ; 
+    Toast('#00b09b' ,'#96c93d' , 'You have been Clear all Alarm that has been ACK');
 })
 // funtion blink Alarm
 var arrayAllAlarm = [] ; 
@@ -3782,6 +3866,16 @@ function blinkAlarm(state){
     }
 }
 
+// export Data
+
+ function ExportData(){
+     if($('#tagNameFind').val() === null){
+        alert('Please find any variable before click export!')
+     }else{
+        socket.emit('reportData' , $('#tagNameFind').val()) ; 
+     }
+ }
+ 
 // get time and color 
 function getTime(data){
     let today = data;
@@ -3971,4 +4065,20 @@ Math.easeOutBounce = function (pos) {
     }
     return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
   };
+
+  function Toast(colorFrom , colorEnd , message){
+    Toastify({
+      text: message,
+      duration: 3000, 
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", // `top` or `bottom`
+      position: 'right', // `left`, `center` or `right`
+      backgroundColor: `linear-gradient(to right, ${colorFrom}, ${colorEnd} )`,
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      onClick: function(){} , // Callback after click
+      duration: 3000
+    }).showToast();
+  }
   

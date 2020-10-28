@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>My Website</title>
+    <title>Web Base SCADA</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!-- Add custom CSS here -->
+    <link rel="icon" type="image/png" href="./other/images/icons/favicon.ico" />
     <link rel="stylesheet" href="stylesheets/css-designPage/mystyles.css">
     <link rel="stylesheet" href="stylesheets/css-designPage/panelStyles.css">
      <!-- Bootstrap core CSS -->
@@ -15,12 +16,15 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" 
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <!--google link-->
     <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
  
     <!-- Funtion Chart-->
   <!-- Placed at the end of the document so the pages load faster -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -30,6 +34,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script> 
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="javascripts/FusionChart/fusioncharts.js"></script>
     <script type="text/javascript" src="javascripts/FusionChart/themes/fusioncharts.theme.fint.js"></script>
     <script type="text/javascript" src="javascripts/FusionChart/themes/fusioncharts.theme.ocean.js"></script>
@@ -94,18 +100,15 @@
         </nav>
         <ul class="nav navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/homepage"> <i class="fas fa-fast-backward" ></i> Back Home </a>
+            <a class="nav-link" href="/homepage" id="backhome"> <i class="fas fa-fast-backward" ></i> Back Home </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="/Logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            <a class="nav-link" href="/Logout" id="logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
           </li>
         </ul>
      </div>
      </nav>
   </div>
-
-
-
 
 
 <!-- Tab Dash board-->
@@ -165,6 +168,7 @@
             <div class="card-body" style="display: flex; flex-direction: column; align-items: center;">
 
               <canvas id="Container-PH" style="width: 80%; height: 100%;"></canvas>
+
               <h3 id="preview-textfield" style="font-weight: bold;"></h3>
 
             </div>
@@ -196,20 +200,35 @@
           <div class="card border-light" >
             <div class="card-header" style="text-align: center ; display: flex; height: 55px;">
               <h4 style="font-weight: bold;margin-left: 38%;  width: 150px;">Find Data</h4>
-              <button type="button" class="btn btn-primary" style="margin-left: 35%; width: 100px; height: 40px;" >Export</button>
+              <button type="button" class="btn btn-primary" style="margin-left: 35%; width: 100px; height: 40px;" onclick="ExportData()" >Export</button>
             </div>
             <div class="card-body">
+
               <div class="row">
-                <div class="col" style="width: 150px; margin-left: 30px;margin-top: 0px;">
-                  <h5>Variable Name : </h5>
+                <div>
+                 <h5 style="margin-top: 10px;">Device:</h5>
                 </div>
-                <div class="col" >
-                  <input type="text" style="height:40px;" placeholder="Search..." id="tagNameFind" required>
+                <div class="col-4">
+                  <select class="selectpicker" data-live-search="true" id="deviceName" >
+                    <option>simulation</option>
+                    <option>PLC1</option>
+                    <option>PLC2</option>
+                  </select>
                 </div>
-                <div class="col">
-                  <h5 id= "messageFindVariable"></h5>
+                <div>
+                  <h5 style="margin-top: 10px;">Variable:</h5>
                 </div>
+                <div class="col-4" >
+                  <select class="selectpicker" data-live-search="true" id="tagNameFind" >
+                   
+                  </select>
+                </div>
+                <div>
+                  <h5 id= "messageFindVariable" style="margin-top: 10px;"></h5>
+                </div>
+
               </div>
+
               <form style="margin-bottom: 20px; padding: 5px; display: flex; ">
                 <label for="" style="margin: 5px; font-weight: bold;"> From </label>
                 <input type="datetime-local" id="starttime" required>
@@ -277,7 +296,7 @@
       
         <div class="headerAlarm" style="position: absolute; top:46px ; left:80%;" >
           <div class="card text-center bg-secondary" style="float: right ;margin-right: 50px; padding: 10px; margin-bottom: 10px;">
-            <div class="card-header">
+            <div class="card-header" style="font-weight: bold;"> 
               Options
             </div>
             <div class="card-body">

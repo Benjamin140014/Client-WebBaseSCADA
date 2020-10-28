@@ -1,84 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register </title>
+    <link rel="icon" type="image/png" href="./other/images/icons/favicon.ico" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
     rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- Latest compiled and minified CSS -->
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+   
+    <!-- Main css -->
+    <link rel="stylesheet" href="./registerVendor/css/style.css">
+</head>
+<body>
+    <div class="main">
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <form method="POST" class="signup-form" action="/register" >
+                        <h2 class="form-title">Create account</h2>
+                        <div class="text-center p-t-12">
+                          <% include ./partials/messages %>
+                        </div>
+                        <div class="form-group">
+                        <input
+                        type="name"
+                        id="name"
+                        name="name"
+                        class="form-input" 
+                        placeholder="Enter Name"
+                        value="<%= typeof name != 'undefined' ? name : '' %>"
+                        />
+                        </div>
+                        <div class="form-group">
+                            <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input" 
+                            placeholder="Enter Email"
+                            value="<%= typeof email != 'undefined' ? email : '' %>"
+                          />
+                        </div>
+                            <div class="form-group">
+                            <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input" 
+                            placeholder="Create Password"
+                            value="<%= typeof password != 'undefined' ? password : '' %>"
+                            />
 
-    
-    <title> Register </title>
-  </head>
-  <body>
-    <div class="row mt-5">
-      <div class="col-md-6 m-auto">
-        <div class="card card-body">
-          <h1 class="text-center mb-3">
-            <i class="fa fa-user-plus" aria-hidden="true"></i> Register
-          </h1>
-          <% include ./partials/messages %>
-          <form action="/register" method="POST">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input
-                type="name"
-                id="name"
-                name="name"
-                class="form-control"
-                placeholder="Enter Name"
-                value="<%= typeof name != 'undefined' ? name : '' %>"
-              />
+                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                            <input
+                            type="password"
+                            id="password2"
+                            name="password2"
+                            class="form-input" 
+                            placeholder="Confirm Password"
+                            value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+                          />
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" name="submit" id="submit" class="form-submit"> Register </button>
+                        </div>
+                    </form>
+                    <p class="loginhere">
+                        Have already an account ? <a href="/login" class="loginhere-link">Login here</a>
+                    </p>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                class="form-control"
-                placeholder="Enter Email"
-                value="<%= typeof email != 'undefined' ? email : '' %>"
-              />
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                class="form-control"
-                placeholder="Create Password"
-                value="<%= typeof password != 'undefined' ? password : '' %>"
-              />
-            </div>
-            <div class="form-group">
-              <label for="password2">Confirm Password</label>
-              <input
-                type="password"
-                id="password2"
-                name="password2"
-                class="form-control"
-                placeholder="Confirm Password"
-                value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
-              />
-            </div>
-            <button type="submit" class="btn btn-success btn-block">
-              Register
-            </button>
-          </form>
-          <p class="lead mt-4">Have An Account? <a href="/login" style="color:dodgerblue;">Login</a></p>
-        </div>
-      </div>
+        </section>
     </div>
-     <!-- jQuery library -->
+    <!-- JS -->
+    <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Popper JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  </body>
+</body>
 </html>
